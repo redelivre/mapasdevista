@@ -10,10 +10,10 @@ jQuery(document).ready(function() {
      *
      */
     var map_options = {
-        'zoom':14,
+        'zoom': parseInt(mapasdevista_options.options.zoom),
         'scrollwheel':false,
         'draggableCursor':'default',
-        'center': new google.maps.LatLng(-32.565263744160276, -53.5474309514763),
+        'center': new google.maps.LatLng(mapasdevista_options.options.coord.lat, mapasdevista_options.options.coord.lng),
         'mapTypeId': google.maps.MapTypeId.ROADMAP
         };
 

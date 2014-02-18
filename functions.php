@@ -213,8 +213,11 @@ function mapasdevista_admin_init() {
     
     }
 
-    if($pagenow === "post.php" || $pagenow === "post-new.php") {
+    if($pagenow === "post.php" || $pagenow === "post-new.php")
+    {
         wp_enqueue_script('metabox', mapasdevista_get_baseurl() . '/admin/metabox.js' );
+        $data = array('options' => get_option('mapasdevista'));
+        wp_localize_script('metabox', 'mapasdevista_options', $data);
     } elseif(isset($_GET['page']) && $_GET['page'] === 'mapasdevista_pins_page') {
         wp_enqueue_script('metabox', mapasdevista_get_baseurl() . '/admin/pins.js' );
     }
