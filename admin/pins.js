@@ -77,8 +77,8 @@ jQuery(document).ready(function() {
     $("#the-image").mousedown(function(e) {
         mousepressed = true;
         if (e.offsetX || e.offsetY) {
-            image_anchor.set_x(e.offsetX);
-            image_anchor.set_y(e.offsetY);
+            image_anchor.set_x(Math.round(e.clientX - $(e.target).offset().left));
+	        image_anchor.set_y(Math.round(e.clientY - $(e.target).offset().top));
             $("#pin_anchor").val(image_anchor.x + "," + image_anchor.y);
         }
         return false;
@@ -86,8 +86,8 @@ jQuery(document).ready(function() {
     $("#the-image").mousemove(function(e) {
         if(mousepressed){
             if (e.offsetX || e.offsetY) {
-                image_anchor.set_x(e.offsetX);
-                image_anchor.set_y(e.offsetY);
+                image_anchor.set_x(Math.round(e.clientX - $(e.target).offset().left));
+	            image_anchor.set_y(Math.round(e.clientY - $(e.target).offset().top));
                 $("#pin_anchor").val(image_anchor.x + "," + image_anchor.y);
             }
         }

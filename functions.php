@@ -414,9 +414,71 @@ function mapasdevista_image($name, $params = null) {
     echo '<img src="', mapasdevista_get_image($name), '" ', $extra ,' />';
 }
 
+add_action('comment_post_redirect', 'mapasdevista_handle_comments_ajax', 10, 2);
 
+function mapasdevista_handle_comments_ajax($location, $comment) {
+    
+    if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+        
+        die(mapasdevista_get_post_ajax($comment->comment_post_ID));
+        
+    } else {
+        
+        return $location;
+        
+    }
+}
 
-
+function mapasdevista_create_homepage_map($args) {
+    
+    	/*
+    	 if (get_option('mapasdevista_created_homepage'))
+    		return __('You have done this before...', 'mapasdevista');
+    	*/
+    
+    	$params = wp_parse_args(
+    			$args,
+    			array(
+    					'name' => __('Home Page Map', 'mapasdevista'),
+    					'api' => 'openlayers',
+    					'type' => 'road',
+    					'coord' => array(
+    							'lat' => '-13.888513111069498',
+    							'lng' => '-56.42951505224626'
+    					),
+    					'zoom' => '4',
+    					'post_types' => array('post'),
+    					'filters' => array('new'),
+    					'taxonomies' => array('category')
+    			)
+    	);
+    
+    	$page = array(
+    			'post_title' => 'Home Page',
+    			'post_content' => __('Page automatically created by Mapas de Vista as a placeholder for your map.', 'mapasdevista'),
+    			'post_status' => 'publish',
+    			'post_type' => 'page'
+    	);
+    
+    	$page_id = wp_insert_post($page);
+    
+    	if ($page_id) {
+    		update_option('show_on_front', 'page');
+    		update_option('page_on_front', $page_id);
+    		update_option('page_for_posts', 0);
+    
+    		update_post_meta($page_id, '_mapasdevista', $params);
+    
+    		update_option('mapasdevista_created_homepage', true);
+    
+    		return true;
+    
+    	} else {
+    		return $page_id;
+    	}
+   
+}    
+    
 /**
  * 
  * @global WP_Query $MAPASDEVISTA_POSTS_RCACHE
