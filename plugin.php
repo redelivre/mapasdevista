@@ -10,5 +10,4 @@ Author URI: http://hacklab.com.br
 
 include('functions.php');
 
-register_activation_hook(__FILE__, 'mapasdevista_activate');
 

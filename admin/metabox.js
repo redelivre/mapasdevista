@@ -13,10 +13,12 @@ jQuery(document).ready(function() {
         'zoom':14,
         'scrollwheel':false,
         'draggableCursor':'default',
-        'center': new google.maps.LatLng(-23.56367, -46.65372),
+        'center': new google.maps.LatLng(-32.565263744160276, -53.5474309514763),
         'mapTypeId': google.maps.MapTypeId.ROADMAP
-        }
+        };
+
     googlemap = new google.maps.Map(document.getElementById("mpv_canvas"), map_options);
+        
     var googlemarker = null;
 
     function fill_fields(lat, lng) {
@@ -106,7 +108,12 @@ jQuery(document).ready(function() {
     });
 
     // the button to place marker on specified coords
-    $("#mpv_load_coords").click(function(){load_post_marker($("#mpv_lat").val(), $("#mpv_lon").val())});
+    $("#mpv_load_coords").click(
+    	function()
+    	{
+    		load_post_marker($("#mpv_lat").val(), $("#mpv_lon").val());
+    	}
+    );
 
     $('#mpv_lat,#mpv_lon').keypress(function(e) {
         if(e.charCode===13 || e.keyCode===13){ // carriage return

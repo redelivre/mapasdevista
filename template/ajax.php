@@ -31,7 +31,7 @@ function mapasdevista_get_post_ajax($p = null) {
 
 function mapasdevista_get_posts_ajax() {
     
-    $mapinfo = get_post_meta($_POST['page_id'], '_mapasdevista', true);
+    $mapinfo = get_option('mapasdevista', true);
 
     if (!is_array($mapinfo['post_types']))
         return; // nothing to show
@@ -56,9 +56,9 @@ function mapasdevista_get_posts_ajax() {
         }
         
         if ($_POST['api'] == 'image') {
-            $q = "SELECT COUNT(DISTINCT(post_id)) FROM $wpdb->postmeta JOIN $wpdb->posts ON $wpdb->postmeta.post_id = $wpdb->posts.ID WHERE post_type IN ($pt) AND post_status = 'publish' AND meta_key = '_mpv_in_img_map' AND meta_value = '{$_POST['page_id']}' $search_query";
+            $q = "SELECT COUNT(DISTINCT(post_id)) FROM $wpdb->postmeta JOIN $wpdb->posts ON $wpdb->postmeta.post_id = $wpdb->posts.ID WHERE post_type IN ($pt) AND post_status = 'publish' AND meta_key = '_mpv_in_img_map' AND meta_value = '1' $search_query";
         } else {
-            $q = "SELECT COUNT(post_id) FROM $wpdb->postmeta JOIN $wpdb->posts ON $wpdb->postmeta.post_id = $wpdb->posts.ID WHERE post_type IN ($pt) AND post_status = 'publish' AND meta_key = '_mpv_inmap' AND meta_value = '{$_POST['page_id']}' $search_query";
+            $q = "SELECT COUNT(post_id) FROM $wpdb->postmeta JOIN $wpdb->posts ON $wpdb->postmeta.post_id = $wpdb->posts.ID WHERE post_type IN ($pt) AND post_status = 'publish' AND meta_key = '_mpv_inmap' AND meta_value = '1' $search_query";
         }
 
         $total = $wpdb->get_var($q);
@@ -76,7 +76,7 @@ function mapasdevista_get_posts_ajax() {
                 'orderby'         => 'post_date',
                 'order'           => 'DESC',
                 'meta_key'        => '_mpv_in_img_map',
-                'meta_value'      => $_POST['page_id'],
+                'meta_value'      => 1,
                 'post_type'       => $mapinfo['post_types'],
             );
 
@@ -87,7 +87,7 @@ function mapasdevista_get_posts_ajax() {
                 'orderby'         => 'post_date',
                 'order'           => 'DESC',
                 'meta_key'        => '_mpv_inmap',
-                'meta_value'      => $_POST['page_id'],
+                'meta_value'      => 1,
                 'post_type'       => $mapinfo['post_types'],
             );
         }
@@ -155,10 +155,11 @@ function mapasdevista_get_posts_ajax() {
                 
             );
             
+            /*
             if($post->post_type == 'page' && get_post_meta($post->ID, '_mapasdevista')){
                 $pResponse['link'] = get_post_permalink($post->ID);
             }
-            
+            */
             
             $postsResponse[] = $pResponse;
 
@@ -198,10 +199,9 @@ function has_clickable_pin($post_id=null) {
 
 function the_pin($post_id = null, $page_id = null) {
 
-    global $current_map_page_id, $post;
+    global $post;
     
-    if (!is_numeric($current_map_page_id))
-        return false;
+    
     
     if (is_null($post_id) || !is_numeric($post_id)) {
         if (isset($post->ID) && is_numeric($post->ID))
@@ -210,7 +210,7 @@ function the_pin($post_id = null, $page_id = null) {
             return false;
     }
     
-    $mapinfo = get_post_meta($current_map_page_id, '_mapasdevista', true);
+    $mapinfo = get_option('mapasdevista', true);
     
     if ($mapinfo['api'] == 'image') {
         $pin_id = get_post_meta($post_id, '_mpv_img_pin_' . $current_map_page_id, true);

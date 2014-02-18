@@ -81,7 +81,7 @@ if ($mapinfo['api'] == 'openlayers') {
     wp_enqueue_script('mapstraction-openlayers', mapasdevista_get_baseurl('template_directory') . '/js/mxn/mxn.openlayers.core-min.js');
 } elseif ($mapinfo['api'] == 'googlev3') {
     
-    $googleapikey = get_theme_option('google_key');
+    $googleapikey = get_mapasdevista_theme_option('google_key');
     $googleapikey = $googleapikey ? "&key=$googleapikey" : '';
     wp_enqueue_script('google-maps-v3', 'http://maps.google.com/maps/api/js?sensor=false' . $googleapikey);
     wp_enqueue_script('mapstraction-googlev3', mapasdevista_get_baseurl('template_directory') . '/js/mxn/mxn.googlev3.core-min.js');

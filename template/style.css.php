@@ -3,7 +3,7 @@
 
 $theme_options = wp_parse_args( 
                     get_option('mapasdevista_theme_options'), 
-                    get_theme_default_options()
+                    get_mapasdevista_theme_default_options()
                 );
 $opacity = (int) $theme_options['bg_opacity'];
 if (!is_int($opacity)) $opacity = 80;

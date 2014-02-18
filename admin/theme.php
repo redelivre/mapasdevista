@@ -1,10 +1,10 @@
 <?php 
 
-function get_theme_default_options() {
+function get_mapasdevista_theme_default_options() {
 
     return array(
                         'bg_opacity' => 80,
-                        'header_image' => mapasdevista_get_baseurl() . '/img/mapas-de-vista.png',
+                        'header_image' => '', //mapasdevista_get_baseurl() . '/img/mapas-de-vista.png',
                         'theme_color' => array(
                             'r' => 0,
                             'g' => 174,
@@ -23,17 +23,17 @@ function get_theme_default_options() {
 
 }
 
-function get_theme_option($option_name) {
+function get_mapasdevista_theme_option($option_name) {
     $option = wp_parse_args( 
                     get_option('mapasdevista_theme_options'), 
-                    get_theme_default_options()
+                    get_mapasdevista_theme_default_options()
                 );
     return isset($option[$option_name]) ? $option[$option_name] : false;
 }
 
-add_action('admin_init', 'theme_options_init');
+add_action('admin_init', 'mapasdevista_theme_options_init');
 
-function theme_options_init() {
+function mapasdevista_theme_options_init() {
     register_setting('mapasdevista_theme_options_options', 'mapasdevista_theme_options', 'mapasdevista_theme_options_validate_callback_function');
 }
 
@@ -53,7 +53,7 @@ function mapasdevista_theme_page() {
       
       $options = wp_parse_args( 
                     get_option('mapasdevista_theme_options'), 
-                    get_theme_default_options()
+                    get_mapasdevista_theme_default_options()
                 );
       
       
@@ -78,11 +78,12 @@ function mapasdevista_theme_page() {
           <label for="header_image"><strong><?php _e("Header Image", "mapasdevista"); ?></strong></label><br/>
           <input type="text" id="header_image" class="text" name="mapasdevista_theme_options[header_image]" value="<?php echo htmlspecialchars($options['header_image']); ?>"/>
           <br/><br/>
+          <!--
           <label for="google_key"><strong><?php _e("GoogleMaps API Key", "mapasdevista"); ?></strong></label><br/>
           <input type="text" id="google_key" class="text" name="mapasdevista_theme_options[google_key]" value="<?php echo htmlspecialchars($options['google_key']); ?>"/>
           <small><?php _e('You will need this if you are running your site outside of your localhost. Even if you use Open Street Maps in the front end, you will use GoogleMaps API to place your posts in the map through the Edit Post interafce', 'mapasdevista'); ?></small>
           <br/><br/>
-          
+          -->
           <label for="theme_color"><strong><?php _e("Theme color", "mapasdevista"); ?></strong></label><br/>
           <div id="theme_color_box" class="colorpicker_box"></div>
           <input type="hidden" id="theme_color_r" class="text" name="mapasdevista_theme_options[theme_color][r]" value="<?php echo htmlspecialchars($options['theme_color']['r']); ?>"/>

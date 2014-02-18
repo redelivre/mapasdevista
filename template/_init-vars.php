@@ -4,7 +4,7 @@ global $wp_post_types;
 
 $obj = get_queried_object();
 
-$mapinfo = get_post_meta($obj->ID, '_mapasdevista', true);
+$mapinfo = get_option('mapasdevista', true);
 
 global $current_map_page_id;
-$current_map_page_id = get_the_ID();
+$current_map_page_id = 1;

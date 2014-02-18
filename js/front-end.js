@@ -15,9 +15,6 @@
         $("#toggle-filters").toggle(
             function() {
                 $(this).html("<img src='"+mapinfo.baseurl+"/img/hide-filters.png'/> " + messages.hide_filters);
-                
-                $('.hide_when_show_filters').hide();
-                
                 $(this).parent().animate({
                     "bottom": hWindow/3
                 }, 450);
@@ -28,9 +25,6 @@
             },
             function() {
                 $(this).html("<img src='"+mapinfo.baseurl+"/img/show-filters.png'/> " + messages.show_filters);
-                
-                $('.show_when_hide_filters').hide();
-                
                 $(this).parent().animate({
                     "bottom": "0"
                 }, 450);
@@ -61,12 +55,10 @@
         $("#toggle-results").toggle(
             function() { 
                 $(this).find("img").attr("src",mapinfo.baseurl+"/img/hide-results.png");
-                $('.hide_when_show_results').hide();
                 $("#results").show();
             },
             function() { 
                 $(this).find("img").attr("src",mapinfo.baseurl+"/img/show-results.png");
-                $('.show_when_hide_results').hide();
                 $("#results").hide();
             }
             );
@@ -286,7 +278,7 @@
 
         function loadPosts(total, offset) {
 
-            var posts_per_page = 10;
+            var posts_per_page = 100;
 
             $.ajax({
                 type: 'post',
