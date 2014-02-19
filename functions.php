@@ -69,8 +69,8 @@ function mapasdevista_set_default_settings() {
         'logical_operator' => 'OR',
         'post_types' => array('mapa'. 'bloco'),
         'taxonomies' => array('categoria-mapa'),
-        'visibility' => 'private'
-    
+        'visibility' => 'private',
+    	'filters' => array()
     );
     
     update_option('mapasdevista', $defaults);
@@ -335,6 +335,8 @@ function mapasdevista_get_template($file, $context = null, $load = true) {
 
 	$templates[] = "{$file}.php";
     
+	$found = '';
+	
     if (preg_match('|/wp-content/themes/|', __FILE__)) {
         $found = locate_template($templates, $load, false);
     } else {

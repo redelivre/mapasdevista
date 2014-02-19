@@ -26,7 +26,7 @@
                         <input name="logical_oparator" type='hidden' value="OR" />
                     </div>
                 <?php endif; ?>
-                <?php if (is_array($mapinfo['filters'])): ?>
+                <?php if (array_key_exists('filters', $mapinfo) && is_array($mapinfo['filters'])): ?>
                     
                     <?php $counter = 1; // to decide when print div.clear ?>
                     
@@ -88,7 +88,9 @@
 
                 <?php if (is_array($mapinfo['taxonomies'])): ?>
 
-                    <?php foreach ($mapinfo['taxonomies'] as $filter): ?>
+                    <?php
+                    	$counter = 0;
+                    	foreach ($mapinfo['taxonomies'] as $filter): ?>
 
                         <ul class="filter-group filter-taxonomy" id="filter_taxonomy_<?php echo $filter; ?>">
                             <?php mapasdevista_taxonomy_checklist($filter); ?>

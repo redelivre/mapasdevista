@@ -392,7 +392,7 @@ function mapasdevista_maps_page() {
             
             <input type="<?php echo is_super_admin() ? 'text' : 'hidden' ?>" name="map[post_types][]" value="<?php echo implode(',', $map['post_types']);?>" />
             
-            <input type="hidden" name="map[taxonomies][]" value="categoria-mapa" />
+            <input type="<?php echo is_super_admin() ? 'text' : 'hidden' ?>" name="map[taxonomies][]" value="<?php echo implode(',', $map['taxonomies']);?>" />
             
             <input type="hidden" name="map[logical_operator]" value="OR" />
             

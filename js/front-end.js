@@ -106,7 +106,7 @@
                 
                 case 'in':
 
-                    if ( typeof(o.getAttribute( f[0] )) == 'undefined' ) {
+                    if ( typeof(o.getAttribute( f[0] )) == 'undefined' || typeof(o.getAttribute( f[0] ).indexOf) == 'undefined' ) {
                         vis = false;
                     } else if ( o.getAttribute( f[0] ).indexOf(f[2]) == -1 ) {
                         vis = false;
@@ -355,7 +355,7 @@
                             
                             for (var att = 0; att < data.posts[p].terms.length; att++) {
 
-                                if (typeof(marker.attributes[ data.posts[p].terms[att].taxonomy ]) != 'undefined') {
+                                if (typeof(marker.attributes[ data.posts[p].terms[att].taxonomy ]) != 'undefined' && typeof(marker.attributes[ data.posts[p].terms[att].taxonomy ].push) != 'undefined') {
                                     marker.attributes[ data.posts[p].terms[att].taxonomy ].push(data.posts[p].terms[att].slug);
                                 } else {
                                     marker.attributes[ data.posts[p].terms[att].taxonomy ] = [ data.posts[p].terms[att].slug ];

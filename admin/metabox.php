@@ -18,6 +18,24 @@ function mapasdevista_add_custom_box() {
 
 }
 
+function mapasdevista_get_pin($pin_id, $size, $icon, $attr)
+{
+	if($pin_id < 6 || $pin_id > 19)
+	{
+		return wp_get_attachment_image($pin_id, $size, $icon, $attr);
+	}
+	else
+	{
+		$pin_image = wp_get_attachment_image($pin_id, $size, $icon, $attr);
+		$pos = strpos($pin_image, 'alt="') + 5;
+		$end = strpos($pin_image, '"', $pos);
+		$file = substr($pin_image, $pos, $end - $pos);
+		
+		$pin_html = substr($pin_image, 0, strpos($pin_image, '/files/')).'/wp-content/plugins/mapasdevista/default-pins/'.$file.'">';
+		return $pin_html;
+	}
+}
+
 /**
  * Renderiza o Google Maps na pagina de posts
  */
@@ -62,7 +80,7 @@ function mapasdevista_metabox_map() {
             <div class="icon">
                 <script type="text/javascript">pinsanchor.pin_<?php echo $pin->ID;?>=<?php echo $pinanchor;?>;</script>
                 <div class="icon-image"><label for="pin_<?php echo $pin->ID;?>">
-                    <?php echo wp_get_attachment_image($pin->ID, 'full', false, array('style'=>'max-width:64px;max-height:64px;'));?>
+                    <?php echo mapasdevista_get_pin($pin->ID, 'full', false, array('style'=>'max-width:64px;max-height:64px;'));?>
                 </label></div>
                 <div class="icon-info">
                 <input type="radio" name="mpv_pin" id="pin_<?php echo $pin->ID;?>" value="<?php echo $pin->ID;?>"<?php if($post_pin==$pin->ID) echo ' checked';?>/>
