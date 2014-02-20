@@ -33,8 +33,6 @@ add_action('init', function() {
         mapasdevista_set_default_menu();
         include('import-default-pins.php');
     }
-    
-    if(!get_query_var('mapa-tpl')) add_action('wp_head', 'mapasdevista_view_header');
 });
 
 function mapasdevista_set_default_menu() {
@@ -559,19 +557,14 @@ function mapasdevista_gallery_filter($content){
     return str_replace('[gallery]', '[gallery link="file"]', $content);
 }
 
-function mapasdevista_view_header()
+function mapasdevista_view()
 {
 	?>
-	<meta name="google" value="notranslate"> <!--  this avoids problems with hash change and the google chrome translate bar -->
-        
-        <style type="text/css">
+		<style type="text/css">
             <?php include( mapasdevista_get_template('template/style.css', null, false) ); ?>
         </style>
 	<?php 
-}
 
-function mapasdevista_view()
-{
 	include( mapasdevista_get_template('template/_init-vars', null, false) );
 	
 	wp_enqueue_script( 'mapasdevista', mapasdevista_get_baseurl() . '/js/front-end.js', array('jquery') );
@@ -660,7 +653,7 @@ function mapasdevista_view()
 	?>
 	<div id="post_overlay">
         <a id="close_post_overlay" title="Fechar"><?php mapasdevista_image("close.png", array("alt" => "Fechar")); ?></a>
-        <div id="post_overlay_content">
+        <div id="post_overlay_content" class="mapasdevista-fontcolor" >
 		</div>
     </div>
 		<div id="map">
