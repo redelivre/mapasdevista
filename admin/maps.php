@@ -390,11 +390,11 @@ function mapasdevista_maps_page() {
             </script>
             
             
-            <input type="<?php echo is_super_admin() ? 'text' : 'hidden' ?>" name="map[post_types][]" value="<?php echo implode(',', $map['post_types']);?>" />
+            <input type="<?php echo is_super_admin() ? 'text' : 'hidden' ?>" name="map[post_types][]" value="<?php echo strip_tags(implode(',', $map['post_types']));?>" />
             
-            <input type="<?php echo is_super_admin() ? 'text' : 'hidden' ?>" name="map[taxonomies][]" value="<?php echo implode(',', $map['taxonomies']);?>" />
+            <input type="<?php echo is_super_admin() ? 'text' : 'hidden' ?>" name="map[taxonomies][]" value="<?php echo strip_tags(implode(',', $map['taxonomies']));?>" />
             
-            <input type="hidden" name="map[logical_operator]" value="OR" />
+            <input type="<?php echo is_super_admin() ? 'text' : 'hidden' ?>" name="map[logical_operator]" value="<?php echo strip_tags($map['logical_operator']);?>" />
             
             <?php do_action('mapasdevista_maps_settings_bottom',$map); ?>
             
