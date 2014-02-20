@@ -18,7 +18,8 @@ function get_mapasdevista_theme_default_options() {
                             'r' => 255,
                             'g' => 255,
                             'b' => 255
-                        )
+                        ),
+    					'show_authors' => 'Y'
                     );
 
 }
@@ -118,6 +119,9 @@ function mapasdevista_theme_page() {
           <br/><br/>
           -->
 
+          <label for="show_authors"><strong><?php _e("Show Authors", "mapasdevista"); ?></strong></label><br/>
+          <input type="text" id="show_authors" class="text" name="mapasdevista_theme_options[show_authors]" value="<?php echo htmlspecialchars($options['show_authors']); ?>"/>
+          <br/><br/>
 
           
         </div>
