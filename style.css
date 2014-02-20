@@ -135,3 +135,7 @@ body.error404 .info { margin:0 auto; width:350px; }
 	float: left;
 	width: auto;
 }
+
+#map img {
+	max-width: none;
+}
