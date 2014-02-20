@@ -24,31 +24,41 @@ if(strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE 7') || strpos($_SERVER['HTTP_USER_A
     $themeColor = 'rgb(' . $theme_options['theme_color']['r'] . ',' . $theme_options['theme_color']['g'] . ', ' . $theme_options['theme_color']['b'] . ')';    
 }
 
-$position = 'relative';
+$onPageTemplate = false;
 
 if(get_query_var('mapa-tpl'))
 {
-	$position = 'absolute';
+	$onPageTemplate = true;
 }
 
+$position = $onPageTemplate ? 'absolute' : 'relative';
 
+if($onPageTemplate)
+{
+	?>
+	
+	body {padding: 0px !important; margin: 0px !important;}
+	
+	/* Typography */
+	body, h1, h2, h3, h4, h5, h6 { color:<?php echo $fontColor; ?>; }
+	a { color:<?php echo $themeColor; ?>; }
+	
+	/* Layout */
+	body { min-width:960px; }
+	
+	/* Title of the Blog */
+	#blog-title     { left:90px; position:fixed; top:6px; max-width:237px; }
+	#blog-title img { max-width:237px; }
+	
+	<?php
+}
 ?>
 
-body {padding: 0px !important; margin: 0px !important;}
-
-/* Typography */
-body, h1, h2, h3, h4, h5, h6 { color:<?php echo $fontColor; ?>; }
-a { color:<?php echo $themeColor; ?>; }
-
-/* Layout */
-body { min-width:960px; }
+#map body, #map h1, #map h2, #map h3, #map h4, #map h5, #map h6 { color:<?php echo $fontColor; ?>; }
+#map a { color:<?php echo $themeColor; ?>; }
 
 /* Important!!! */
 #map { height:100%; overflow:hidden; position:<?php echo $position; ?>; width:100%; }
-
-/* Title of the Blog */
-#blog-title     { left:90px; position:fixed; top:6px; max-width:237px; }
-#blog-title img { max-width:237px; }
 
 /* Generic classes to use in your child themes */
 .mapasdevista-background                    {background:<?php echo $bgColor; ?>;}

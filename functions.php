@@ -564,7 +564,6 @@ function mapasdevista_view_header()
 	?>
 	<meta name="google" value="notranslate"> <!--  this avoids problems with hash change and the google chrome translate bar -->
         
-        <link rel="profile" href="http://gmpg.org/xfn/11" />
         <link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo( 'stylesheet_url' ); ?>" />
         
         <style type="text/css">
