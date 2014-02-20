@@ -116,6 +116,10 @@ if($onPageTemplate)
 #filters ul li { margin:0 6px 6px 0; width:100%; }
 #filters ul.children li { margin-left:18px; }
 
+#filters #filter_taxonomy_filter {
+	width: 100%;
+}
+
 /* Posts Loader */
 #posts-loader { display:none; background:<?php echo $bgColor; ?>; font-family:"Bebas"; font-size:22px; padding:4px 4px 0 4px; position:fixed; right:0; top:82px; }
 #posts-loader span { font-size:18px; }

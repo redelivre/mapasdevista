@@ -42,7 +42,7 @@
                         <?php elseif ($filter == 'post_types') : ?>
 
                             <ul class="filter-group" id="filter_post_types">
-                                <li><h3><?php _e('Content Types', 'mapasdevista'); ?></h3></li>
+                                <li class="filter-group-col"><h3><?php _e('Content Types', 'mapasdevista'); ?></h3>
 
                                 <?php foreach ($mapinfo['post_types'] as $type) : ?>
 
@@ -54,7 +54,7 @@
                                     </li>
 
                                 <?php endforeach; ?>
-
+								</li>
                             </ul>
                             
                         <?php elseif ($filter == 'author') : ?>
@@ -135,14 +135,14 @@
                 ?>
                         <?php if($parent == 0): ?>
                             <?php $tax = get_taxonomy($taxonomy); ?>
-                            <li><h3><?php echo $tax->label; ?></h3>
+                            <li class="filter-group-col"><h3><?php echo $tax->label; ?></h3>
                         <?php endif; ?>
                         <?php if ($parent > 0): ?>
                             <ul class='children'>
                         <?php endif; ?>
 
                         <?php foreach ($terms as $term): ?>
-                            <li>
+                            <li class="filter-group-col">
                                 <input type="checkbox" class="taxonomy-filter-checkbox" value="<?php echo $term->slug; ?>" name="filter_by_<?php echo $taxonomy; ?>[]" id="filter_by_<?php echo $taxonomy; ?>_<?php echo $term->slug; ?>" />
                                 <label for="filter_by_<?php echo $taxonomy; ?>_<?php echo $term->slug; ?>">
                                     <?php echo $term->name; ?>
