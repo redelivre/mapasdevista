@@ -68,7 +68,7 @@ if($onPageTemplate)
 .mapasdevista-themecolor            { color:<?php echo $themeColor; ?>; }
 
 /* Top Menu */
-.map-menu-top                       { position:fixed; right:124px; top:6px; z-index:10; }
+.map-menu-top                       { position:fixed; right:124px; top:<?php echo is_user_logged_in() && is_admin_bar_showing() ? '28' : '6' ?>px; z-index:10; }
 .map-menu-top ul                    { list-style:none; margin:0; padding:0; }
 .map-menu-top ul li                 { float:left; padding:0; }
 .map-menu-top ul li a               { background:<?php echo $bgColor; ?>; color:<?php echo $fontColor; ?>; display:block; padding:6px 9px; text-decoration:none; }
