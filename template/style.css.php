@@ -143,16 +143,35 @@ if($onPageTemplate)
 .balloon .entry-gallery img   { position:absolute; }
 
 /* Post Overlay */
-#post_overlay                               { display:none; position:relative; }
-#post_overlay a#close_post_overlay          { background:<?php echo $bgColor; ?>; cursor:pointer; padding:4px 4px 0 4px; position:absolute; right:0; top:120px; z-index:1000; }
-#post_overlay a#close_post_overlay:hover    { background:<?php echo $themeColor; ?>; }
-#post_overlay .entry                        { background:<?php echo $bgColor; ?> !important; height:400px; overflow:auto; padding:36px; position:absolute; right:35px; top:120px; width:60%; z-index:1000; }
-#post_overlay .date                         { font-family:"Bebas"; font-size:22px; }
-#post_overlay #entry-content                { font-size:13px; padding:0 36px; }
-#post_overlay .entry-meta                   { border-bottom:2px solid <?php echo $bgColor; ?>; padding-bottom:9px; margin-bottom:27px; }
+<?php 
+if($onPageTemplate)
+{
+?>
+	#post_overlay                               { display:none; position:relative; }
+	#post_overlay a#close_post_overlay          { background:<?php echo $bgColor; ?>; cursor:pointer; padding:4px 4px 0 4px; position:absolute; right:0; top:120px; z-index:1000; }
+	#post_overlay a#close_post_overlay:hover    { background:<?php echo $themeColor; ?>; }
+	#post_overlay .entry                        { background:<?php echo $bgColor; ?> !important; height:400px; overflow:auto; padding:36px; position:absolute; right:35px; top:120px; width:60%; z-index:1000; }
+	#post_overlay .date                         { font-family:"Bebas"; font-size:22px; }
+	#post_overlay #entry-content                { font-size:13px; padding:0 36px; }
+	#post_overlay .entry-meta                   { border-bottom:2px solid <?php echo $bgColor; ?>; padding-bottom:9px; margin-bottom:27px; }
+<?php
+}
+else
+{
+?>
+	#post_overlay                               { display:none; position:relative; }
+	#post_overlay a#close_post_overlay          { background:<?php echo $bgColor; ?>; cursor:pointer; padding:4px 4px 0 4px; position:absolute; left: 62%; top:0px; z-index:1000; }
+	#post_overlay a#close_post_overlay:hover    { background:<?php echo $themeColor; ?>; }
+	#post_overlay .entry                        { background:<?php echo $bgColor; ?> !important; height:400px; overflow:auto; padding:36px; position:absolute; top:0px; width:60%; z-index:1000; left:2%; }
+	#post_overlay .date                         { font-family:"Bebas"; font-size:22px; }
+	#post_overlay #entry-content                { font-size:13px; padding:0 36px; }
+	#post_overlay .entry-meta                   { border-bottom:2px solid <?php echo $bgColor; ?>; padding-bottom:9px; margin-bottom:27px; }
+<?php 
+}
 
 if($onPageTemplate)
 {
+?>
 	/* misc */
 	tbody tr:nth-child(even) td, tbody tr.even td {background:<?php echo $bgColor; ?>;}
 	
@@ -164,8 +183,9 @@ if($onPageTemplate)
 	a.comment-reply-link { background:<?php echo $themeColor; ?>; color:<?php echo $fontColor; ?>; padding:3px 6px; text-decoration:none; }
 	.comment { border-bottom:2px solid <?php echo $bgColor; ?>; padding-bottom:9px; margin-bottom:18px; }
 	img.avatar { margin:3px 10px 9px 0px; }
+<?php
 }
-
+?>
 #mapasdevista-gallery-image {max-width: 80%; max-height: 80%; padding:11px; background: <?php echo $bgColor; ?>;}
 
 #mapasdevista-gallery-image #mapasdevista-gallery-close { float:right; cursor:pointer; width:27px; height:27px; background:url(<?php echo mapasdevista_get_baseurl().'/img/close.png'; ?>);}
