@@ -18,24 +18,6 @@ function mapasdevista_add_custom_box() {
 
 }
 
-function mapasdevista_get_pin($pin_id, $size, $icon, $attr)
-{
-	if($pin_id < 6 || $pin_id > 19)
-	{
-		return wp_get_attachment_image($pin_id, $size, $icon, $attr);
-	}
-	else
-	{
-		$pin_image = wp_get_attachment_image($pin_id, $size, $icon, $attr);
-		$pos = strpos($pin_image, 'alt="') + 5;
-		$end = strpos($pin_image, '"', $pos);
-		$file = substr($pin_image, $pos, $end - $pos);
-		
-		$pin_html = substr($pin_image, 0, strpos($pin_image, '/files/')).'/wp-content/plugins/mapasdevista/default-pins/'.$file.'">';
-		return $pin_html;
-	}
-}
-
 /**
  * Renderiza o Google Maps na pagina de posts
  */

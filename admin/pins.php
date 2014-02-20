@@ -188,7 +188,7 @@ function mapasdevista_pins_list() {
 <div id="pinlist">
 <?php foreach($pins as $pin): ?>
     <div class="icon">
-        <a href="admin.php?page=mapasdevista_pins_page&action=edit&pin=<?php echo $pin->ID;?>"><?php echo  wp_get_attachment_image($pin->ID, array(64,64));?></a>
+        <a href="admin.php?page=mapasdevista_pins_page&action=edit&pin=<?php echo $pin->ID;?>"><?php echo  mapasdevista_get_pin($pin->ID, array(64,64));?></a>
         <div class="icon-info">
             <span class="icon-name"><?php echo $pin->post_name;?></span>
         </div>
