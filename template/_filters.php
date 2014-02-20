@@ -135,7 +135,7 @@
                 ?>
                         <?php if($parent == 0): ?>
                             <?php $tax = get_taxonomy($taxonomy); ?>
-                            <li><h3><?php echo $tax->label; ?></h3></li>
+                            <li><h3><?php echo $tax->label; ?></h3>
                         <?php endif; ?>
                         <?php if ($parent > 0): ?>
                             <ul class='children'>
@@ -157,7 +157,7 @@
                         <?php if ($parent > 0): ?>
                             </ul>
                         <?php endif; ?>
-
+							</li>
                 <?php
                     }
                 ?>
