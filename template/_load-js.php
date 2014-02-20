@@ -2,6 +2,8 @@
 
 wp_enqueue_script( 'mapasdevista', mapasdevista_get_baseurl() . '/js/front-end.js', array('jquery') );
 wp_enqueue_script( 'ajax-comments', mapasdevista_get_baseurl() . '/js/ajax-comments.js', array('jquery', 'jquery-form') );
+//wp_enqueue_script( 'jstree', mapasdevista_get_baseurl() . '/js/jstree.min.js', array('jquery') );
+
 wp_localize_script( 'ajax-comments', 'messages', array(
     'loading' => __('Loading...', 'mapasdevista'),
     'empty_name' => __('Please enter your name.', 'mapasdevista'),

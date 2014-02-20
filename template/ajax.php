@@ -220,6 +220,6 @@ function the_pin($post_id = null, $page_id = null) {
         
     }
     
-    echo wp_get_attachment_image($pin_id);
+    echo mapasdevista_get_pin($pin_id);
     
 }

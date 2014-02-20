@@ -85,17 +85,17 @@
                     <?php endforeach; ?>
 
                 <?php endif; ?>
-
                 <?php if (is_array($mapinfo['taxonomies'])): ?>
 
                     <?php
                     	$counter = 0;
                     	foreach ($mapinfo['taxonomies'] as $filter): ?>
 
-                        <ul class="filter-group filter-taxonomy" id="filter_taxonomy_<?php echo $filter; ?>">
-                            <?php mapasdevista_taxonomy_checklist($filter); ?>
-                        </ul>
-
+                    	<div id='filters_taxonomy'>
+	                        <ul class="filter-group filter-taxonomy" id="filter_taxonomy_<?php echo $filter; ?>">
+	                            	<?php mapasdevista_taxonomy_checklist($filter); ?>
+	                        </ul>
+						</div>
                         <?php if( ($counter++) % 5 == 0 ): ?>
                             <div class="clear"></div>
                         <?php endif;?>
@@ -105,7 +105,7 @@
                 <?php endif; ?>
             
                 
-                
+				               
                 <?php
 
                     function mapasdevista_taxonomy_checklist($taxonomy, $parent = 0) {
@@ -147,9 +147,10 @@
                                 <label for="filter_by_<?php echo $taxonomy; ?>_<?php echo $term->slug; ?>">
                                     <?php echo $term->name; ?>
                                 </label>
-                            </li>
+                            
 
                             <?php mapasdevista_taxonomy_checklist($taxonomy, $term->term_id); ?>
+                            </li>
 
                         <?php endforeach; ?>
 
@@ -160,7 +161,6 @@
                 <?php
                     }
                 ?>
-                
                 
                 
                 

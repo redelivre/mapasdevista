@@ -24,6 +24,14 @@ if(strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE 7') || strpos($_SERVER['HTTP_USER_A
     $themeColor = 'rgb(' . $theme_options['theme_color']['r'] . ',' . $theme_options['theme_color']['g'] . ', ' . $theme_options['theme_color']['b'] . ')';    
 }
 
+$position = 'relative';
+
+if(get_query_var('mapa-tpl'))
+{
+	$position = 'absolute';
+}
+
+
 ?>
 
 body {padding: 0px !important; margin: 0px !important;}
@@ -36,7 +44,7 @@ a { color:<?php echo $themeColor; ?>; }
 body { min-width:960px; }
 
 /* Important!!! */
-#map { height:100%; overflow:hidden; position:absolute; width:100%; }
+#map { height:100%; overflow:hidden; position:<?php echo $position; ?>; width:100%; }
 
 /* Title of the Blog */
 #blog-title     { left:90px; position:fixed; top:6px; max-width:237px; }
