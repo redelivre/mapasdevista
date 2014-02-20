@@ -198,3 +198,6 @@ if($onPageTemplate)
 
 #mapasdevista-gallery-image #mapasdevista-gallery-close { float:right; cursor:pointer; width:27px; height:27px; background:url(<?php echo mapasdevista_get_baseurl().'/img/close.png'; ?>);}
 #mapasdevista-gallery-image #mapasdevista-gallery-close:hover {background-color: <?php echo $themeColor; ?>}
+#map img {
+	max-width: none;
+}
