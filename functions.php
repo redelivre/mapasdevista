@@ -564,8 +564,6 @@ function mapasdevista_view_header()
 	?>
 	<meta name="google" value="notranslate"> <!--  this avoids problems with hash change and the google chrome translate bar -->
         
-        <link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo( 'stylesheet_url' ); ?>" />
-        
         <style type="text/css">
             <?php include( mapasdevista_get_template('template/style.css', null, false) ); ?>
         </style>

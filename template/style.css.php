@@ -151,17 +151,20 @@ if($onPageTemplate)
 #post_overlay #entry-content                { font-size:13px; padding:0 36px; }
 #post_overlay .entry-meta                   { border-bottom:2px solid <?php echo $bgColor; ?>; padding-bottom:9px; margin-bottom:27px; }
 
-/* misc */
-tbody tr:nth-child(even) td, tbody tr.even td {background:<?php echo $bgColor; ?>;}
-
-#commentform { margin-bottom:18px;  }
-#commentform label { display:block; }
-#commentform input[type="text"] { border:none; padding:6px; width:150px; }
-#commentform textarea#comment { border:none; clear:both; height:80px; width:660px; }
-
-a.comment-reply-link { background:<?php echo $themeColor; ?>; color:<?php echo $fontColor; ?>; padding:3px 6px; text-decoration:none; }
-.comment { border-bottom:2px solid <?php echo $bgColor; ?>; padding-bottom:9px; margin-bottom:18px; }
-img.avatar { margin:3px 10px 9px 0px; }
+if($onPageTemplate)
+{
+	/* misc */
+	tbody tr:nth-child(even) td, tbody tr.even td {background:<?php echo $bgColor; ?>;}
+	
+	#commentform { margin-bottom:18px;  }
+	#commentform label { display:block; }
+	#commentform input[type="text"] { border:none; padding:6px; width:150px; }
+	#commentform textarea#comment { border:none; clear:both; height:80px; width:660px; }
+	
+	a.comment-reply-link { background:<?php echo $themeColor; ?>; color:<?php echo $fontColor; ?>; padding:3px 6px; text-decoration:none; }
+	.comment { border-bottom:2px solid <?php echo $bgColor; ?>; padding-bottom:9px; margin-bottom:18px; }
+	img.avatar { margin:3px 10px 9px 0px; }
+}
 
 #mapasdevista-gallery-image {max-width: 80%; max-height: 80%; padding:11px; background: <?php echo $bgColor; ?>;}
 
