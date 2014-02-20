@@ -34,7 +34,7 @@ add_action('init', function() {
         include('import-default-pins.php');
     }
     
-    if(get_query_var('mapa-tpl')) add_action('wp_head', 'mapasdevista_view_header');
+    if(!get_query_var('mapa-tpl')) add_action('wp_head', 'mapasdevista_view_header');
 });
 
 function mapasdevista_set_default_menu() {
