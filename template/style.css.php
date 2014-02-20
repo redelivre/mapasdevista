@@ -89,16 +89,19 @@ if($onPageTemplate)
 .map-menu-side ul li:hover ul li    { float:none; }
 .map-menu-side ul ul                { display:none; position:absolute; top:0; }
 
-/* Top and Side Menu Links */
-li.current-menu-item a              { background:<?php echo $themeColor; ?> !important; }
-li.current-menu-item li a:hover     { background:<?php echo $bgColor; ?> !important; }
-
-/* Seach Form */
-#search { background:<?php echo $bgColor; ?>; bottom:0; height:28px; position:fixed; width:100%; }
-#search-icon { background:<?php echo $themeColor; ?>; float:left; padding:3px; }
-#searchform { height:28px; float:left; }
-#searchform input[type="text"] { background:none; border:none; color:<?php echo $fontColor; ?>; float:left; height:28px; margin:0; padding:0 10px; width:140px; }
-#searchform input[type="image"] { background:<?php echo $themeColor; ?>; padding:3px; }
+if($onPageTemplate)
+{
+	/* Top and Side Menu Links */
+	li.current-menu-item a              { background:<?php echo $themeColor; ?> !important; }
+	li.current-menu-item li a:hover     { background:<?php echo $bgColor; ?> !important; }
+	
+	/* Seach Form */
+	#search { background:<?php echo $bgColor; ?>; bottom:0; height:28px; position:fixed; width:100%; }
+	#search-icon { background:<?php echo $themeColor; ?>; float:left; padding:3px; }
+	#searchform { height:28px; float:left; }
+	#searchform input[type="text"] { background:none; border:none; color:<?php echo $fontColor; ?>; float:left; height:28px; margin:0; padding:0 10px; width:140px; }
+	#searchform input[type="image"] { background:<?php echo $themeColor; ?>; padding:3px; }
+}
 
 /* Filters */
 #toggle-filters { background:<?php echo $themeColor; ?>; color:<?php echo $fontColor; ?>; cursor:pointer; float:right; font-weight:bold; padding:4px 14px 2px 10px; text-transform:uppercase; width:177px;}
