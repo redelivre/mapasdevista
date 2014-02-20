@@ -89,8 +89,10 @@ if($onPageTemplate)
 .map-menu-side ul li:hover ul li    { float:none; }
 .map-menu-side ul ul                { display:none; position:absolute; top:0; }
 
+<?php
 if($onPageTemplate)
 {
+?>	
 	/* Top and Side Menu Links */
 	li.current-menu-item a              { background:<?php echo $themeColor; ?> !important; }
 	li.current-menu-item li a:hover     { background:<?php echo $bgColor; ?> !important; }
@@ -101,8 +103,9 @@ if($onPageTemplate)
 	#searchform { height:28px; float:left; }
 	#searchform input[type="text"] { background:none; border:none; color:<?php echo $fontColor; ?>; float:left; height:28px; margin:0; padding:0 10px; width:140px; }
 	#searchform input[type="image"] { background:<?php echo $themeColor; ?>; padding:3px; }
+<?php
 }
-
+?>
 /* Filters */
 #toggle-filters { background:<?php echo $themeColor; ?>; color:<?php echo $fontColor; ?>; cursor:pointer; float:right; font-weight:bold; padding:4px 14px 2px 10px; text-transform:uppercase; width:177px;}
 #toggle-filters img { margin-right:6px; vertical-align:middle; }
