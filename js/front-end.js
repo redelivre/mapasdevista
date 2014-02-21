@@ -514,16 +514,6 @@
             return false;
         });
         
-        $('li.js-menu-link-to-post').each(function() {
-            
-            var el = document.getElementById($(this).attr('id'));
-            $(this).find('a').click(function() {
-            
-                return mapasdevista.linkToPost(el);
-            
-            });
-        });
-        
         $('a#close_post_overlay').click(function() {
             $('#post_overlay').hide();
             mapasdevista.updateHash(false);
