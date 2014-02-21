@@ -21,7 +21,9 @@
                 $("#filters").animate({
                     height: (hWindow/3)
                 }, 450);
-                
+                $("#filters").each(function(idx,el){
+                    el.style.overflow='auto';
+                });
             },
             function() {
                 $(this).html("<img src='"+mapinfo.baseurl+"/img/show-filters.png'/> " + messages.show_filters);
@@ -763,5 +765,4 @@
         mapasdevista.updateHash(false);
         mapasdevista.checkHashChange();
     });
-
 })(jQuery);
