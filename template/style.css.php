@@ -94,9 +94,7 @@ if($onPageTemplate)
 {
 ?>	
 	/* Top and Side Menu Links */
-	li.current-menu-item a              { background:<?php echo $themeColor; ?> !important; }
-	li.current-menu-item li a:hover     { background:<?php echo $bgColor; ?> !important; }
-	
+		
 	/* Seach Form */
 	#search { background:<?php echo $bgColor; ?>; bottom:0; height:28px; position:fixed; width:100%; }
 	#search-icon { background:<?php echo $themeColor; ?>; float:left; padding:3px; }
