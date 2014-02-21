@@ -48,7 +48,7 @@ if($onPageTemplate)
 	
 	/* Title of the Blog */
 	#blog-title     { left:90px; position:fixed; top:6px; max-width:237px; }
-	#blog-title img { max-width:237px; }
+	#blog-title img { max-width:237px; margin-top:<?php echo is_user_logged_in() && is_admin_bar_showing() ? 26 : 0; ?>px;  }
 	
 	<?php
 }
