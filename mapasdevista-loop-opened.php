@@ -8,8 +8,8 @@ $format = get_post_format() ? get_post_format() : 'default';
     <p class="metadata date bottom"><?php the_time( get_option('date_format') ); ?></p>
     <h1 class="bottom"><?php the_title(); ?></h1>
     <?php
-    $map = get_option('mapasdevista_theme_options');
-    if(!array_key_exists('show_authors', $map) || $map['show_authors'] == 'Y')
+    $mapTheme = get_option('mapasdevista_theme_options');
+    if(!array_key_exists('show_authors', $mapTheme) || $mapTheme['show_authors'] == 'Y')
     { 
 	    ?>
 	    <p class="metadata author"><?php _e('Published by', 'mapasdevista'); ?>
