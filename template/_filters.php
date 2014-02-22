@@ -124,14 +124,29 @@
                                 foreach($_terms as $_t){
                                     if(!in_array($_t->term_id,$terms_ids) && $_t->parent == $parent){
                                         $terms_ids[] = $_t->term_id;
-                                        $terms[] = $_t;
+                                        $key = $_t->name;
+                                        $ikey = filter_var($_t->name, FILTER_SANITIZE_NUMBER_INT);
+                                        if(intval($ikey) > 0)
+                                        {
+                                        	 $key = substr($ikey, 2).substr($ikey, 0, 2);// TODO arrumar um jeito de definir para datas
+                                        }
+                                        $terms[$key] = $_t;
                                     }
                                 }
                         }
                         
                         if (!is_array($terms) || ( is_array($terms) && sizeof($terms) < 1 ) )
                             return;
-
+                        $terms_keys = array_keys($terms);
+                        natcasesort($terms_keys);
+                        $terms_a = $terms;
+                        $terms = array();
+                        foreach ($terms_keys as $key)
+                        {
+                        	$terms[] = $terms_a[$key];
+                        }
+                        
+                        
                 ?>
                         <?php if($parent == 0): ?>
                             <?php $tax = get_taxonomy($taxonomy); ?>
@@ -141,7 +156,9 @@
                             <ul class='children'>
                         <?php endif; ?>
 
-                        <?php foreach ($terms as $term): ?>
+                        <?php foreach ($terms as $term):
+                        	//if($term->slug == 'data') echo 'ÀAAAaaaaaaaaaaaaaaaa';
+                        ?>
                             <li class="filter-group-col">
                                 <input type="checkbox" class="taxonomy-filter-checkbox" value="<?php echo $term->slug; ?>" name="filter_by_<?php echo $taxonomy; ?>[]" id="filter_by_<?php echo $taxonomy; ?>_<?php echo $term->slug; ?>" />
                                 <label for="filter_by_<?php echo $taxonomy; ?>_<?php echo $term->slug; ?>">
