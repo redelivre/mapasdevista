@@ -587,7 +587,95 @@ function mapasdevista_view()
 	
 	include( mapasdevista_get_template('mapasdevista-loop', 'bubble', false) );
 	
+	mapasdevista_view_filters('filter', array('data'));
+	
 	//include( mapasdevista_get_template('template/_filters', null, false) );
 	
 	//include( mapasdevista_get_template('template/_footer', null, false) );
 }
+
+function mapasdevista_view_filters($taxonomy = 'filter', $only = array())
+{
+	?>
+		<div id="filters" class="clearfix">
+			<?php mapasdevista_view_taxonomy_checklist($taxonomy, 0, $only);?>
+		</div>
+	<?php
+}
+
+function mapasdevista_view_taxonomy_checklist($taxonomy, $parent = 0, $only = array())
+{
+	global $posts, $wpdb;
+
+	$terms = array();
+	$terms_ids = array();
+
+	$posts_ids = $wpdb->get_col("SELECT post_id FROM $wpdb->postmeta WHERE meta_key ='_mpv_inmap' ");
+	
+	foreach($posts_ids as $post_id)
+	{
+		$_terms = get_the_terms($post_id, $taxonomy);
+
+		if(is_array($_terms))
+		{
+			foreach($_terms as $_t)
+			{
+				if(!in_array($_t->term_id,$terms_ids) && $_t->parent == $parent)
+				{
+					$terms_ids[] = $_t->term_id;
+					$key = $_t->name;
+					$ikey = filter_var($_t->name, FILTER_SANITIZE_NUMBER_INT);
+					if(intval($ikey) > 0)
+					{
+						$key = substr($ikey, 2).substr($ikey, 0, 2);// TODO arrumar um jeito de definir para datas
+					}
+					$terms[$key] = $_t;
+				}
+			}
+		}
+	}
+	if (!is_array($terms) || ( is_array($terms) && sizeof($terms) < 1 ) ) return;
+	
+	$terms_keys = array_keys($terms);
+	natcasesort($terms_keys);
+	$terms_a = $terms;
+	$terms = array();
+	foreach ($terms_keys as $key)
+	{
+		if(count($only) == 0 || in_array($terms_a[$key]->slug, $only) )
+		{
+			$terms[] = $terms_a[$key];
+		}
+	}
+
+	if($parent == 0 && count($only) == 0)
+	{
+		$tax = get_taxonomy($taxonomy); ?>
+        <li class="filter-group-col"><h3><?php echo $tax->label; ?></h3><?php
+	}
+	/*elseif($parent == 0 && count($only) > 0)
+	{
+		$tax = get_
+		<li class="filter-group-col"><h3><?php echo $tax->label; ?></h3><?php
+	}*/
+	if ($parent > 0): ?>
+			<ul class='children'><?php
+	endif;
+
+	foreach ($terms as $term): ?>
+				<li class="filter-group-col">
+					<input type="checkbox" class="taxonomy-filter-checkbox" value="<?php echo $term->slug; ?>" name="filter_by_<?php echo $taxonomy; ?>[]" id="filter_by_<?php echo $taxonomy; ?>_<?php echo $term->slug; ?>" />
+					<label for="filter_by_<?php echo $taxonomy; ?>_<?php echo $term->slug; ?>">
+						<?php echo $term->name; ?>
+					</label>
+					<?php mapasdevista_view_taxonomy_checklist($taxonomy, $term->term_id); ?>
+				</li><?php
+	endforeach; 
+	if ($parent > 0): ?>
+			</ul><?php
+	endif; ?>
+		</li>
+<?php
+}
+
+?>
