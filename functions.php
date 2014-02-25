@@ -587,8 +587,6 @@ function mapasdevista_view()
 	
 	include( mapasdevista_get_template('mapasdevista-loop', 'bubble', false) );
 	
-	mapasdevista_view_filters('filter', array('data'));
-	
 	//include( mapasdevista_get_template('template/_filters', null, false) );
 	
 	//include( mapasdevista_get_template('template/_footer', null, false) );
@@ -597,9 +595,33 @@ function mapasdevista_view()
 function mapasdevista_view_filters($taxonomy = 'filter', $only = array())
 {
 	?>
-		<div id="filters" class="clearfix">
-			<?php mapasdevista_view_taxonomy_checklist($taxonomy, 0, $only);?>
+		<div id="filters">
+			<ul>
+				<?php mapasdevista_view_taxonomy_checklist($taxonomy, 0, $only);?>
+			</ul>
 		</div>
+		<script type="text/javascript">
+		<!--
+			function mapasdevista_uncheckall_filters()
+			{
+				jQuery('.taxonomy-filter-checkbox').removeAttr('checked');
+			}
+			jQuery('.taxonomy-filter-checkbox').click(function() {
+				mapasdevista_uncheckall_filters();
+				mapstraction.removeAllFilters();
+
+				jQuery(this).attr('checked','checked');
+				
+				var tax = jQuery(this).attr('name').replace('filter_by_', '').replace('[]', '');
+	            var val = jQuery(this).val();
+
+                mapstraction.addFilter(tax, 'in', val);
+
+	            mapstraction.doFilter();
+	            updateResults();
+			});
+		//-->
+		</script>
 	<?php
 }
 
@@ -651,7 +673,7 @@ function mapasdevista_view_taxonomy_checklist($taxonomy, $parent = 0, $only = ar
 	if($parent == 0 && count($only) == 0)
 	{
 		$tax = get_taxonomy($taxonomy); ?>
-        <li class="filter-group-col"><h3><?php echo $tax->label; ?></h3><?php
+        <li class="filter-group-col"><h3><?php echo apply_filters('mapasdevista_filters_label', $tax->label); ?></h3><?php
 	}
 	/*elseif($parent == 0 && count($only) > 0)
 	{
@@ -666,7 +688,7 @@ function mapasdevista_view_taxonomy_checklist($taxonomy, $parent = 0, $only = ar
 				<li class="filter-group-col">
 					<input type="checkbox" class="taxonomy-filter-checkbox" value="<?php echo $term->slug; ?>" name="filter_by_<?php echo $taxonomy; ?>[]" id="filter_by_<?php echo $taxonomy; ?>_<?php echo $term->slug; ?>" />
 					<label for="filter_by_<?php echo $taxonomy; ?>_<?php echo $term->slug; ?>">
-						<?php echo $term->name; ?>
+						<?php echo apply_filters('mapasdevista_filters_label',$term->name); ?>
 					</label>
 					<?php mapasdevista_view_taxonomy_checklist($taxonomy, $term->term_id); ?>
 				</li><?php

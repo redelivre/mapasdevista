@@ -101,9 +101,7 @@ if($onPageTemplate)
 	#searchform { height:28px; float:left; }
 	#searchform input[type="text"] { background:none; border:none; color:<?php echo $fontColor; ?>; float:left; height:28px; margin:0; padding:0 10px; width:140px; }
 	#searchform input[type="image"] { background:<?php echo $themeColor; ?>; padding:3px; }
-<?php
-}
-?>
+
 /* Filters */
 #toggle-filters { background:<?php echo $themeColor; ?>; color:<?php echo $fontColor; ?>; cursor:pointer; float:right; font-weight:bold; padding:4px 14px 2px 10px; text-transform:uppercase; width:230px;}
 #toggle-filters img { margin-right:6px; vertical-align:middle; }
@@ -117,6 +115,10 @@ if($onPageTemplate)
 #filters #filter_taxonomy_filter {
 	width: 100%;
 }
+
+<?php
+}
+?>
 
 /* Posts Loader */
 #posts-loader { display:none; background:<?php echo $bgColor; ?>; font-size:22px; padding:4px 4px 0 4px; position:fixed; right:0; top:82px; }

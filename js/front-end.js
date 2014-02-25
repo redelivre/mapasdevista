@@ -450,28 +450,6 @@
 
         });
         
-        function updateResults() {
-            
-            var count = 0;
-            
-            for (var i = 0; i < mapstraction.markers.length; i ++) {
-                //console.log( mapstraction.markers[i].attributes );
-                
-                if (mapstraction.markers[i].attributes['visible']) {
-                    $('#result_' + mapstraction.markers[i].attributes['ID']).show();
-                    //console.log('mostra '+mapstraction.markers[i].attributes['ID']);
-                    count++;
-                } else {
-                    $('#result_' + mapstraction.markers[i].attributes['ID']).hide();
-                //console.log('esconde '+'#result_' + mapstraction.markers[i].attributes['ID']);
-                }
-            }
-            
-            $('#filter_total').html(count);
-            
-        
-        }
-        
         // results links
         
         $('.js-filter-by-author-link').live('click', function() {
@@ -766,3 +744,25 @@
         mapasdevista.checkHashChange();
     });
 })(jQuery);
+
+function updateResults() {
+    
+    var count = 0;
+    
+    for (var i = 0; i < mapstraction.markers.length; i ++) {
+        //console.log( mapstraction.markers[i].attributes );
+        
+        if (mapstraction.markers[i].attributes['visible']) {
+            jQuery('#result_' + mapstraction.markers[i].attributes['ID']).show();
+            //console.log('mostra '+mapstraction.markers[i].attributes['ID']);
+            count++;
+        } else {
+            jQuery('#result_' + mapstraction.markers[i].attributes['ID']).hide();
+        //console.log('esconde '+'#result_' + mapstraction.markers[i].attributes['ID']);
+        }
+    }
+    
+    jQuery('#filter_total').html(count);
+    
+
+}
