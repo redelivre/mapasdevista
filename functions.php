@@ -607,16 +607,21 @@ function mapasdevista_view_filters($taxonomy = 'filter', $only = array())
 				jQuery('.taxonomy-filter-checkbox').removeAttr('checked');
 			}
 			jQuery('.taxonomy-filter-checkbox').click(function() {
+				var checked = jQuery(this).attr('checked');
+				
 				mapasdevista_uncheckall_filters();
 				mapstraction.removeAllFilters();
 
-				jQuery(this).attr('checked','checked');
-				
 				var tax = jQuery(this).attr('name').replace('filter_by_', '').replace('[]', '');
 	            var val = jQuery(this).val();
-
-                mapstraction.addFilter(tax, 'in', val);
-
+				
+				if ( checked ) {
+					jQuery(this).attr('checked','checked');
+					mapstraction.addFilter(tax, 'in', val);
+				} else {
+					jQuery(this).removeAttr('checked');
+	            }
+				
 	            mapstraction.doFilter();
 	            updateResults();
 			});
