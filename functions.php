@@ -66,7 +66,7 @@ function mapasdevista_set_default_settings() {
                 'map_type' => 'on'
             ),
         'logical_operator' => 'OR',
-        'post_types' => array('mapa'. 'bloco'),
+        'post_types' => array('mapa'),
         'taxonomies' => array('categoria-mapa'),
         'visibility' => 'private',
     	'filters' => array(),
