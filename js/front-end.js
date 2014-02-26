@@ -702,8 +702,17 @@
             }
         }
         
-        $(document).data('gInterval', setInterval(mapasdevista.checkHashChange, 10));
+        
+        
+        var gInterval = setInterval(mapasdevista_checkHashChange_timer, 10);
+        $(document).data('gInterval', gInterval); //TODO check why this is necessary
     
+        function mapasdevista_checkHashChange_timer()
+        {
+        	mapasdevista.checkHashChange();
+        	clearInterval(gInterval);
+        }
+        
         $(window.location).bind(
             'change',
             function() {
