@@ -606,24 +606,27 @@ function mapasdevista_view_filters($taxonomy = 'filter', $only = array())
 			{
 				jQuery('.taxonomy-filter-checkbox').removeAttr('checked');
 			}
-			jQuery('.taxonomy-filter-checkbox').click(function() {
-				var checked = jQuery(this).attr('checked');
-				
-				mapasdevista_uncheckall_filters();
-				mapstraction.removeAllFilters();
-
-				var tax = jQuery(this).attr('name').replace('filter_by_', '').replace('[]', '');
-	            var val = jQuery(this).val();
-				
-				if ( checked ) {
-					jQuery(this).attr('checked','checked');
-					mapstraction.addFilter(tax, 'in', val);
-				} else {
-					jQuery(this).removeAttr('checked');
-	            }
-				
-	            mapstraction.doFilter();
-	            updateResults();
+			jQuery(document).ready(function(){
+				jQuery('.taxonomy-filter-checkbox').click(function() {
+					var checked = jQuery(this).attr('checked');
+					var id = jQuery(this)[0].id;
+					
+					mapasdevista_uncheckall_filters();
+					mapstraction.removeAllFilters();
+	
+					var tax = jQuery(this).attr('name').replace('filter_by_', '').replace('[]', '');
+		            var val = jQuery(this).val();
+					
+					if ( checked ) {
+						jQuery("*[id*="+id+"]").attr('checked','checked');
+						mapstraction.addFilter(tax, 'in', val);
+					} else {
+						jQuery("*[id*="+id+"]").removeAttr('checked');
+		            }
+					
+		            mapstraction.doFilter();
+		            updateResults();
+				});
 			});
 		//-->
 		</script>
