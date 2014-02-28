@@ -5,10 +5,14 @@ $format = get_post_format() ? get_post_format() : 'default';
 
 <div id="post_<?php the_ID(); ?>" class="entry <?php echo $format; ?> clearfix">
 
-    <p class="metadata date bottom"><?php the_time( get_option('date_format') ); ?></p>
+	<?php
+    $mapTheme = get_option('mapasdevista_theme_options');
+    if(!array_key_exists('show_dates', $mapTheme) || $mapTheme['show_dates'] == 'Y')
+    {?>
+	    <p class="metadata date bottom"><?php the_time( get_option('date_format') ); ?></p><?php 
+    }?>
     <h1 class="bottom"><?php the_title(); ?></h1>
     <?php
-    $mapTheme = get_option('mapasdevista_theme_options');
     if(!array_key_exists('show_authors', $mapTheme) || $mapTheme['show_authors'] == 'Y')
     { 
 	    ?>

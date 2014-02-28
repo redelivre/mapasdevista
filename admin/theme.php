@@ -19,7 +19,8 @@ function get_mapasdevista_theme_default_options() {
                             'g' => 255,
                             'b' => 255
                         ),
-    					'show_authors' => 'Y'
+    					'show_authors' => 'Y',
+    					'show_dates' => 'Y'
                     );
 
 }
@@ -118,9 +119,16 @@ function mapasdevista_theme_page() {
           <input type="hidden" id="link_color_b" class="text" name="mapasdevista_theme_options[link_color][b]" value="<?php echo htmlspecialchars($options['link_color']['b']); ?>"/>
           <br/><br/>
           -->
-
-          <label for="show_authors"><strong><?php _e("Show Authors", "mapasdevista"); ?></strong></label><br/>
-          <input type="text" id="show_authors" class="text" name="mapasdevista_theme_options[show_authors]" value="<?php echo htmlspecialchars($options['show_authors']); ?>"/>
+          
+          <label for="show_authors"><strong><?php _e("Show post authors?", "mapasdevista"); ?></strong></label>
+          <label><input type="radio" id="show_authors_y" class="text" name="mapasdevista_theme_options[show_authors]" value="Y" <?php echo (!array_key_exists('show_authors', $options) || $options['show_authors'] == 'Y') ? 'checked="checked"' : ''; ?> /><?php _e('Yes', 'mapasdevista') ;?></label>
+          <label><input type="radio" id="show_authors_n" class="text" name="mapasdevista_theme_options[show_authors]" value="N" <?php echo (array_key_exists('show_authors', $options) && $options['show_authors'] == 'N') ? 'checked="checked"' : ''; ?> /><?php _e('No', 'mapasdevista') ;?></label>
+          <br/><br/>
+          
+          <label for="show_dates"><strong><?php _e("Show post created date?", "mapasdevista"); ?></strong></label>
+          <label ><input type="radio" id="show_dates_y" class="text" name="mapasdevista_theme_options[show_dates]" value="Y" <?php echo (!array_key_exists('show_dates', $options) || $options['show_dates'] == 'Y') ? 'checked="checked"' : ''; ?> /><?php _e('Yes', 'mapasdevista') ;?></label>
+          <label ><input type="radio" id="show_dates_n" class="text" name="mapasdevista_theme_options[show_dates]" value="N" <?php echo (array_key_exists('show_dates', $options) && $options['show_dates'] == 'N') ? 'checked="checked"' : ''; ?> /><?php _e('No', 'mapasdevista') ;?></label>
+          
           <br/><br/>
 
           
