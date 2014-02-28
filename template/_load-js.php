@@ -1,22 +1,29 @@
 <?php
-
-wp_enqueue_script( 'mapasdevista', mapasdevista_get_baseurl() . '/js/front-end.js', array('jquery') );
-wp_enqueue_script( 'ajax-comments', mapasdevista_get_baseurl() . '/js/ajax-comments.js', array('jquery', 'jquery-form') );
-//wp_enqueue_script( 'jstree', mapasdevista_get_baseurl() . '/js/jstree.min.js', array('jquery') );
-
-wp_localize_script( 'ajax-comments', 'messages', array(
-    'loading' => __('Loading...', 'mapasdevista'),
-    'empty_name' => __('Please enter your name.', 'mapasdevista'),
-    'empty_email' => __('Please enter your email address.', 'mapasdevista'),
-    'invalid_email' => __('Please enter a valid email address.', 'mapasdevista'),
-    'empty_comment' => __('Please enter your comment', 'mapasdevista'),
-    'comment_success' => __('Your comment has been added.', 'mapasdevista'),
-    'error' => __('Error!', 'mapasdevista'),
-    'show_filters' => __('Show Filters', 'mapasdevista'),
-    'hide_filters' => __('Hide Filters', 'mapasdevista')
-));
-
-wp_enqueue_script( 'comment-reply' );
+global $wp_customize;
+if ( isset( $wp_customize ) ) 
+{
+	wp_enqueue_script( 'mapasdevista', mapasdevista_get_baseurl() . '/js/front-end-customizer.js', array('jquery') );
+}
+else 
+{
+	wp_enqueue_script( 'mapasdevista', mapasdevista_get_baseurl() . '/js/front-end.js', array('jquery') );
+	wp_enqueue_script( 'ajax-comments', mapasdevista_get_baseurl() . '/js/ajax-comments.js', array('jquery', 'jquery-form') );
+	//wp_enqueue_script( 'jstree', mapasdevista_get_baseurl() . '/js/jstree.min.js', array('jquery') );
+	
+	wp_localize_script( 'ajax-comments', 'messages', array(
+	    'loading' => __('Loading...', 'mapasdevista'),
+	    'empty_name' => __('Please enter your name.', 'mapasdevista'),
+	    'empty_email' => __('Please enter your email address.', 'mapasdevista'),
+	    'invalid_email' => __('Please enter a valid email address.', 'mapasdevista'),
+	    'empty_comment' => __('Please enter your comment', 'mapasdevista'),
+	    'comment_success' => __('Your comment has been added.', 'mapasdevista'),
+	    'error' => __('Error!', 'mapasdevista'),
+	    'show_filters' => __('Show Filters', 'mapasdevista'),
+	    'hide_filters' => __('Hide Filters', 'mapasdevista')
+	));
+	
+	wp_enqueue_script( 'comment-reply' );
+}
 
 if ($mapinfo['api'] == 'image') {
 
