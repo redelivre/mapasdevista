@@ -145,7 +145,7 @@ if($onPageTemplate)
 .balloon h1 a       { color:<?php echo $bgColor; ?>; text-decoration:none; }
 .balloon h1 a:hover { color:<?php echo $themeColor; ?>; text-decoration:underline; }
 .balloon img        { display:block; padding:0; }
-.balloon .date      { background:<?php echo $themeColor; ?>; color:<?php echo $fontColor; ?>; font-size:18px; padding:0 3px; }
+.balloon .date      { background:<?php echo $themeColor; ?>; color:<?php echo $fontColor; ?>; padding:0 3px; }
 .balloon .entry-gallery          { position:relative; height:203px; width:270px; }
 .balloon .entry-gallery img   { position:absolute; }
 
@@ -158,7 +158,7 @@ if($onPageTemplate)
 	#post_overlay a#close_post_overlay          { background:<?php echo $bgColor; ?>; cursor:pointer; padding:4px 4px 0 4px; position:absolute; right:0; top:120px; z-index:1000; }
 	#post_overlay a#close_post_overlay:hover    { background:<?php echo $themeColor; ?>; }
 	#post_overlay .entry                        { background:<?php echo $bgColor; ?> !important; height:400px; overflow:auto; padding:36px; position:absolute; right:35px; top:120px; width:60%; z-index:1000; }
-	#post_overlay .date                         { font-size:22px; }
+	#post_overlay .date                         {  }
 	#post_overlay #entry-content                { font-size:13px; padding:0 36px; }
 	#post_overlay .entry-meta                   { border-bottom:2px solid <?php echo $bgColor; ?>; padding-bottom:9px; margin-bottom:27px; }
 <?php
@@ -170,7 +170,7 @@ else
 	#post_overlay a#close_post_overlay          { background:<?php echo $bgColor; ?>; cursor:pointer; padding:4px 4px 0 4px; position:absolute; left: 62%; top:0px; z-index:1000; }
 	#post_overlay a#close_post_overlay:hover    { background:<?php echo $themeColor; ?>; }
 	#post_overlay .entry                        { background:<?php echo $bgColor; ?> !important; height:400px; overflow:auto; padding: 36px; position:absolute; top:0px; width:60%; z-index:1000; left:2%; }
-	#post_overlay .date                         { font-size:22px; }
+	#post_overlay .date                         {  }
 	#post_overlay #entry-content                { font-size:13px; padding:0; }
 	#post_overlay .entry-meta                   { border-bottom:2px solid <?php echo $bgColor; ?>; padding-bottom:9px; margin-bottom:27px; }
 	#post_overlay .metadata 					{ margin-bottom: 0.4em; }
