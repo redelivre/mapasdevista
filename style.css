@@ -119,7 +119,7 @@ img.aligncenter { clear: both; display: block; margin-left: auto; margin-right: 
 body.error404 .wrapper { margin:72px auto; width:960px; }
 body.error404 .info { margin:0 auto; width:350px; }
 
-#filter_taxonomy_filter > li.filter-group-col {
+.filter-taxonomy > li.filter-group-col {
 	float: left;
 	width: auto;
 }

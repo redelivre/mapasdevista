@@ -109,7 +109,7 @@ if($onPageTemplate)
 #filters h3 { background:rgba(255,255,255,0.2); color:<?php echo $fontColor; ?>; display:inline-block; font-size:12px; font-weight:bold; margin-left:-18px; padding:9px 18px; text-transform:uppercase; }
 #filters ul { list-style:none; float:left; margin:0; padding:0; width:20%; }
 #filters ul ul { border:none; float:none; width:auto; }
-#filters ul li { margin:0 6px 6px 0; width:100%; }
+#filters ul li { margin:0 6px 6px 0; }
 #filters ul.children li { margin-left:18px; }
 
 #filters #filter_taxonomy_filter {
