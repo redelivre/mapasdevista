@@ -136,6 +136,7 @@ function mapasdevista_admin_menu() {
     add_submenu_page('edit.php?post_type=mapa', __('Pins', 'mapasdevista'), __('Pins', 'mapasdevista'), 'publish_posts', 'mapasdevista_pins_page', 'mapasdevista_pins_page');
 
     //add_submenu_page('edit.php?post_type=mapa', __('Importar Sql', 'mapasdevista'), __('Importar Sql', 'mapasdevista'), 'publish_posts', 'ImportarSql', 'mapasdevista_ImportarSql');
+    if(is_super_admin()) add_submenu_page('edit.php?post_type=mapa', __('Importar Csv', 'mapasdevista'), __('Importar Csv', 'mapasdevista'), 'publish_posts', 'ImportarCsv', 'mapasdevista_ImportarCsv');
 }
 
 
@@ -198,6 +199,175 @@ function mapasdevista_ImportarSql()
 	
 	//echo '<pre>'.var_dump($rows).'</pre>';
 	
+}
+
+function mapasdevista_city_name_format($city)
+{
+	return str_replace(array('z'), array('s'), strtolower(remove_accents($city)));
+	// Brazil -> Brasil, Luiz -> Luis
+}
+
+function mapasdevista_check_coords($location, $city)
+{
+	$url = "https://maps.googleapis.com/maps/api/geocode/json?sensor=false&latlng=";//40.714224,-73.961452&
+		
+	$json = file_get_contents($url.$location['lat'].",".$location['lon']);
+	$ret = json_decode($json, true);
+	//echo strtolower(remove_accents($row[17]));
+		
+	if(is_array($ret) && array_key_exists('results', $ret) && is_array($ret['results']) && array_key_exists(0, $ret['results']))
+	{
+		$results = $ret['results'];
+		foreach ($results as $result)
+		{
+			foreach ($result['address_components'] as $key => $value)
+			{
+				if($value['types'][0] == 'locality' || $value['types'][0] == 'administrative_area_level_2')
+				{
+					echo "|".mapasdevista_city_name_format($value['long_name'])."| vs |".mapasdevista_city_name_format($city)."|\n";
+					if(mapasdevista_city_name_format($value['long_name']) == mapasdevista_city_name_format($city))
+					{
+						return true;
+					}
+					else
+					{
+						//workaround rio as rio de jainero on google database
+						if(mapasdevista_city_name_format($value['long_name'] == 'rio' && mapasdevista_city_name_format($city) == "rio de janeiro"))
+						{
+							return true;
+						}
+						var_dump($result['address_components'])."\n";
+						echo "|".mapasdevista_city_name_format($value['long_name'])."| diff |".mapasdevista_city_name_format($city)."|\n";
+					}
+					break;
+				}
+			}
+			echo '-----------------------------Não Achou Em---------------------------------------------------------------------\n';
+			var_dump($result['address_components']);
+			echo '\n-----------------------------Não Achou Em---------------------------------------------------------------------\n';
+		}
+		return false;
+	}
+	else 
+	{
+		echo '---------------------------------------Sem retorno para--------------------------------------------------------------\n';
+		var_dump($ret);
+		echo '\n---------------------------------------Sem retorno para--------------------------------------------------------------\n';
+	}
+	return false;
+} 
+
+function mapasdevista_ImportarCsv()
+{
+	ini_set("memory_limit", "2048M");
+	set_time_limit(0);
+
+	$file = fopen ( '/home/jacson/Projetos/LabCultura/20131025_CadastroDePontosDeCulturaNacionalGeorreferenciado.csv', 'r');
+	echo '<pre>';
+	
+	$row = fgetcsv( $file, 0, ';');
+	$names = $row;
+	$row = fgetcsv( $file, 0, ';');
+	$i = 0;
+	do
+	{
+		echo $row[0];
+		
+		$post = array(
+				'post_author'    => 1, //The user ID number of the author.
+				'post_content'   => $row[25],
+				'post_title'     => $row[3], //The title of your post.
+				'post_type'      => 'mapa',
+				'post_status'	 => 'publish'
+		);
+
+		//$post_id = wp_insert_post($post);
+		
+		$no_import = array(25, 3, 11, 12);
+		
+		//if( is_int($post_id) )
+		{
+			$location = array();
+			
+			$row[11] = preg_replace('/[^0-9-]/','',$row[11]);
+			$row[12] = preg_replace('/[^0-9-]/','',$row[12]);
+			
+			$offset = $row[11][0] == '-' ? 3 : 2;
+			$row[11] = substr($row[11], 0, $offset).".".substr($row[11], $offset);
+
+			$offset = $row[12][0] == '-' ? 3 : 2;
+			$row[12] = substr($row[12], 0, $offset).".".substr($row[12], $offset);
+			
+			$location['lat'] = $row[11];
+			$location['lon'] = $row[12];
+			
+			//print_r($location);
+			echo "-----------------------------------------------------{$row[0]}----------------------------------------------------------------------\n";
+			if(!mapasdevista_check_coords($location, $row[17]))
+			{
+				$location_lat = array();
+				$location_lat['lat'] = $location['lat']/10;
+				$location_lat['lon'] = $location['lon'];echo "try lat/10:".$location['lat']."/".$location_lat['lat']."\n";
+				if(!mapasdevista_check_coords($location_lat, $row[17]))
+				{
+					$location_lon = array();
+					$location_lon['lat'] = $location['lat'];
+					$location_lon['lon'] = $location['lon']/10;echo "try lon/10:".$location['lon']."/".$location_lon['lon']."\n";
+					if(!mapasdevista_check_coords($location_lon, $row[17]))
+					{
+						echo $row[17]."\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ERRR////////////////////////////////////////////////////////////////\n";
+					}
+					else
+					{
+						$location = $location_lon;
+					}
+				}
+				else
+				{
+					$location = $location_lat;
+				}
+			}
+			echo "-----------------------------------------------------{$row[0]}----------------------------------------------------------------------\n";
+
+			/*if($location['lat'] !== floatval(0) && $location['lon'] !== floatval(0))
+			{
+				update_post_meta($post_id, '_mpv_location', $location);
+			}
+			else
+			{
+				delete_post_meta($post_id, '_mpv_location');
+			}*/
+
+			/*$pin_id = substr($row->icon, 4);
+
+			$pin_id = intval(sprintf("%d", $pin_id));
+
+			if($pin_id > 0)
+			{
+				update_post_meta($post_id, '_mpv_pin', $pin_id);
+			}*/
+
+			/*delete_post_meta($post_id, '_mpv_inmap');
+			delete_post_meta($post_id, '_mpv_in_img_map');
+			add_post_meta($post_id, "_mpv_inmap", 1);
+			
+			foreach ($row as $key => $custom_field)
+			{
+				if(!in_array($key, $no_import))
+				{
+					update_post_meta($post_id, $names[$key], $custom_field);
+				}
+			}*/
+
+		}
+		$row = fgetcsv( $file, 0, ';');
+		$i++;
+	} while ($row !== false && $i < 100);
+	echo '</pre>';
+	fclose ( $file );
+
+	//echo '<pre>'.var_dump($rows).'</pre>';
+
 }
 
 
@@ -271,7 +441,8 @@ function mapasdevista_regiser_post_type() {
             'title',
             'editor',
             'post-formats',
-            'thumbnail'
+            'thumbnail',
+        	'custom-fields',
         ),
            
         )
@@ -509,6 +680,7 @@ function mapasdevista_create_homepage_map($args) {
  * @return WP_Query 
  */
 function mapasdevista_get_posts($page_id, $mapinfo, $postsArgs = array()){
+	ini_set("memory_limit", "2048M"); // TODO more clear and low memory way todo this
     global $MAPASDEVISTA_POSTS_RCACHE;
     
     if(is_object($MAPASDEVISTA_POSTS_RCACHE) && get_class($MAPASDEVISTA_POSTS_RCACHE) === 'WP_Query'){

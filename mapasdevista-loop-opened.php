@@ -7,13 +7,13 @@ $format = get_post_format() ? get_post_format() : 'default';
 
 	<?php
     $mapTheme = get_option('mapasdevista_theme_options');
-    if(!array_key_exists('show_dates', $mapTheme) || $mapTheme['show_dates'] == 'Y')
+    if(is_array($mapTheme) && !array_key_exists('show_dates', $mapTheme) || $mapTheme['show_dates'] == 'Y')
     {?>
 	    <p class="metadata date bottom"><?php the_time( get_option('date_format') ); ?></p><?php 
     }?>
     <h1 class="bottom"><?php the_title(); ?></h1>
     <?php
-    if(!array_key_exists('show_authors', $mapTheme) || $mapTheme['show_authors'] == 'Y')
+    if(is_array($mapTheme) && !array_key_exists('show_authors', $mapTheme) || $mapTheme['show_authors'] == 'Y')
     { 
 	    ?>
 	    <p class="metadata author"><?php _e('Published by', 'mapasdevista'); ?>
