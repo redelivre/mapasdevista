@@ -90,7 +90,8 @@
                 },
                 panControlOptions: {
                     position: google.maps.ControlPosition.LEFT_CENTER
-                }
+                },
+                scrollwheel: true
             });
         } else {
             mapstraction.addControls({
