@@ -207,7 +207,7 @@ function mapasdevista_city_name_format($city)
 	// Brazil -> Brasil, Luiz -> Luis
 }
 
-function mapasdevista_check_coords($location, $city)
+function mapasdevista_check_coords($location, $local, $country = false)
 {
 	$url = "https://maps.googleapis.com/maps/api/geocode/json?sensor=false&latlng=";//40.714224,-73.961452&
 		
@@ -222,24 +222,40 @@ function mapasdevista_check_coords($location, $city)
 		{
 			foreach ($result['address_components'] as $key => $value)
 			{
-				if($value['types'][0] == 'locality' || $value['types'][0] == 'administrative_area_level_2')
+				if($country)
 				{
-					echo "|".mapasdevista_city_name_format($value['long_name'])."| vs |".mapasdevista_city_name_format($city)."|\n";
-					if(mapasdevista_city_name_format($value['long_name']) == mapasdevista_city_name_format($city))
+					
+					if($value['types'][0] == 'country' )//|| $value['types'][0] == 'administrative_area_level_2')
 					{
-						return true;
-					}
-					else
-					{
-						//workaround rio as rio de jainero on google database
-						if(mapasdevista_city_name_format($value['long_name'] == 'rio' && mapasdevista_city_name_format($city) == "rio de janeiro"))
+						echo "|".mapasdevista_city_name_format($value['long_name'])."| vs |".mapasdevista_city_name_format($local)."|\n";
+						if(mapasdevista_city_name_format($value['long_name']) == mapasdevista_city_name_format($local))
 						{
 							return true;
 						}
-						var_dump($result['address_components'])."\n";
-						echo "|".mapasdevista_city_name_format($value['long_name'])."| diff |".mapasdevista_city_name_format($city)."|\n";
+						break;
 					}
-					break;
+				}
+				else 
+				{
+					if($value['types'][0] == 'locality' || $value['types'][0] == 'administrative_area_level_2')
+					{
+						echo "|".mapasdevista_city_name_format($value['long_name'])."| vs |".mapasdevista_city_name_format($local)."|\n";
+						if(mapasdevista_city_name_format($value['long_name']) == mapasdevista_city_name_format($local))
+						{
+							return true;
+						}
+						else
+						{
+							//workaround rio as rio de jainero on google database
+							if(mapasdevista_city_name_format($value['long_name']) == 'rio' && mapasdevista_city_name_format($local) == "rio de janeiro")
+							{
+								return true;
+							}
+							var_dump($result['address_components'])."\n";
+							echo "|".mapasdevista_city_name_format($value['long_name'])."| diff |".mapasdevista_city_name_format($local)."|\n";
+						}
+						break;
+					}
 				}
 			}
 			echo '-----------------------------Não Achou Em---------------------------------------------------------------------\n';
@@ -257,8 +273,52 @@ function mapasdevista_check_coords($location, $city)
 	return false;
 } 
 
+function mapasdevista_cords_check_loop($location, $local, $country = false)
+{
+	//print_r($location);
+	
+	if(!mapasdevista_check_coords($location, $local, $country))
+	{
+		$location_lat = array();
+		$location_lat['lat'] = $location['lat']/10;
+		$location_lat['lon'] = $location['lon'];echo "try lat/10:".$location_lat['lat']."/".$location_lat['lon']."\n";
+		if(!mapasdevista_check_coords($location_lat, $local, $country))
+		{
+			$location_lon = array();
+			$location_lon['lat'] = $location['lat'];
+			$location_lon['lon'] = $location['lon']/10;echo "try lon/10:".$location_lon['lat']."/".$location_lon['lon']."\n";
+			if(!mapasdevista_check_coords($location_lon, $local, $country))
+			{
+				$location_lat_lon = array();
+				$location_lat_lon['lat'] = $location['lat']/10;
+				$location_lat_lon['lon'] = $location['lon']/10;echo "try lat/10 and lon/10:".$location_lat_lon['lat']."/".$location_lat_lon['lon']."\n";
+
+				if(!mapasdevista_check_coords($location_lat_lon, $local, $country))
+				{
+					$location = $location_lat_lon;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			else
+			{
+				$location = $location_lon;
+			}
+		}
+		else
+		{
+			$location = $location_lat;
+		}
+	}
+	return $location;
+	
+}
+
 function mapasdevista_ImportarCsv()
 {
+	$debug = false;
 	ini_set("memory_limit", "2048M");
 	set_time_limit(0);
 
@@ -281,12 +341,13 @@ function mapasdevista_ImportarCsv()
 				'post_status'	 => 'publish'
 		);
 
-		//$post_id = wp_insert_post($post);
+		if(!$debug) $post_id = wp_insert_post($post);
 		
 		$no_import = array(25, 3, 11, 12);
 		
-		//if( is_int($post_id) )
+		if(!$debug && is_int($post_id) )
 		{
+			
 			$location = array();
 			
 			$row[11] = preg_replace('/[^0-9-]/','',$row[11]);
@@ -300,69 +361,67 @@ function mapasdevista_ImportarCsv()
 			
 			$location['lat'] = $row[11];
 			$location['lon'] = $row[12];
-			
-			//print_r($location);
-			echo "-----------------------------------------------------{$row[0]}----------------------------------------------------------------------\n";
-			if(!mapasdevista_check_coords($location, $row[17]))
+				
+			if($location['lat'] !== floatval(0) && $location['lon'] !== floatval(0))
 			{
-				$location_lat = array();
-				$location_lat['lat'] = $location['lat']/10;
-				$location_lat['lon'] = $location['lon'];echo "try lat/10:".$location['lat']."/".$location_lat['lat']."\n";
-				if(!mapasdevista_check_coords($location_lat, $row[17]))
+				echo "-----------------------------------------------------{$row[0]}----------------------------------------------------------------------\n";
+				$location_ret = mapasdevista_cords_check_loop($location, $row[17]);
+				if($location_ret === false)
 				{
-					$location_lon = array();
-					$location_lon['lat'] = $location['lat'];
-					$location_lon['lon'] = $location['lon']/10;echo "try lon/10:".$location['lon']."/".$location_lon['lon']."\n";
-					if(!mapasdevista_check_coords($location_lon, $row[17]))
+					//Vamos tentar por o ponto no Brasil pelo menos.
+					$location_ret = mapasdevista_cords_check_loop($location, 'brasil', true);
+					if($location_ret !== false)
 					{
-						echo $row[17]."\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ERRR////////////////////////////////////////////////////////////////\n";
+						$location = $location_ret;
 					}
 					else
 					{
-						$location = $location_lon;
+						echo $row[17]."\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ERRR////////////////////////////////////////////////////////////////\n";
 					}
 				}
-				else
+				else 
 				{
-					$location = $location_lat;
+					$location = $location_ret;
 				}
-			}
-			echo "-----------------------------------------------------{$row[0]}----------------------------------------------------------------------\n";
-
-			/*if($location['lat'] !== floatval(0) && $location['lon'] !== floatval(0))
-			{
-				update_post_meta($post_id, '_mpv_location', $location);
+				
+				echo "-----------------------------------------------------{$row[0]}----------------------------------------------------------------------\n";
+			
+				if(!$debug) update_post_meta($post_id, '_mpv_location', $location);
 			}
 			else
 			{
-				delete_post_meta($post_id, '_mpv_location');
-			}*/
+				if(!$debug) delete_post_meta($post_id, '_mpv_location');
+			}
 
-			/*$pin_id = substr($row->icon, 4);
-
-			$pin_id = intval(sprintf("%d", $pin_id));
-
-			if($pin_id > 0)
+			if(!$debug)
 			{
-				update_post_meta($post_id, '_mpv_pin', $pin_id);
-			}*/
-
-			/*delete_post_meta($post_id, '_mpv_inmap');
-			delete_post_meta($post_id, '_mpv_in_img_map');
-			add_post_meta($post_id, "_mpv_inmap", 1);
-			
-			foreach ($row as $key => $custom_field)
-			{
-				if(!in_array($key, $no_import))
+				
+				/*$pin_id = substr($row->icon, 4);
+	
+				$pin_id = intval(sprintf("%d", $pin_id));
+	
+				if($pin_id > 0)
 				{
-					update_post_meta($post_id, $names[$key], $custom_field);
+					update_post_meta($post_id, '_mpv_pin', $pin_id);
+				}*/
+			
+				delete_post_meta($post_id, '_mpv_inmap');
+				delete_post_meta($post_id, '_mpv_in_img_map');
+				add_post_meta($post_id, "_mpv_inmap", 1);
+				
+				foreach ($row as $key => $custom_field)
+				{
+					if(!in_array($key, $no_import))
+					{
+						update_post_meta($post_id, $names[$key], $custom_field);
+					}
 				}
-			}*/
+			}
 
 		}
 		$row = fgetcsv( $file, 0, ';');
 		$i++;
-	} while ($row !== false && $i < 100);
+	} while ($row !== false );// && $i < 100));
 	echo '</pre>';
 	fclose ( $file );
 
