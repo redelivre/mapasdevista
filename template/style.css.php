@@ -174,6 +174,7 @@ else
 	#post_overlay #entry-content                { font-size:13px; padding:0; }
 	#post_overlay .entry-meta                   { border-bottom:2px solid <?php echo $bgColor; ?>; padding-bottom:9px; margin-bottom:27px; }
 	#post_overlay .metadata 					{ margin-bottom: 0.4em; }
+	#post_overlay .bottom 						{ color: #FFFFFF; }
 <?php 
 }
 
@@ -218,3 +219,6 @@ if($onPageTemplate)
 	font-weight: bold;
 }
 
+.mapasdevista-comment-meta h2, .mapasdevista-comment-meta h3 {
+	color: #FFFFFF;
+}
