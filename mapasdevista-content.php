@@ -24,7 +24,7 @@
 </footer>
 <div class="mapasdevista-comment-meta">
 <div class="mapasdevista-comment-tip">
-<h2><?php _e('As informações estão incompletas? Comente Aqui!') ?></h2>
+<h2><?php _e('As informações estão incompletas? Comente Aqui!', 'mapasdevista') ?></h2>
 </div>
 <?php comments_template(); ?>
 </div>
