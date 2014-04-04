@@ -20,6 +20,7 @@
         <?php endif; ?>
     </p>
     -->
+    <?php mapasdevista_get_template( 'mapasdevista-custom-fields' ); ?>
 </footer>
 
 <?php comments_template(); ?>

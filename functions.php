@@ -251,6 +251,11 @@ function mapasdevista_check_coords($location, $local, $country = false)
 							{
 								return true;
 							}
+							//workaround diamante do oeste on google database
+							if(mapasdevista_city_name_format($value['long_name']) == 'diamante d\'oeste' && mapasdevista_city_name_format($local) == "diamante do oeste")
+							{
+								return true;
+							}
 							var_dump($result['address_components'])."\n";
 							echo "|".mapasdevista_city_name_format($value['long_name'])."| diff |".mapasdevista_city_name_format($local)."|\n";
 						}
@@ -322,7 +327,7 @@ function mapasdevista_ImportarCsv()
 	ini_set("memory_limit", "2048M");
 	set_time_limit(0);
 
-	$file = fopen ( '/home/jacson/Projetos/LabCultura/20131025_CadastroDePontosDeCulturaNacionalGeorreferenciado.csv', 'r');
+	$file = fopen ( '/tmp/import.csv', 'r');
 	echo '<pre>';
 	
 	$row = fgetcsv( $file, 0, ';');
@@ -404,6 +409,7 @@ function mapasdevista_ImportarCsv()
 				{
 					update_post_meta($post_id, '_mpv_pin', $pin_id);
 				}*/
+				update_post_meta($post_id, '_mpv_pin', 10);
 			
 				delete_post_meta($post_id, '_mpv_inmap');
 				delete_post_meta($post_id, '_mpv_in_img_map');

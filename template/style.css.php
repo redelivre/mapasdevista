@@ -44,7 +44,7 @@ if($onPageTemplate)
 	a { color:<?php echo $themeColor; ?>; }
 	
 	/* Layout */
-	body { min-width:960px; }
+	/*body { min-width:960px; }*/
 	
 	/* Title of the Blog */
 	#blog-title     { left:90px; position:fixed; top:6px; max-width:237px; }
@@ -126,7 +126,7 @@ if($onPageTemplate)
 
 /* Results */
 #toggle-results { background:<?php echo $bgColor; ?>; cursor:pointer; padding:4px 4px 0 4px; position:fixed; right:0; top:120px; }
-#results { background:<?php echo $bgColor; ?>; color:<?php echo $fontColor; ?>; display:none; max-height:65%; overflow:auto; padding:9px; position:fixed; right:35px; top:120px; width:30%; }
+#results { background:<?php echo $bgColor; ?>; color:<?php echo $fontColor; ?>; display:none; max-height:75%; overflow:auto; padding:9px; position:fixed; right:35px; top:120px; width:30%; }
 #results h1 { font-size:18px; margin-bottom:27px; }
 .result { border-bottom:2px solid rgba(0,0,0,0.5); margin-bottom:27px; }
 .result .pin { float:left; width:60px; }
@@ -155,9 +155,9 @@ if($onPageTemplate)
 {
 ?>
 	#post_overlay                               { display:none; position:relative; }
-	#post_overlay a#close_post_overlay          { background:<?php echo $bgColor; ?>; cursor:pointer; padding:4px 4px 0 4px; position:absolute; right:0; top:120px; z-index:1000; }
+	#post_overlay a#close_post_overlay          { background:<?php echo $bgColor; ?>; cursor:pointer; padding:4px 4px 0 4px; position:absolute; right:0; top:50px; z-index:1000; }
 	#post_overlay a#close_post_overlay:hover    { background:<?php echo $themeColor; ?>; }
-	#post_overlay .entry                        { background:<?php echo $bgColor; ?> !important; height:400px; overflow:auto; padding:36px; position:absolute; right:35px; top:120px; width:60%; z-index:1000; }
+	#post_overlay .entry                        { background:<?php echo $bgColor; ?> !important; max-height:75%; overflow:auto; padding:36px; position:absolute; right:35px; top:50px; width:90%; z-index:1000; }
 	#post_overlay .date                         {  }
 	#post_overlay #entry-content                { font-size:13px; padding:0 36px; }
 	#post_overlay .entry-meta                   { border-bottom:2px solid <?php echo $bgColor; ?>; padding-bottom:9px; margin-bottom:27px; }
@@ -169,7 +169,7 @@ else
 	#post_overlay                               { display:none; position:relative; }
 	#post_overlay a#close_post_overlay          { background:<?php echo $bgColor; ?>; cursor:pointer; padding:4px 4px 0 4px; position:absolute; left: 62%; top:0px; z-index:1000; }
 	#post_overlay a#close_post_overlay:hover    { background:<?php echo $themeColor; ?>; }
-	#post_overlay .entry                        { background:<?php echo $bgColor; ?> !important; height:400px; overflow:auto; padding: 36px; position:absolute; top:0px; width:60%; z-index:1000; left:2%; }
+	#post_overlay .entry                        { background:<?php echo $bgColor; ?> !important; height:75%; overflow:auto; padding: 36px; position:absolute; top:0px; width:60%; z-index:1000; left:2%; }
 	#post_overlay .date                         {  }
 	#post_overlay #entry-content                { font-size:13px; padding:0; }
 	#post_overlay .entry-meta                   { border-bottom:2px solid <?php echo $bgColor; ?>; padding-bottom:9px; margin-bottom:27px; }
