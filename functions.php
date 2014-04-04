@@ -486,7 +486,7 @@ function mapasdevista_admin_init() {
         wp_enqueue_script('mapstraction-core', mapasdevista_get_baseurl() . '/js/mxn/mxn.core-min.js');
         wp_enqueue_script('mapstraction-googlev3', mapasdevista_get_baseurl() . '/js/mxn/mxn.googlev3.core-min.js');
         wp_enqueue_script('mapstraction-openlayers', mapasdevista_get_baseurl() . '/js/mxn/mxn.openlayers.core-min.js');*/
-    	if(($pagenow === "post.php" || $pagenow === "post-new.php") && in_array($post_type, $mapinfo['post_types']))
+    	if(($pagenow === "post.php" || $pagenow === "post-new.php") && in_array(get_post_type(), $mapinfo['post_types']))
     	{
     		mapasdevista_enqueue_scripts($mapinfo);
     	}
