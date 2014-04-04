@@ -200,25 +200,65 @@ function mapasdevista_ImportarSql()
 	
 }
 
+function mapasdevista_enqueue_scripts($mapinfo = array(), $post_type = null)
+{
+	if(!array_key_exists('api', $mapinfo))
+	{
+		$mapinfo = get_option('mapasdevista', true);
+	}
+	if(is_null($post_type))
+	{
+		$post_type = get_post_type();
+	}
+	
+	wp_enqueue_script('mapstraction', mapasdevista_get_baseurl('template_directory') . '/js/mxn/mxn-min.js' );
+	wp_enqueue_script('mapstraction-core', mapasdevista_get_baseurl('template_directory') . '/js/mxn/mxn.core-min.js');
+	
+	if ($mapinfo['api'] == 'openlayers') {
+		wp_enqueue_script('openlayers', 'http://openlayers.org/api/OpenLayers.js');
+		wp_enqueue_script('mapstraction-openlayers', mapasdevista_get_baseurl('template_directory') . '/js/mxn/mxn.openlayers.core-min.js');
+	} elseif ($mapinfo['api'] == 'googlev3') {
+	
+		$googleapikey = get_mapasdevista_theme_option('google_key');
+		$googleapikey = $googleapikey ? "&key=$googleapikey" : '';
+		wp_enqueue_script('google-maps-v3', 'http://maps.google.com/maps/api/js?sensor=false' . $googleapikey);
+		wp_enqueue_script('mapstraction-googlev3', mapasdevista_get_baseurl('template_directory') . '/js/mxn/mxn.googlev3.core-min.js');
+		wp_enqueue_script('google-infobox', mapasdevista_get_baseurl('template_directory') . '/js/mxn/infobox_packed.js', array('mapstraction-googlev3'));
+	
+	} elseif ($mapinfo['api'] == 'image') {
+		wp_enqueue_script('mapstraction-image', mapasdevista_get_baseurl('template_directory') . '/js/mxn/mxn.image.core.js');
+	}
+}
+
 
 function mapasdevista_admin_init() {
     
-    
-    
     global $pagenow;
+    
+    $mapinfo = get_option('mapasdevista', true);
     
     if( ($pagenow === "post.php" || $pagenow === "post-new.php" || (isset($_GET['page']) && $_GET['page'] === "mapasdevista_maps")) ) {
         // api do google maps versao 3 direto 
-        $googleapikey = get_mapasdevista_theme_option('google_key');
+        /*$googleapikey = get_mapasdevista_theme_option('google_key');
         $googleapikey = $googleapikey ? "&key=$googleapikey" : '';
         wp_enqueue_script('google-maps-v3', 'http://maps.google.com/maps/api/js?sensor=false' . $googleapikey);
 
+        
         wp_enqueue_script('openlayers', 'http://openlayers.org/api/OpenLayers.js');
 
         wp_enqueue_script('mapstraction', mapasdevista_get_baseurl() . '/js/mxn/mxn-min.js' );
         wp_enqueue_script('mapstraction-core', mapasdevista_get_baseurl() . '/js/mxn/mxn.core-min.js');
         wp_enqueue_script('mapstraction-googlev3', mapasdevista_get_baseurl() . '/js/mxn/mxn.googlev3.core-min.js');
-        wp_enqueue_script('mapstraction-openlayers', mapasdevista_get_baseurl() . '/js/mxn/mxn.openlayers.core-min.js');
+        wp_enqueue_script('mapstraction-openlayers', mapasdevista_get_baseurl() . '/js/mxn/mxn.openlayers.core-min.js');*/
+    	if(($pagenow === "post.php" || $pagenow === "post-new.php") && in_array($post_type, $mapinfo['post_types']))
+    	{
+    		mapasdevista_enqueue_scripts($mapinfo);
+    	}
+    	elseif(isset($_GET['page']) && $_GET['page'] === "mapasdevista_maps")  
+    	{
+    		mapasdevista_enqueue_scripts($mapinfo);
+    	}
+    	
     }
     
     if (isset($_GET['page']) && $_GET['page'] === "mapasdevista_theme_page") {
