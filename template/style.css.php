@@ -201,3 +201,20 @@ if($onPageTemplate)
 #map img {
 	max-width: none;
 }
+
+.mapasdevista-custom-fields-list {
+	margin-top: 20px;
+}
+.mapasdevista-custom-fields-item {
+	
+}
+.mapasdevista-custom-fields-name {
+	font-weight: bold;
+}
+.mapasdevista-custom-fields-value {
+	
+}
+.mapasdevista-custom-fields-separator {
+	font-weight: bold;
+}
+
