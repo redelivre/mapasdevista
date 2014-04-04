@@ -409,7 +409,7 @@ function mapasdevista_ImportarCsv()
 				{
 					update_post_meta($post_id, '_mpv_pin', $pin_id);
 				}*/
-				update_post_meta($post_id, '_mpv_pin', 10);
+				update_post_meta($post_id, '_mpv_pin', 12);
 			
 				delete_post_meta($post_id, '_mpv_inmap');
 				delete_post_meta($post_id, '_mpv_in_img_map');
