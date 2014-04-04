@@ -157,7 +157,7 @@ if($onPageTemplate)
 	#post_overlay                               { display:none; position:relative; }
 	#post_overlay a#close_post_overlay          { background:<?php echo $bgColor; ?>; cursor:pointer; padding:4px 4px 0 4px; position:absolute; right:0; top:50px; z-index:1000; }
 	#post_overlay a#close_post_overlay:hover    { background:<?php echo $themeColor; ?>; }
-	#post_overlay .entry                        { background:<?php echo $bgColor; ?> !important; max-height:75%; overflow:auto; padding:36px; position:absolute; right:35px; top:50px; width:90%; z-index:1000; }
+	#post_overlay .entry                        { background:<?php echo $bgColor; ?> !important; height:500px; overflow:auto; padding:36px; position:absolute; right:35px; top:50px; width:90%; z-index:1000; }
 	#post_overlay .date                         {  }
 	#post_overlay #entry-content                { font-size:13px; padding:0 36px; }
 	#post_overlay .entry-meta                   { border-bottom:2px solid <?php echo $bgColor; ?>; padding-bottom:9px; margin-bottom:27px; }
@@ -169,7 +169,7 @@ else
 	#post_overlay                               { display:none; position:relative; }
 	#post_overlay a#close_post_overlay          { background:<?php echo $bgColor; ?>; cursor:pointer; padding:4px 4px 0 4px; position:absolute; left: 62%; top:0px; z-index:1000; }
 	#post_overlay a#close_post_overlay:hover    { background:<?php echo $themeColor; ?>; }
-	#post_overlay .entry                        { background:<?php echo $bgColor; ?> !important; height:75%; overflow:auto; padding: 36px; position:absolute; top:0px; width:60%; z-index:1000; left:2%; }
+	#post_overlay .entry                        { background:<?php echo $bgColor; ?> !important; height:400px; overflow:auto; padding: 36px; position:absolute; top:0px; width:60%; z-index:1000; left:2%; }
 	#post_overlay .date                         {  }
 	#post_overlay #entry-content                { font-size:13px; padding:0; }
 	#post_overlay .entry-meta                   { border-bottom:2px solid <?php echo $bgColor; ?>; padding-bottom:9px; margin-bottom:27px; }
