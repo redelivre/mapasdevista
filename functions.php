@@ -549,6 +549,8 @@ function mapasdevista_regiser_post_type() {
             'post-formats',
             'thumbnail',
         	'custom-fields',
+        	'revisions',
+        	'comments',
         ),
            
         )

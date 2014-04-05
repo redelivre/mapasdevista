@@ -22,9 +22,12 @@
     -->
     <?php mapasdevista_get_template( 'mapasdevista-custom-fields' ); ?>
 </footer>
-<div class="mapasdevista-comment-meta">
-<div class="mapasdevista-comment-tip">
-<h2><?php _e('As informações estão incompletas? Comente Aqui!', 'mapasdevista') ?></h2>
-</div>
-<?php comments_template(); ?>
+<div class="mapasdevista-comment-meta"> <?php
+	if(comments_open())
+	{?>
+		<div class="mapasdevista-comment-tip">
+			<h2><?php _e('As informações estão incompletas? Comente Aqui!', 'mapasdevista') ?></h2>
+		</div><?php
+	}
+	comments_template(); ?>
 </div>
