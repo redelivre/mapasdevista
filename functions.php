@@ -876,7 +876,7 @@ function mapasdevista_view_filters($taxonomy = 'filter', $only = array())
 {
 	?>
 		<div id="filters">
-			<ul>
+			<ul id="map-taxonomy-<?php echo $taxonomy; ?>-filters-list">
 				<?php mapasdevista_view_taxonomy_checklist($taxonomy, 0, $only);?>
 			</ul>
 		</div>
@@ -957,8 +957,10 @@ function mapasdevista_view_taxonomy_checklist($taxonomy, $parent = 0, $only = ar
 			$terms[] = $terms_a[$key];
 		}
 	}
-
-	if($parent == 0 && count($only) == 0)
+	
+	$terms = apply_filters('mapasdevista_filters_terms', $terms);
+	
+	if($parent == 0 && count($only) == 0 && apply_filters('mapasdevista_filters_show_tax_title', true))
 	{
 		$tax = get_taxonomy($taxonomy); ?>
         <li class="filter-group-col"><h3><?php echo apply_filters('mapasdevista_filters_label', $tax->label); ?></h3><?php
