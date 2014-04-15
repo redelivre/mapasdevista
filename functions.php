@@ -470,23 +470,18 @@ function mapasdevista_ImportarCsv()
 function mapasdevista_admin_init() {
     
     global $pagenow;
+    global $post;
     
     $mapinfo = get_option('mapasdevista', true);
     
     if( ($pagenow === "post.php" || $pagenow === "post-new.php" || (isset($_GET['page']) && $_GET['page'] === "mapasdevista_maps")) ) {
-        // api do google maps versao 3 direto 
-        /*$googleapikey = get_mapasdevista_theme_option('google_key');
-        $googleapikey = $googleapikey ? "&key=$googleapikey" : '';
-        wp_enqueue_script('google-maps-v3', 'http://maps.google.com/maps/api/js?sensor=false' . $googleapikey);
-
-        
-        wp_enqueue_script('openlayers', 'http://openlayers.org/api/OpenLayers.js');
-
-        wp_enqueue_script('mapstraction', mapasdevista_get_baseurl() . '/js/mxn/mxn-min.js' );
-        wp_enqueue_script('mapstraction-core', mapasdevista_get_baseurl() . '/js/mxn/mxn.core-min.js');
-        wp_enqueue_script('mapstraction-googlev3', mapasdevista_get_baseurl() . '/js/mxn/mxn.googlev3.core-min.js');
-        wp_enqueue_script('mapstraction-openlayers', mapasdevista_get_baseurl() . '/js/mxn/mxn.openlayers.core-min.js'); TODO Delete after test */ 
-    	if(($pagenow === "post.php" || $pagenow === "post-new.php") && (array_key_exists('post_type', $_REQUEST) && in_array($_REQUEST['post_type'], $mapinfo['post_types'])) )
+    	if(
+    			($pagenow === "post.php" || $pagenow === "post-new.php") &&
+    			(
+    				(array_key_exists('post_type', $_REQUEST) && in_array($_REQUEST['post_type'], $mapinfo['post_types'])) ||
+    				(array_key_exists('post', $_REQUEST) && in_array(get_post_type($_REQUEST['post']), $mapinfo['post_types']))
+    			)
+    	)
     	{
     		mapasdevista_enqueue_scripts($mapinfo);
     	}
