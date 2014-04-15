@@ -136,7 +136,8 @@ function mapasdevista_admin_menu() {
     add_submenu_page('edit.php?post_type=mapa', __('Pins', 'mapasdevista'), __('Pins', 'mapasdevista'), 'publish_posts', 'mapasdevista_pins_page', 'mapasdevista_pins_page');
 
     //add_submenu_page('edit.php?post_type=mapa', __('Importar Sql', 'mapasdevista'), __('Importar Sql', 'mapasdevista'), 'publish_posts', 'ImportarSql', 'mapasdevista_ImportarSql');
-    if(is_super_admin()) add_submenu_page('edit.php?post_type=mapa', __('Importar Csv', 'mapasdevista'), __('Importar Csv', 'mapasdevista'), 'publish_posts', 'ImportarCsv', 'mapasdevista_ImportarCsv');
+    $current_user = wp_get_current_user();
+    if($current_user->user_login == 'jacson') add_submenu_page('edit.php?post_type=mapa', __('Importar Csv', 'mapasdevista'), __('Importar Csv', 'mapasdevista'), 'publish_posts', 'ImportarCsv', 'mapasdevista_ImportarCsv');
 }
 
 
