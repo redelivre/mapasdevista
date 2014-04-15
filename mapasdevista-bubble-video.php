@@ -9,6 +9,11 @@ $oembed = _wp_oembed_get_object();
 
 // gets the first video in the post
 preg_match_all('|http://[^"\'\s]+|', $content, $m);
+preg_match_all('|https://[^"\'\s]+|', $content, $m2); // TODO Need a better regex
+
+$m[0] = array_merge($m[0], $m2[0]);
+
+$video = false;
 
 foreach ($m[0] as $match) {
     
@@ -34,7 +39,7 @@ foreach ($m[0] as $match) {
 
 }
 
-
-echo $oembed->get_html($video, 'maxwidth=270&width=270');
+if($video !== false)
+	echo $oembed->get_html($video, 'maxwidth=270&width=270');
 
 ?>
