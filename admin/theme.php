@@ -20,7 +20,8 @@ function get_mapasdevista_theme_default_options() {
                             'b' => 255
                         ),
     					'show_authors' => 'Y',
-    					'show_dates' => 'Y'
+    					'show_dates' => 'Y',
+    					'clusterer_enabled' => 'Y'
                     );
 
 }
@@ -128,13 +129,22 @@ function mapasdevista_theme_page() {
           <label for="show_dates"><strong><?php _e("Show post created date?", "mapasdevista"); ?></strong></label>
           <label ><input type="radio" id="show_dates_y" class="text" name="mapasdevista_theme_options[show_dates]" value="Y" <?php echo (!array_key_exists('show_dates', $options) || $options['show_dates'] == 'Y') ? 'checked="checked"' : ''; ?> /><?php _e('Yes', 'mapasdevista') ;?></label>
           <label ><input type="radio" id="show_dates_n" class="text" name="mapasdevista_theme_options[show_dates]" value="N" <?php echo (array_key_exists('show_dates', $options) && $options['show_dates'] == 'N') ? 'checked="checked"' : ''; ?> /><?php _e('No', 'mapasdevista') ;?></label>
+          <br/><br/>
           
+          <label for="clusterer_enabled" class="clusterer-enabled-label"><strong><?php _e("Group markers as clusters?", "mapasdevista"); ?></strong></label><br/>
+          <label class="clusterer-enabled-label"><span>
+          	<input type="radio" id="clusterer_enabled_y" class="text" name="mapasdevista_theme_options[clusterer_enabled]" value="Y" <?php echo (!array_key_exists('clusterer_enabled', $options) || $options['clusterer_enabled'] == 'Y') ? 'checked="checked"' : ''; ?> /><?php _e('with automatic grouping of markers', 'mapasdevista') ;?><br/>
+          	<img src="<?php echo mapasdevista_get_baseurl().'/img/comgrupos.png'; ?>" />
+          </span></label><br/>
+          <label class="clusterer-enabled-label"><span>
+          	<input type="radio" id="clusterer_enabled_n" class="text" name="mapasdevista_theme_options[clusterer_enabled]" value="N" <?php echo (array_key_exists('clusterer_enabled', $options) && $options['clusterer_enabled'] == 'N') ? 'checked="checked"' : ''; ?> /><?php _e('without automatic grouping of markers', 'mapasdevista') ;?><br/>
+          	<img src="<?php echo mapasdevista_get_baseurl().'/img/semgrupos.png'; ?>" />
+          </span></label>
           <br/><br/>
 
           
         </div>
       </div>
-      
       <p class="textright clear prepend-top">
         <input type="submit" class="button-primary" value="<?php _e('Save Changes'); ?>" />
       </p>

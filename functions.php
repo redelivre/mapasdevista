@@ -202,15 +202,11 @@ function mapasdevista_ImportarSql()
 	
 }
 
-function mapasdevista_enqueue_scripts($mapinfo = array(), $post_type = null)
+function mapasdevista_enqueue_scripts($mapinfo = array())
 {
 	if(!array_key_exists('api', $mapinfo))
 	{
 		$mapinfo = get_option('mapasdevista', true);
-	}
-	if(is_null($post_type))
-	{
-		$post_type = get_post_type();
 	}
 	
 	wp_enqueue_script('mapstraction', mapasdevista_get_baseurl('template_directory') . '/js/mxn/mxn-min.js' );
@@ -226,6 +222,13 @@ function mapasdevista_enqueue_scripts($mapinfo = array(), $post_type = null)
 		wp_enqueue_script('google-maps-v3', 'http://maps.google.com/maps/api/js?sensor=false' . $googleapikey);
 		wp_enqueue_script('mapstraction-googlev3', mapasdevista_get_baseurl('template_directory') . '/js/mxn/mxn.googlev3.core-min.js');
 		wp_enqueue_script('google-infobox', mapasdevista_get_baseurl('template_directory') . '/js/mxn/infobox_packed.js', array('mapstraction-googlev3'));
+		
+		$mapTheme = get_option('mapasdevista_theme_options', array());
+		if((is_array($mapTheme) && !array_key_exists('clusterer_enabled', $mapTheme)) || $mapTheme['clusterer_enabled'] == 'Y')
+		{
+			wp_enqueue_script('markerclustererplus', mapasdevista_get_baseurl('template_directory') . '/js/markerclustererplus/src/markerclusterer.js', array('mapstraction-googlev3'));
+			wp_enqueue_script('front-end-markerclusterer', mapasdevista_get_baseurl('template_directory') . '/js/front-end-markerclusterer.js', array('mapasdevista'));
+		}
 	
 	} elseif ($mapinfo['api'] == 'image') {
 		wp_enqueue_script('mapstraction-image', mapasdevista_get_baseurl('template_directory') . '/js/mxn/mxn.image.core.js');

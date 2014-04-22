@@ -10,7 +10,7 @@
                 <!-- the permalink to the post must have the js-link-to-post class. With this, mapasdevista will open the post over the map. 
                 It also have to have an id attribute with the ID of th target post. the id can be anything as long as the post ID is the only numeric part of it. -->
                 <h1 class="bottom"><a class="js-link-to-bubble" id="post-link-<?php the_ID(); ?>" href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h1>
-                <?php $mapTheme = get_option('mapasdevista_theme_options');
+                <?php $mapTheme = get_option('mapasdevista_theme_options', array());
 			    if(!array_key_exists('show_authors', $mapTheme) || $mapTheme['show_authors'] == 'Y')
 			    { ?>
 	                <p class="metadata author"><?php _e('Published by', 'mapasdevista'); ?>
