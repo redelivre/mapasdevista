@@ -130,14 +130,14 @@ function mapasdevista_get_pin($pin_id, $size = 'thumbnail', $icon = false, $attr
 
 function mapasdevista_admin_menu() {
 
-    add_submenu_page('edit.php?post_type=mapa', __('Configuração do mapa', 'mapasdevista'), __('Configuração do mapa', 'mapasdevista'), 'publish_posts', 'mapasdevista_maps', 'mapasdevista_maps_page');
+    add_submenu_page('edit.php?post_type=mapa', __('Map configuration', 'mapasdevista'), __('Map configuration', 'mapasdevista'), 'publish_posts', 'mapasdevista_maps', 'mapasdevista_maps_page');
     //add_menu_page(__('Maps of view', 'mapasdevista'), __('Maps of view', 'mapasdevista'), 'publish_posts', 'mapasdevista_maps', 'mapasdevista_maps_page',null,30);
     add_submenu_page('edit.php?post_type=mapa', __('Layout', 'mapasdevista'), __('Layout', 'mapasdevista'), 'publish_posts', 'mapasdevista_theme_page', 'mapasdevista_theme_page');
     add_submenu_page('edit.php?post_type=mapa', __('Pins', 'mapasdevista'), __('Pins', 'mapasdevista'), 'publish_posts', 'mapasdevista_pins_page', 'mapasdevista_pins_page');
 
     //add_submenu_page('edit.php?post_type=mapa', __('Importar Sql', 'mapasdevista'), __('Importar Sql', 'mapasdevista'), 'publish_posts', 'ImportarSql', 'mapasdevista_ImportarSql');
     $current_user = wp_get_current_user();
-    if($current_user->user_login == 'jacson') add_submenu_page('edit.php?post_type=mapa', __('Importar Csv', 'mapasdevista'), __('Importar Csv', 'mapasdevista'), 'publish_posts', 'ImportarCsv', 'mapasdevista_ImportarCsv');
+    if($current_user->user_login == 'jacson') add_submenu_page('edit.php?post_type=mapa', __('Csv Import', 'mapasdevista'), __('Csv Import', 'mapasdevista'), 'publish_posts', 'ImportarCsv', 'mapasdevista_ImportarCsv');
 }
 
 

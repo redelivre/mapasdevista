@@ -24,7 +24,7 @@ function mapasdevista_maps_page() {
 
     <form method="POST">
     <div class="wrap">
-        <h2>Configuração do Mapa</h2>
+        <h2><?php _e('Map configuration', 'mapasdevista') ?></h2>
         
         
             
@@ -184,11 +184,11 @@ function mapasdevista_maps_page() {
                         <ul id="mpv_map_status">
                             <li>
                                 <label for="north_east_max_lat" class="small"><?php _e('Latitude', 'mapasdevista');?>:</label>
-                                <input type="text" class="small-field" name="map[north_east][lat]" id="north_east_max_lat" value="<?php echo $map['north_east']['lat'];?>"/>
+                                <input type="text" class="small-field" name="map[north_east][lat]" id="north_east_max_lat" value="<?php echo array_key_exists('north_east', $map) && is_array($map['north_east']) && array_key_exists('lat', $map['north_east'])  ? $map['north_east']['lat'] : '';?>"/>
                             </li>
                             <li>
                                 <label for="north_east_max_lon" class="small"><?php _e('Longitude', 'mapasdevista');?>:</label>
-                                <input type="text" class="small-field" name="map[north_east][lng]" id="north_east_max_lng" value="<?php echo $map['north_east']['lng'];?>"/>
+                                <input type="text" class="small-field" name="map[north_east][lng]" id="north_east_max_lng" value="<?php echo array_key_exists('north_east', $map) && is_array($map['north_east']) && array_key_exists('lng', $map['north_east'])  ? $map['north_east']['lng'] : '';?>"/>
                             </li>
                             
                         </ul>
@@ -199,11 +199,11 @@ function mapasdevista_maps_page() {
                         <ul id="mpv_map_status">
                             <li>
                                 <label for="south_west_max_lat" class="small"><?php _e('Latitude', 'mapasdevista');?>:</label>
-                                <input type="text" class="small-field" name="map[south_west][lat]" id="south_west_max_lat" value="<?php echo $map['south_west']['lat'];?>"/>
+                                <input type="text" class="small-field" name="map[south_west][lat]" id="south_west_max_lat" value="<?php echo array_key_exists('south_west', $map) && is_array($map['south_west']) && array_key_exists('lat', $map['south_west'])  ? $map['south_west']['lat'] : '';?>"/>
                             </li>
                             <li>
                                 <label for="south_west_max_lon" class="small"><?php _e('Longitude', 'mapasdevista');?>:</label>
-                                <input type="text" class="small-field" name="map[south_west][lng]" id="south_west_max_lng" value="<?php echo $map['south_west']['lng'];?>"/>
+                                <input type="text" class="small-field" name="map[south_west][lng]" id="south_west_max_lng" value="<?php echo array_key_exists('south_west', $map) && is_array($map['south_west']) && array_key_exists('lng', $map['south_west'])  ? $map['south_west']['lng'] : '';?>"/>
                             </li>
                         </ul>
                         </td>
@@ -212,13 +212,13 @@ function mapasdevista_maps_page() {
                         <p><?php _e('Empty for no limit.', 'mapasdevista'); ?> </p>
                         <ul id="mpv_map_status">
                              <li>
-                                <label for="mpv_min_zoom" class="small">mínimo:</label>
-                                <input type="text" class="small-field" name="map[min_zoom]" id="mpv_min_zoom" value="<?php echo $map['min_zoom'];?>"/>
+                                <label for="mpv_min_zoom" class="small"><?php _e('Minimum', 'mapasdevista'); ?>:</label>
+                                <input type="text" class="small-field" name="map[min_zoom]" id="mpv_min_zoom" value="<?php echo array_key_exists('min_zoom', $map) ? $map['min_zoom'] : ''; ?>"/>
                                 <input type="button" value="<?php _e('Capture current level', 'mapasdevista'); ?>" id="mpv_capture_min_zoom" />
                             </li>
                              <li>
-                                <label for="mpv_max_zoom" class="small">máximo:</label>
-                                <input type="text" class="small-field" name="map[max_zoom]" id="mpv_max_zoom" value="<?php echo $map['max_zoom'];?>"/>
+                                <label for="mpv_max_zoom" class="small"><?php _e('Maximum', 'mapasdevista'); ?>:</label>
+                                <input type="text" class="small-field" name="map[max_zoom]" id="mpv_max_zoom" value="<?php echo array_key_exists('max_zoom', $map) ? $map['max_zoom'] : ''; ?>"/>
                                 <input type="button" value="<?php _e('Capture current level', 'mapasdevista'); ?>" id="mpv_capture_max_zoom" />
                             </li>
                         </ul>
@@ -389,14 +389,44 @@ function mapasdevista_maps_page() {
             })(jQuery);
             </script>
             
+            <h2><?php _e("Post types that can have a map");?>:</h2>
+            <?php
+	            $args = array(
+	            		'public'   => true,
+	            );
+            	$types = get_post_types($args, 'objects');
+            	foreach ($types as $type)
+            	{
+            		$checked = in_array($type->name, $map['post_types']) ? 'checked="checked"' : '';
+            		?>
+            		<input type="<?php echo is_super_admin() ? 'checkbox' : 'hidden' ?>" name="map[post_types][]" value="<?php echo strip_tags($type->name); ?>" <?php echo $checked; ?> /> <?php echo $type->labels->name; ?><br/>
+            		<?php
+            	}
+            ?>
+            <h2><?php _e("Taxonomies for filters");?>:</h2>
+            <?php
+	            $args = array(
+	            		'public'   => true,
+	            );
+            	$taxs = get_taxonomies($args, 'objects');
+            	foreach ($taxs as $tax)
+            	{
+            		$checked = in_array($tax->name, $map['taxonomies']) ? 'checked="checked"' : '';
+            		?>
+            		<input type="<?php echo is_super_admin() ? 'checkbox' : 'hidden' ?>" name="map[taxonomies][]" value="<?php echo strip_tags($tax->name); ?>" <?php echo $checked; ?> /> <?php echo $tax->labels->name; ?><br/>
+            		<?php
+            	}
+            ?>
             
-            <input type="<?php echo is_super_admin() ? 'text' : 'hidden' ?>" name="map[post_types][]" value="<?php echo strip_tags(implode(',', $map['post_types']));?>" />
-            
-            <input type="<?php echo is_super_admin() ? 'text' : 'hidden' ?>" name="map[taxonomies][]" value="<?php echo strip_tags(implode(',', $map['taxonomies']));?>" />
-            
-            <input type="<?php echo is_super_admin() ? 'text' : 'hidden' ?>" name="map[logical_operator]" value="<?php echo strip_tags($map['logical_operator']);?>" />
-            
-            <?php do_action('mapasdevista_maps_settings_bottom',$map); ?>
+            <?php //<?php echo strip_tags($map['logical_operator']);
+            	$ANDchecked = $map['logical_operator'] == 'AND' ? 'checked="checked"' : '';
+            	$ORchecked = $map['logical_operator'] == 'OR' ? 'checked="checked"' : '';
+            ?>
+            <h2><?php _e("Filters operator");?>:</h2>
+            <input type="radio" name="map[logical_operator]" value="OR" <?php echo $ORchecked; ?> /><?php _e('OR', "mapasdevista") ?>
+            <input type="radio" name="map[logical_operator]" value="AND" <?php echo $ANDchecked; ?> /><?php _e('AND', "mapasdevista") ?>
+            <br/>
+            <?php do_action('mapasdevista_maps_settings_bottom',$map); ?><br/>
             
             <input type="submit" name="submit_map" value="<?php _e('Save Changes', 'mapasdevista'); ?>" />
 
