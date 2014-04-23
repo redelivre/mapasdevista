@@ -378,7 +378,11 @@
                         $('#balloon_' + data.posts[p].ID).remove();
 
                         mapstraction.addMarker( marker );
-                        mc.addMarker(marker.proprietary_marker);
+                        
+                        if(mapstraction.markerclusterer != null)
+                        {
+                        	mapstraction.markerclusterer.addMarker(marker.proprietary_marker);
+                        }
                         if (mapinfo.api == 'openlayers' && pin['clickable']) {
                             marker.proprietary_marker.icon.imageDiv.onclick = function(event) {
                                 marker.click.fire();
