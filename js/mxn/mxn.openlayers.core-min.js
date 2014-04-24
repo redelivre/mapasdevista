@@ -203,10 +203,16 @@ mxn.register('openlayers', {
 			var map = this.maps[this.api];
 			var pin = marker.toProprietary(this.api);
 			if (!this.layers.markers) {
-				this.layers.markers = new OpenLayers.Layer.Markers('markers');
+				this.layers.markers = new OpenLayers.Layer.Vector('markers', { strategies: [
+				                                                                          new OpenLayers.Strategy.AnimatedCluster({
+				                                                                              distance: 45,
+				                                                                              animationMethod: OpenLayers.Easing.Expo.easeOut,
+				                                                                              animationDuration: 10
+				                                                                          })
+				                                                                      ]});
 				map.addLayer(this.layers.markers);
 			}
-			this.layers.markers.addMarker(pin);
+			this.layers.markers.addFeatures(pin);
 			return pin;
 		},
 

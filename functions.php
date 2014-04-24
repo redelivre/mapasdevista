@@ -202,7 +202,7 @@ function mapasdevista_ImportarSql()
 	
 }
 
-function mapasdevista_enqueue_scripts($mapinfo = array())
+function mapasdevista_enqueue_scripts($mapinfo = array(), $loadall = false)
 {
 	if(!array_key_exists('api', $mapinfo))
 	{
@@ -212,10 +212,14 @@ function mapasdevista_enqueue_scripts($mapinfo = array())
 	wp_enqueue_script('mapstraction', mapasdevista_get_baseurl('template_directory') . '/js/mxn/mxn-min.js' );
 	wp_enqueue_script('mapstraction-core', mapasdevista_get_baseurl('template_directory') . '/js/mxn/mxn.core-min.js');
 	
-	if ($mapinfo['api'] == 'openlayers') {
+	if ($mapinfo['api'] == 'openlayers' || $loadall)
+	{
 		wp_enqueue_script('openlayers', 'http://openlayers.org/api/OpenLayers.js');
-		wp_enqueue_script('mapstraction-openlayers', mapasdevista_get_baseurl('template_directory') . '/js/mxn/mxn.openlayers.core-min.js');
-	} elseif ($mapinfo['api'] == 'googlev3') {
+		wp_enqueue_script('AnimatedCluster', mapasdevista_get_baseurl('template_directory') . '/js/mxn/AnimatedCluster.js', array('openlayers'));
+		wp_enqueue_script('mapstraction-openlayers', mapasdevista_get_baseurl('template_directory') . '/js/mxn/mxn.openlayers.core-min.js', array('AnimatedCluster'));
+	}
+	if ($mapinfo['api'] == 'googlev3' || $loadall)
+	{
 	
 		$googleapikey = get_mapasdevista_theme_option('google_key');
 		$googleapikey = $googleapikey ? "&key=$googleapikey" : '';
@@ -230,10 +234,12 @@ function mapasdevista_enqueue_scripts($mapinfo = array())
 			wp_enqueue_script('front-end-markerclusterer', mapasdevista_get_baseurl('template_directory') . '/js/front-end-markerclusterer.js', array('mapasdevista'));
 		}
 	
-	} elseif ($mapinfo['api'] == 'image') {
+	} 
+	if ($mapinfo['api'] == 'image' || $loadall)
+	{
 		wp_enqueue_script('mapstraction-image', mapasdevista_get_baseurl('template_directory') . '/js/mxn/mxn.image.core.js');
 	}
-
+	
 }
 
 function mapasdevista_city_name_format($city)
@@ -491,7 +497,7 @@ function mapasdevista_admin_init() {
     	}
     	elseif(isset($_GET['page']) && $_GET['page'] === "mapasdevista_maps")  
     	{
-    		mapasdevista_enqueue_scripts($mapinfo);
+    		mapasdevista_enqueue_scripts($mapinfo, true);
     	}
     	
     }
