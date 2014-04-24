@@ -389,7 +389,7 @@ function mapasdevista_maps_page() {
             })(jQuery);
             </script>
             
-            <h2><?php _e("Post types that can have a map");?>:</h2>
+            <h2><?php _e("Post types that can have a map", 'mapasdevista');?>:</h2>
             <?php
 	            $args = array(
 	            		'public'   => true,
@@ -403,7 +403,7 @@ function mapasdevista_maps_page() {
             		<?php
             	}
             ?>
-            <h2><?php _e("Taxonomies for filters");?>:</h2>
+            <h2><?php _e("Taxonomies for filters", 'mapasdevista');?>:</h2>
             <?php
 	            $args = array(
 	            		'public'   => true,
@@ -422,7 +422,7 @@ function mapasdevista_maps_page() {
             	$ANDchecked = $map['logical_operator'] == 'AND' ? 'checked="checked"' : '';
             	$ORchecked = $map['logical_operator'] == 'OR' ? 'checked="checked"' : '';
             ?>
-            <h2><?php _e("Filters operator");?>:</h2>
+            <h2><?php _e("Filters operator", 'mapasdevista');?>:</h2>
             <input type="radio" name="map[logical_operator]" value="OR" <?php echo $ORchecked; ?> /><?php _e('OR', "mapasdevista") ?>
             <input type="radio" name="map[logical_operator]" value="AND" <?php echo $ANDchecked; ?> /><?php _e('AND', "mapasdevista") ?>
             <br/>
