@@ -612,8 +612,10 @@ function mapasdevista_page_template_redirect() {
             exit;
         }
         else
-            $wp_query->is_404 = true;
-        
+        {
+            mapasdevista_get_template('template/map-private-login-request');
+            exit;
+        }
     }
 }
 
