@@ -384,7 +384,7 @@
                         	mapstraction.markerclusterer.addMarker(marker.proprietary_marker);
                         }
                         if (mapinfo.api == 'openlayers' && pin['clickable']) {
-                            marker.proprietary_marker.icon.imageDiv.onclick = function(event) {
+                            marker.icon.imageDiv.onclick = function(event) {
                                 marker.click.fire();
                             }
                         }
