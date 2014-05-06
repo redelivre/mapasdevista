@@ -1157,6 +1157,11 @@ Mapstraction.prototype.applyFilter = function(o, f) {
 				vis = false;
 			}
 			break;
+		case 'like':
+			if (o.getAttribute( f[0] ).toLowerCase().indexOf(f[2].toLowerCase()) < 0) {
+				vis = false;
+			}
+			break;
 	}
 
 	return vis;

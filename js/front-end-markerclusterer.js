@@ -4,7 +4,7 @@ jQuery(document).ready(function() {
 
 	mc = new MarkerClusterer(mapstraction.getMap());
 	mc.setIgnoreHidden(true);
-	mc.setMaxZoom(15);
+	mc.setMaxZoom(15); // TODO create a option
 	
 	mapstraction.markerclusterer = mc;
 	

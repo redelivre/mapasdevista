@@ -124,20 +124,40 @@ if($onPageTemplate)
 #posts-loader { display:none; background:<?php echo $bgColor; ?>; font-size:22px; padding:4px 4px 0 4px; position:fixed; right:0; top:82px; }
 #posts-loader span { font-size:18px; }
 
+<?php
 /* Results */
-#toggle-results { background:<?php echo $bgColor; ?>; cursor:pointer; padding:4px 4px 0 4px; position:fixed; right:0; top:120px; }
-#results { background:<?php echo $bgColor; ?>; color:<?php echo $fontColor; ?>; display:none; max-height:75%; overflow:auto; padding:9px; position:fixed; right:35px; top:120px; width:30%; }
-#results h1 { font-size:18px; margin-bottom:27px; }
-.result { border-bottom:2px solid rgba(0,0,0,0.5); margin-bottom:27px; }
-.result .pin { float:left; width:60px; }
-.result .pin img { height:auto; max-width:60px; }
-.result .content { margin-left:60px; }
-.result h1 { margin-bottom:3px !important; }
-.result h1 a { color:<?php echo $fontColor; ?>; text-decoration:none; text-transform:uppercase; }
-.result h1 a:hover { text-decoration:underline; }
-.result p.date { background:<?php echo $themeColor; ?>; display:inline-block; font-size:14px; margin-bottom:3px; padding:0 3px; }
-.result p.author a { color:<?php echo $themeColor; ?>; text-decoration:none; }
-.result p.author a:hover { text-decoration:underline; }
+
+if($onPageTemplate)
+{
+?>
+	#toggle-results { background:<?php echo $bgColor; ?>; cursor:pointer; padding:4px 4px 0 4px; position:fixed; right:0; top:120px; }
+	#results { background:<?php echo $bgColor; ?>; color:<?php echo $fontColor; ?>; display:none; max-height:75%; overflow:auto; padding:9px; position:fixed; right:35px; top:120px; width:30%; }
+	#results h1 { font-size:18px; margin-bottom:27px; }
+	.result { border-bottom:2px solid rgba(0,0,0,0.5); margin-bottom:27px; }
+	.result .pin { float:left; width:60px; }
+	.result .pin img { height:auto; max-width:60px; }
+	.result .content { margin-left:60px; }
+	.result h1 { margin-bottom:3px !important; }
+	.result h1 a { color:<?php echo $fontColor; ?>; text-decoration:none; text-transform:uppercase; }
+	.result h1 a:hover { text-decoration:underline; }
+	.result p.date { background:<?php echo $themeColor; ?>; display:inline-block; font-size:14px; margin-bottom:3px; padding:0 3px; }
+	.result p.author a { color:<?php echo $themeColor; ?>; text-decoration:none; }
+	.result p.author a:hover { text-decoration:underline; }
+<?php
+}
+else 
+{ 
+?>
+	.result { border-bottom:2px solid rgba(0,0,0,0.5); margin-bottom:27px; }
+	.result .pin { float:left; width:60px; }
+	.result .pin img { height:auto; max-width:60px; }
+	.result .content { margin-left:60px; }
+	.result h1 { margin-bottom:3px !important; }
+	.result h1 a:hover { text-decoration:underline; }
+	.result p.author a:hover { text-decoration:underline; }
+<?php
+} 
+?>
 
 /* Ballon */
 .balloon            { background:#fff; color:<?php echo $bgColor; ?>; padding:18px; width:270px; }

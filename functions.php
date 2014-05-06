@@ -210,7 +210,7 @@ function mapasdevista_enqueue_scripts($mapinfo = array())
 	}
 	
 	wp_enqueue_script('mapstraction', mapasdevista_get_baseurl('template_directory') . '/js/mxn/mxn-min.js' );
-	wp_enqueue_script('mapstraction-core', mapasdevista_get_baseurl('template_directory') . '/js/mxn/mxn.core-min.js');
+	wp_enqueue_script('mapstraction-core', mapasdevista_get_baseurl('template_directory') . '/js/mxn/mxn.core.js');
 	
 	if ($mapinfo['api'] == 'openlayers') {
 		wp_enqueue_script('openlayers', 'http://openlayers.org/api/OpenLayers.js');
@@ -613,7 +613,14 @@ function mapasdevista_page_template_redirect() {
         }
         else
         {
-            mapasdevista_get_template('template/map-private-login-request');
+        	if(file_exists(get_template_directory()."/map-private-login-request.php"))
+        	{
+        		load_template(get_template_directory()."/map-private-login-request.php");
+        	}
+        	else 
+        	{
+            	mapasdevista_get_template('template/map-private-login-request');
+        	}
             exit;
         }
     }
@@ -864,13 +871,19 @@ function mapasdevista_view()
         </div>
 	<?php
 	
-	include( mapasdevista_get_template('mapasdevista-loop', 'filter', false) );
+	//include( mapasdevista_get_template('mapasdevista-loop', 'filter', false) );
 	
 	include( mapasdevista_get_template('mapasdevista-loop', 'bubble', false) );
 	
 	//include( mapasdevista_get_template('template/_filters', null, false) );
 	
 	//include( mapasdevista_get_template('template/_footer', null, false) );
+}
+
+function mapasdevista_view_results()
+{
+	include( mapasdevista_get_template('template/_init-vars', null, false) );
+	include( mapasdevista_get_template('mapasdevista-loop', 'filter', false) );
 }
 
 function mapasdevista_view_filters($taxonomy = 'filter', $only = array())

@@ -773,6 +773,8 @@ function updateResults() {
     
     var count = 0;
     
+    jQuery(".result").hide();
+    
     for (var i = 0; i < mapstraction.markers.length; i ++) {
         //console.log( mapstraction.markers[i].attributes );
         
@@ -780,9 +782,6 @@ function updateResults() {
             jQuery('#result_' + mapstraction.markers[i].attributes['ID']).show();
             //console.log('mostra '+mapstraction.markers[i].attributes['ID']);
             count++;
-        } else {
-            jQuery('#result_' + mapstraction.markers[i].attributes['ID']).hide();
-        //console.log('esconde '+'#result_' + mapstraction.markers[i].attributes['ID']);
         }
     }
     
