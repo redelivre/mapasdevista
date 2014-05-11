@@ -356,6 +356,34 @@ function mapasdevista_cords_check_loop($location, $local, $country = false)
 	
 }
 
+function mapasdevista_get_coords($address)
+{
+	$address = urlencode($address);
+	
+	$url = "https://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=";//Rua Julio Martines Benevides 1642 S Tangará da Serra (MT)
+	
+	$json = file_get_contents($url.$address);
+	$ret = json_decode($json, true);
+	//echo strtolower(remove_accents($row[17]));
+	
+	$location = array();
+	
+	if(is_array($ret) && array_key_exists('results', $ret) && is_array($ret['results']))
+	{
+		$results = $ret['results'];
+		foreach ($results as $result)
+		{
+			if(array_key_exists("geometry", $result) && array_key_exists("location", $result["geometry"]))
+			{
+				$location['lat'] = $result["geometry"]["location"]['lat'];
+				$location['lon'] = $result["geometry"]["location"]['lng'];
+				return $location;
+			}
+		}
+	}
+	return false;
+}
+
 function mapasdevista_ImportarCsv()
 {
 	$debug = false;
@@ -383,7 +411,7 @@ function mapasdevista_ImportarCsv()
 
 		if(!$debug) $post_id = wp_insert_post($post);
 		
-		$no_import = array(25, 3, 11, 12);
+		$no_import = array(25, 3, 11, 12, );
 		
 		if(!$debug && is_int($post_id) )
 		{
