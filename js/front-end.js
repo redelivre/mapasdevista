@@ -268,7 +268,7 @@
         
         // Load posts
 
-        $.post(
+       $.post(
             mapinfo.ajaxurl,
             {
                 get: 'totalPosts',
@@ -286,7 +286,42 @@
                 jQuery('#posts-loader-total').html(totalPosts);
                 jQuery('#posts-loader').show();
             }
-            );
+        );
+        
+    	jQuery.ajax(
+        {
+            type: 'POST',
+                    url: mapinfo.ajaxurl,
+            data: {
+            	action: 'mapasdevista_load_bubbles',
+            },
+            success: function(response)
+            {
+            	jQuery("#mapasdevista_load_bubbles").replaceWith(response);
+            	jQuery('a.js-link-to-bubble').live('click', function() {
+                    
+                    var id = jQuery(this).attr('id').replace(/[^0-9]+/g, '');
+                    var marker = mapasdevista.findMarkerById( id );
+                    marker.openBubble();
+                    
+                    if (jQuery('#results').is(':visible')) {
+                    	jQuery('#toggle-results').click();
+                    }
+                    return false;
+                
+                });
+                
+            	jQuery('a.js-link-to-post').live('click', function() {
+                    mapasdevista.linkToPost(document.getElementById(jQuery(this).attr('id')));
+                    return false;
+                });
+            },
+            beforeSend: function()
+            {
+            	//overlay_filtro();
+            }, 
+        });
+       
 
         function loadPosts(total, offset) {
 
@@ -491,23 +526,6 @@
         // Posts overlay
         //$('a.js-link-to-post').each(function() { console.log($(this).attr('id'));});
         
-        $('a.js-link-to-bubble').live('click', function() {
-        
-            var id = $(this).attr('id').replace(/[^0-9]+/g, '');
-            var marker = mapasdevista.findMarkerById( id );
-            marker.openBubble();
-            
-            if ($('#results').is(':visible')) {
-                $('#toggle-results').click();
-            }
-            return false;
-        
-        });
-        
-        $('a.js-link-to-post').live('click', function() {
-            mapasdevista.linkToPost(document.getElementById($(this).attr('id')));
-            return false;
-        });
         
         $('a#close_post_overlay').click(function() {
             $('#post_overlay').hide();
