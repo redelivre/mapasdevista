@@ -30,7 +30,7 @@ function mapasdevista_get_post_ajax($p = null) {
 }
 
 function mapasdevista_get_posts_ajax() {
-    
+	ini_set("memory_limit", "2048M");
     $mapinfo = get_option('mapasdevista', true);
 
     if (!is_array($mapinfo['post_types']))

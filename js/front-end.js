@@ -290,7 +290,7 @@
 
         function loadPosts(total, offset) {
 
-            var posts_per_page = 100;
+            var posts_per_page = 2706;
 
             $.ajax({
                 type: 'post',
