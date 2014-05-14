@@ -1,4 +1,4 @@
-<div class="hide">
+<div id="mapasdevista_load_bubbles" class="hide">
 <?php $posts = mapasdevista_get_posts(1, $mapinfo); ?>
 <?php while($posts->have_posts()): $posts->the_post(); ?>
 <div id="balloon_<?php the_ID(); ?>" class="result clearfix">

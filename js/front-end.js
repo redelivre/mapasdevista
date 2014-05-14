@@ -268,7 +268,7 @@
         
         // Load posts
 
-        $.post(
+        /*$.post(
             mapinfo.ajaxurl,
             {
                 get: 'totalPosts',
@@ -286,116 +286,8 @@
                 jQuery('#posts-loader-total').html(totalPosts);
                 jQuery('#posts-loader').show();
             }
-        );
+        );*/
 
-        function loadPosts(total, offset) {
-
-            var posts_per_page = 100;
-
-            $.ajax({
-                type: 'post',
-                url: mapinfo.ajaxurl,
-                dataType: 'json',
-                data: {
-                    page_id: mapinfo.page_id,
-                    action: 'mapasdevista_get_posts',
-                    get: 'posts',
-                    api: mapinfo.api,
-                    offset: offset,
-                    total: total,
-                    posts_per_page: posts_per_page,
-                    search: mapinfo.search
-                },
-                success: function(data) {
-                    
-                    //console.log('loaded posts:'+offset);
-
-                    if (data.newoffset != 'end') {
-                        loadPosts(total, data.newoffset);
-                        jQuery('#posts-loader-loaded').html(data.newoffset);
-                    } else {
-                        jQuery('#posts-loader').hide();
-                    }
-                
-                    
-                    for (var p = 0; p < data.posts.length; p++) {
-                        var pin = data.posts[p].pin;
-                        if(data.posts[p].link){
-                            $(document).data('links-'+data.posts[p].ID,  data.posts[p].link);
-                        }
-                        
-                        
-                        var pin_size = [pin['1'], pin['2']];
-
-                        var ll = new mxn.LatLonPoint( data.posts[p].location.lat, data.posts[p].location.lon );
-                        var marker = new mxn.Marker(ll);
-                        
-                        if(mapinfo.api == 'googlev3'){
-                            marker.toProprietary = function(){
-                                var args = Array.prototype.slice.call(arguments);
-                                var gmarker = mxn.Marker.prototype.toProprietary.apply(this,args);
-                                gmarker.setOptions({
-                                    optimized: false
-                                });
-                                return gmarker;
-                            }
-                        }
-                            
-                        
-                        if(mapinfo.api !== 'image' && pin['anchor']) {
-                            var adjust = mapinfo.api==='openlayers'?-1:1;
-                            var pin_anchor = [parseInt(pin['anchor']['x']) * adjust, parseInt(pin['anchor']['y']) * adjust];
-                            marker.setIcon(pin[0], pin_size, pin_anchor);
-                        } else {
-                            marker.setIcon(pin[0]);
-                        }
-
-                        if(pin['clickable']) {
-                            marker.setAttribute( 'ID', data.posts[p].ID );
-                            marker.setAttribute( 'title', data.posts[p].title );
-                            marker.setAttribute( 'date', data.posts[p].date );
-                            marker.setAttribute( 'post_type', data.posts[p].post_type );
-                            marker.setAttribute( 'number', data.posts[p].number );
-                            marker.setAttribute( 'author', data.posts[p].author );
-                            marker.setInfoBubble($('#balloon_' + data.posts[p].ID).html());
-                            marker.setLabel(data.posts[p].title);
-                            
-                            
-                            //marker.setHover = true;
-                            //marker.click.addHandler(function(event) { console.log(event); });
-                            
-                            
-                            for (var att = 0; att < data.posts[p].terms.length; att++) {
-
-                                if (typeof(marker.attributes[ data.posts[p].terms[att].taxonomy ]) != 'undefined' && typeof(marker.attributes[ data.posts[p].terms[att].taxonomy ].push) != 'undefined') {
-                                    marker.attributes[ data.posts[p].terms[att].taxonomy ].push(data.posts[p].terms[att].slug);
-                                } else {
-                                    marker.attributes[ data.posts[p].terms[att].taxonomy ] = [ data.posts[p].terms[att].slug ];
-                                }
-
-                            }
-                        }
-                        $('#balloon_' + data.posts[p].ID).remove();
-
-                        mapstraction.addMarker( marker );
-                        
-                        if(mapstraction.markerclusterer != null)
-                        {
-                        	mapstraction.markerclusterer.addMarker(marker.proprietary_marker);
-                        }
-                        if (mapinfo.api == 'openlayers' && pin['clickable']) {
-                            marker.proprietary_marker.icon.imageDiv.onclick = function(event) {
-                                marker.click.fire();
-                            }
-                        }
-
-                    }
-
-                }
-
-            });
-
-        }
 
         // Filters events
             
@@ -787,5 +679,114 @@ function updateResults() {
     
     jQuery('#filter_total').html(count);
     
+
+}
+
+function loadPosts(total, offset) {
+
+    var posts_per_page = 100;
+
+    jQuery.ajax({
+        type: 'post',
+        url: mapinfo.ajaxurl,
+        dataType: 'json',
+        data: {
+            page_id: mapinfo.page_id,
+            action: 'mapasdevista_get_posts',
+            get: 'posts',
+            api: mapinfo.api,
+            offset: offset,
+            total: total,
+            posts_per_page: posts_per_page,
+            search: mapinfo.search
+        },
+        success: function(data) {
+            
+            //console.log('loaded posts:'+offset);
+
+            if (data.newoffset != 'end') {
+                loadPosts(total, data.newoffset);
+                jQuery('#posts-loader-loaded').html(data.newoffset);
+            } else {
+                jQuery('#posts-loader').hide();
+            }
+        
+            
+            for (var p = 0; p < data.posts.length; p++) {
+                var pin = data.posts[p].pin;
+                if(data.posts[p].link){
+                    jQuery(document).data('links-'+data.posts[p].ID,  data.posts[p].link);
+                }
+                
+                
+                var pin_size = [pin['1'], pin['2']];
+
+                var ll = new mxn.LatLonPoint( data.posts[p].location.lat, data.posts[p].location.lon );
+                var marker = new mxn.Marker(ll);
+                
+                if(mapinfo.api == 'googlev3'){
+                    marker.toProprietary = function(){
+                        var args = Array.prototype.slice.call(arguments);
+                        var gmarker = mxn.Marker.prototype.toProprietary.apply(this,args);
+                        gmarker.setOptions({
+                            optimized: false
+                        });
+                        return gmarker;
+                    }
+                }
+                    
+                
+                if(mapinfo.api !== 'image' && pin['anchor']) {
+                    var adjust = mapinfo.api==='openlayers'?-1:1;
+                    var pin_anchor = [parseInt(pin['anchor']['x']) * adjust, parseInt(pin['anchor']['y']) * adjust];
+                    marker.setIcon(pin[0], pin_size, pin_anchor);
+                } else {
+                    marker.setIcon(pin[0]);
+                }
+
+                if(pin['clickable']) {
+                    marker.setAttribute( 'ID', data.posts[p].ID );
+                    marker.setAttribute( 'title', data.posts[p].title );
+                    marker.setAttribute( 'date', data.posts[p].date );
+                    marker.setAttribute( 'post_type', data.posts[p].post_type );
+                    marker.setAttribute( 'number', data.posts[p].number );
+                    marker.setAttribute( 'author', data.posts[p].author );
+                    marker.setInfoBubble(jQuery('#balloon_' + data.posts[p].ID).html());
+                    marker.setLabel(data.posts[p].title);
+                    
+                    
+                    //marker.setHover = true;
+                    //marker.click.addHandler(function(event) { console.log(event); });
+                    
+                    
+                    for (var att = 0; att < data.posts[p].terms.length; att++) {
+
+                        if (typeof(marker.attributes[ data.posts[p].terms[att].taxonomy ]) != 'undefined' && typeof(marker.attributes[ data.posts[p].terms[att].taxonomy ].push) != 'undefined') {
+                            marker.attributes[ data.posts[p].terms[att].taxonomy ].push(data.posts[p].terms[att].slug);
+                        } else {
+                            marker.attributes[ data.posts[p].terms[att].taxonomy ] = [ data.posts[p].terms[att].slug ];
+                        }
+
+                    }
+                }
+                jQuery('#balloon_' + data.posts[p].ID).remove();
+
+                mapstraction.addMarker( marker );
+                
+                if(mapstraction.markerclusterer != null)
+                {
+                	mapstraction.markerclusterer.addMarker(marker.proprietary_marker);
+                }
+                if (mapinfo.api == 'openlayers' && pin['clickable']) {
+                    marker.proprietary_marker.icon.imageDiv.onclick = function(event) {
+                        marker.click.fire();
+                    }
+                }
+
+            }
+
+        }
+
+    });
 
 }

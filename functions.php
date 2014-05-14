@@ -903,7 +903,8 @@ function mapasdevista_view()
 	
 	//include( mapasdevista_get_template('mapasdevista-loop', 'filter', false) );
 	
-	include( mapasdevista_get_template('mapasdevista-loop', 'bubble', false) );
+	//include( mapasdevista_get_template('mapasdevista-loop', 'bubble', false) );
+	echo '<div id="mapasdevista_load_bubbles" class="hide"></div>';
 	
 	//include( mapasdevista_get_template('template/_filters', null, false) );
 	
@@ -914,6 +915,7 @@ function mapasdevista_load_bubbles_callback()
 {
 	include( mapasdevista_get_template('template/_init-vars', null, false) );
 	include( mapasdevista_get_template('mapasdevista-loop', 'bubble', false) );
+	die();
 }
 add_action( 'wp_ajax_mapasdevista_load_bubbles', 'mapasdevista_load_bubbles_callback' );
 add_action( 'wp_ajax_nopriv_mapasdevista_load_bubbles', 'mapasdevista_load_bubbles_callback');
