@@ -288,7 +288,6 @@
             }
         );*/
 
-
         // Filters events
             
         $("#logical_oparator input").click(function (){
