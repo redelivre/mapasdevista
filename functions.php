@@ -897,15 +897,13 @@ function mapasdevista_view()
 		<div id="map">
 	        
         </div>
-    <div id="mapasdevista_load_bubbles" class="hide">
-    </div>
 	<?php
 	
 	
 	
 	//include( mapasdevista_get_template('mapasdevista-loop', 'filter', false) );
 	
-	//include( mapasdevista_get_template('mapasdevista-loop', 'bubble', false) );
+	include( mapasdevista_get_template('mapasdevista-loop', 'bubble', false) );
 	
 	//include( mapasdevista_get_template('template/_filters', null, false) );
 	
