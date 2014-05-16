@@ -1,3 +1,7 @@
+<?php
+ini_set("memory_limit", "2048M"); //TODO this stop errors, but this code need to be optimized
+set_time_limit(0);  
+?>
         <div id="search" class="clearfix">
             <?php mapasdevista_image("icn-search.png", array("id" => "search-icon")); ?>
             <form id="searchform" method="GET">
@@ -115,24 +119,36 @@
                         $terms_ids = array();
                         
                         
-                        $posts_ids = $wpdb->get_col("SELECT post_id FROM $wpdb->postmeta WHERE meta_key ='_mpv_inmap' ");
+                        //$posts_ids = $wpdb->get_col("SELECT post_id FROM $wpdb->postmeta WHERE meta_key ='_mpv_inmap' ");
                         
-                        foreach($posts_ids as $post_id){
-                            $_terms = get_the_terms($post_id, $taxonomy);
-                            
-                            if(is_array($_terms))
-                                foreach($_terms as $_t){
-                                    if(!in_array($_t->term_id,$terms_ids) && $_t->parent == $parent){
-                                        $terms_ids[] = $_t->term_id;
-                                        $key = $_t->name;
-                                        $ikey = filter_var($_t->name, FILTER_SANITIZE_NUMBER_INT);
-                                        if(intval($ikey) > 0)
-                                        {
-                                        	 $key = substr($ikey, 2).substr($ikey, 0, 2);// TODO arrumar um jeito de definir para datas
-                                        }
-                                        $terms[$key] = $_t;
-                                    }
-                                }
+                        $querystr = "
+						SELECT $wpdb->terms.* FROM $wpdb->posts
+							INNER JOIN $wpdb->postmeta ON($wpdb->posts.ID = $wpdb->postmeta.post_id)
+							INNER JOIN $wpdb->term_relationships ON($wpdb->posts.ID = $wpdb->term_relationships.object_id)
+							INNER JOIN $wpdb->term_taxonomy ON($wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id)
+							INNER JOIN $wpdb->terms ON($wpdb->term_taxonomy.term_id = $wpdb->terms.term_id)
+						WHERE
+							$wpdb->posts.post_type = 'mapa'
+							AND $wpdb->postmeta.meta_key = '_mpv_inmap'
+							AND $wpdb->term_taxonomy.taxonomy = '$taxonomy'
+							AND $wpdb->term_taxonomy.parent = $parent
+						GROUP BY term_id
+						";
+                        
+                        $_terms = $wpdb->get_results($querystr, OBJECT);
+                        if(is_array($_terms))
+                        {
+                        	foreach($_terms as $_t)
+                        	{
+                        		$terms_ids[] = $_t->term_id;
+                        		$key = $_t->name;
+                        		$ikey = filter_var($_t->name, FILTER_SANITIZE_NUMBER_INT);
+                        		if(intval($ikey) > 0)
+                        		{
+                        			$key = substr($ikey, 2).substr($ikey, 0, 2);// TODO arrumar um jeito de definir para datas
+                        		}
+                        		$terms[$key] = $_t;
+                        	}
                         }
                         
                         if (!is_array($terms) || ( is_array($terms) && sizeof($terms) < 1 ) )
