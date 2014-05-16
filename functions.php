@@ -903,8 +903,14 @@ function mapasdevista_view()
 	
 	//include( mapasdevista_get_template('mapasdevista-loop', 'filter', false) );
 	
-	//include( mapasdevista_get_template('mapasdevista-loop', 'bubble', false) );
-	echo '<div id="mapasdevista_load_bubbles" class="hide"></div>';
+	if(apply_filters('mapasdevista_load_bubbles', true)) // Load bubble on view
+	{
+		include( mapasdevista_get_template('mapasdevista-loop', 'bubble', false) );
+	}
+	else
+	{
+		echo '<div id="mapasdevista_load_bubbles" class="hide"></div>'; // U may whant to load after
+	}
 	
 	//include( mapasdevista_get_template('template/_filters', null, false) );
 	

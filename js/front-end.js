@@ -267,26 +267,28 @@
         });
         
         // Load posts
-
-        /*$.post(
-            mapinfo.ajaxurl,
-            {
-                get: 'totalPosts',
-                action: 'mapasdevista_get_posts',
-                api: mapinfo.api,
-                page_id: mapinfo.page_id,
-                search: mapinfo.search
-            },
-            function(data) {
-                totalPosts = parseInt(data);
-                
-                if(totalPosts > 0)
-                    loadPosts(totalPosts, 0);
-                
-                jQuery('#posts-loader-total').html(totalPosts);
-                jQuery('#posts-loader').show();
-            }
-        );*/
+        if(mapinfo.loadPosts)
+        {
+	        $.post(
+	            mapinfo.ajaxurl,
+	            {
+	                get: 'totalPosts',
+	                action: 'mapasdevista_get_posts',
+	                api: mapinfo.api,
+	                page_id: mapinfo.page_id,
+	                search: mapinfo.search
+	            },
+	            function(data) {
+	                totalPosts = parseInt(data);
+	                
+	                if(totalPosts > 0)
+	                    loadPosts(totalPosts, 0);
+	                
+	                jQuery('#posts-loader-total').html(totalPosts);
+	                jQuery('#posts-loader').show();
+	            }
+	        );
+        }
 
         // Filters events
             

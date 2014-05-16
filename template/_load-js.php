@@ -31,15 +31,15 @@ if ($mapinfo['api'] == 'image') {
     $image_src = wp_get_attachment_image_src($image_src, 'full');
     $image_src = $image_src[0];
 
-    wp_localize_script( 'mapasdevista', 'mapinfo', array(
+    wp_localize_script( 'mapasdevista', 'mapinfo', apply_filters('mapasdevista_mapinfo_localize_script', array(
         'image_src' => $image_src,
         'api' => $mapinfo['api'],
         'ajaxurl' => admin_url('admin-ajax.php'),
         'page_id' => get_the_ID(),
         'baseurl' => mapasdevista_get_baseurl(),
-        'search' => $_GET['mapasdevista_search']
-
-    ) );
+        'search' => $_GET['mapasdevista_search'],
+		'loadPosts' => true
+    )));
 
 
 
@@ -71,12 +71,13 @@ if ($mapinfo['api'] == 'image') {
         'control_zoom' => $mapinfo['control'] && $mapinfo['control']['zoom'] != 'none' ? $mapinfo['control']['zoom'] : 'false',
         'control_pan' =>  $mapinfo['control'] && $mapinfo['control']['pan'] ? 'true' : 'false',
         'control_map_type' =>  $mapinfo['control'] && $mapinfo['control']['map_type'] ? 'true' : 'false',
+    	'loadPosts' => true,
     );
     
     if ( isset($_GET['mapasdevista_search']) && $_GET['mapasdevista_search'] != '')
         $mapinfovars['search'] = $_GET['mapasdevista_search'];
     
-    wp_localize_script( 'mapasdevista', 'mapinfo',  $mapinfovars);
+    wp_localize_script( 'mapasdevista', 'mapinfo',  apply_filters('mapasdevista_mapinfo_localize_script', $mapinfovars));
 
 }
 
