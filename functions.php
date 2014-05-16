@@ -875,11 +875,14 @@ function mapasdevista_gallery_filter($content){
 
 function mapasdevista_view()
 {
-	?>
-		<style type="text/css">
-            <?php include( mapasdevista_get_template('template/style.css', null, false) ); ?>
-        </style>
-	<?php 
+	if(apply_filters('mapasdevista_load_style', true)) // Load bubble on view
+	{
+		?>
+			<style type="text/css">
+	            <?php include( mapasdevista_get_template('template/style.css', null, false) ); ?>
+	        </style>
+		<?php 
+	}
 
 	include( mapasdevista_get_template('template/_init-vars', null, false) );
 
