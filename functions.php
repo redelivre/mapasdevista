@@ -220,7 +220,7 @@ function mapasdevista_enqueue_scripts($mapinfo = array())
 		$googleapikey = get_mapasdevista_theme_option('google_key');
 		$googleapikey = $googleapikey ? "&key=$googleapikey" : '';
 		wp_enqueue_script('google-maps-v3', 'http://maps.google.com/maps/api/js?sensor=false' . $googleapikey);
-		wp_enqueue_script('mapstraction-googlev3', mapasdevista_get_baseurl('template_directory') . '/js/mxn/mxn.googlev3.core-min.js');
+		wp_enqueue_script('mapstraction-googlev3', mapasdevista_get_baseurl('template_directory') . '/js/mxn/mxn.googlev3.core.js');
 		wp_enqueue_script('google-infobox', mapasdevista_get_baseurl('template_directory') . '/js/mxn/infobox_packed.js', array('mapstraction-googlev3'));
 		
 		$mapTheme = get_option('mapasdevista_theme_options', array());

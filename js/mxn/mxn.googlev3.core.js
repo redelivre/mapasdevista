@@ -553,7 +553,8 @@ Marker: {
 		var infowindow, marker = this;
 		if (!this.hasOwnProperty('proprietary_infowindow') || this.proprietary_infowindow === null) {
 			infowindow = new google.maps.InfoWindow({
-				content: this.infoBubble
+				content: this.infoBubble,
+				maxWidth: (jQuery('#map').width() * 0.62) 
 			});
 			google.maps.event.addListener(infowindow, 'closeclick', function(closedWindow) {
 				marker.closeBubble();
