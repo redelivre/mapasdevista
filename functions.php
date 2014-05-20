@@ -209,7 +209,7 @@ function mapasdevista_enqueue_scripts($mapinfo = array())
 		$mapinfo = get_option('mapasdevista', true);
 	}
 	
-	wp_enqueue_script('mapstraction', mapasdevista_get_baseurl('template_directory') . '/js/mxn/mxn-min.js' );
+	/*wp_enqueue_script('mapstraction', mapasdevista_get_baseurl('template_directory') . '/js/mxn/mxn-min.js' );
 	wp_enqueue_script('mapstraction-core', mapasdevista_get_baseurl('template_directory') . '/js/mxn/mxn.core.js');
 	
 	if ($mapinfo['api'] == 'openlayers') {
@@ -232,7 +232,9 @@ function mapasdevista_enqueue_scripts($mapinfo = array())
 	
 	} elseif ($mapinfo['api'] == 'image') {
 		wp_enqueue_script('mapstraction-image', mapasdevista_get_baseurl('template_directory') . '/js/mxn/mxn.image.core.js');
-	}
+	}*/
+	
+	wp_enqueue_script('leaflet', mapasdevista_get_baseurl('template_directory') . '/js/leaflet/leaflet-src.js' );
 
 }
 

@@ -6,6 +6,10 @@ add_action('wp_ajax_mapasdevista_get_posts', 'mapasdevista_get_posts_ajax');
 add_action('wp_ajax_nopriv_mapasdevista_get_post', 'mapasdevista_get_post_ajax');
 add_action('wp_ajax_mapasdevista_get_post', 'mapasdevista_get_post_ajax');
 
+add_action('wp_ajax_nopriv_mapasdevista_get_posts_json', 'mapasdevista_get_posts_json');
+add_action('wp_ajax_mapasdevista_get_posts_json', 'mapasdevista_get_posts_json');
+
+
 function mapasdevista_get_post_ajax($p = null) {
 
     if (is_null($p) || !$p || strlen($p) == 0)
@@ -222,4 +226,66 @@ function the_pin($post_id = null, $page_id = null) {
     
     echo mapasdevista_get_pin($pin_id);
     
+}
+
+function mapasdevista_get_posts_json()
+{
+	ini_set("memory_limit", "2048M");
+	$mapinfo = get_option('mapasdevista', true);
+	
+	$args = array(
+			'numberposts'     => -1,
+			//'offset'          => $_POST['offset'],
+			'orderby'         => 'post_date',
+			'order'           => 'DESC',
+			'meta_key'        => '_mpv_inmap',
+			'meta_value'      => 1,
+			'post_type'       => $mapinfo['post_types'],
+	);
+
+	$posts = get_posts($args);
+	
+	//echo '<pre>';
+		
+	
+	global $wpdb;
+	
+	$metas = array();
+	$ret = array( );
+	
+	foreach ($posts as $post)
+	{
+		//print_r($post);
+		$querystr = "
+		SELECT $wpdb->postmeta.meta_key,$wpdb->postmeta.meta_value  FROM $wpdb->posts
+		INNER JOIN $wpdb->postmeta ON($wpdb->posts.ID = $wpdb->postmeta.post_id)
+		WHERE
+		$wpdb->posts.ID = $post->ID
+		";
+		
+		$metas[$post->ID] = $wpdb->get_results($querystr, OBJECT_K);
+		
+		$metas[$post->ID]['_mpv_location']->meta_value = unserialize($metas[$post->ID]['_mpv_location']->meta_value);
+		
+		$ret[] = array(
+				'type' => 'Feature',
+				'properties' => array(
+                        'name' => $post->post_title,
+                        //'url' => 
+                        ),
+                    "geometry" => array(
+                        'type' => 'Point',
+                        'coordinates' => array( 
+                        				floatval($metas[$post->ID]['_mpv_location']->meta_value['lon']),
+                        				floatval($metas[$post->ID]['_mpv_location']->meta_value['lat'])
+                        )
+                    )
+                ); 
+		
+	}
+	//print_r($metas);
+	//echo '</pre>';
+
+	echo json_encode($ret);
+	die();
 }

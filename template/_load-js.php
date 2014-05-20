@@ -6,8 +6,8 @@ if ( isset( $wp_customize ) )
 }
 else 
 {
-	wp_enqueue_script( 'mapasdevista', mapasdevista_get_baseurl() . '/js/front-end.js', array('jquery') );
-	wp_enqueue_script( 'ajax-comments', mapasdevista_get_baseurl() . '/js/ajax-comments.js', array('jquery', 'jquery-form') );
+	wp_enqueue_script( 'mapasdevista', mapasdevista_get_baseurl() . '/js/front-end-leaflet.js', array('jquery', 'leaflet') );
+/*	wp_enqueue_script( 'ajax-comments', mapasdevista_get_baseurl() . '/js/ajax-comments.js', array('jquery', 'jquery-form') );
 	
 	wp_localize_script( 'ajax-comments', 'messages', array(
 	    'loading' => __('Loading...', 'mapasdevista'),
@@ -21,9 +21,9 @@ else
 	    'hide_filters' => __('Hide Filters', 'mapasdevista')
 	));
 	
-	wp_enqueue_script( 'comment-reply' );
+	wp_enqueue_script( 'comment-reply' );*/
 }
-
+/*
 if ($mapinfo['api'] == 'image') {
 
     $image_src = get_post_meta(get_the_ID(), '_thumbnail_id', true);
@@ -43,7 +43,7 @@ if ($mapinfo['api'] == 'image') {
 
 
 
-} else {
+} else {*/
     $min_zoom = isset($mapinfo['min_zoom']) && is_numeric($mapinfo['min_zoom']) ? $mapinfo['min_zoom'] : 0;
     $max_zoom = isset($mapinfo['max_zoom']) && is_numeric($mapinfo['max_zoom']) ? $mapinfo['max_zoom'] : 0;
     
@@ -79,7 +79,7 @@ if ($mapinfo['api'] == 'image') {
     
     wp_localize_script( 'mapasdevista', 'mapinfo',  apply_filters('mapasdevista_mapinfo_localize_script', $mapinfovars));
 
-}
+//}
 
 
 mapasdevista_enqueue_scripts($mapinfo);

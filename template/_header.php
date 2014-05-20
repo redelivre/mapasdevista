@@ -16,13 +16,10 @@
         
         <?php if (preg_match('|/wp-content/plugins/|', __FILE__)) : ?>
             <link rel="stylesheet" type="text/css" media="all" href="<?php echo WP_CONTENT_URL; ?>/plugins/mapasdevista/style.css" />
+            <link rel="stylesheet" type="text/css" media="all" href="<?php echo WP_CONTENT_URL; ?>/plugins/mapasdevista/js/leaflet/leaflet.css" />
         <?php endif; ?>
         
         <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
-        
-        <style type="text/css">
-            <?php include( mapasdevista_get_template('template/style.css', null, false) ); ?>
-        </style>
         
         <?php wp_head(); ?>
     </head>

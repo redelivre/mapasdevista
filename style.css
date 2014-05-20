@@ -124,6 +124,10 @@ body.error404 .info { margin:0 auto; width:350px; }
 	width: auto;
 }
 
+#map {
+	/*height: 500px !important;*/
+}
+
 #map img {
 	max-width: none;
 }
