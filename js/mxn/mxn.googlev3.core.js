@@ -554,7 +554,7 @@ Marker: {
 		if (!this.hasOwnProperty('proprietary_infowindow') || this.proprietary_infowindow === null) {
 			infowindow = new google.maps.InfoWindow({
 				content: this.infoBubble,
-				maxWidth: (jQuery('#map').width() * 0.62) 
+				maxWidth: (jQuery('#map').width() * 0.62) // TODO Create a option
 			});
 			google.maps.event.addListener(infowindow, 'closeclick', function(closedWindow) {
 				marker.closeBubble();
@@ -566,6 +566,9 @@ Marker: {
 		this.openInfoBubble.fire( { 'marker': this } );
 		infowindow.open(this.map, this.proprietary_marker);
 		this.proprietary_infowindow = infowindow; // Save so we can close it later
+		jQuery(".gm-style-iw").parent().children(":first-child").children(":last-child").css({"background-color" : "#faba09"}); // TODO Create a option
+		jQuery(".gm-style-iw").parent().children(":first-child").children("div:nth-child(3)").children(":first-child").children(":first-child").css({"background-color" : "#faba09"});
+		jQuery(".gm-style-iw").parent().children(":first-child").children("div:nth-child(3)").children("div:nth-child(2)").children(":first-child").css({"background-color" : "#faba09"});
 	},
 
 	closeBubble: function() {
