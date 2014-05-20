@@ -891,12 +891,18 @@ function mapasdevista_view()
 	//include( mapasdevista_get_template('template/_filter-menus', null, false) );
 	
 	//include( mapasdevista_get_template('template/_header', null, false) );
+	
+	if(apply_filters('mapasdevista_create_post_overlay', true)) // Create a default post overlay?
+	{
 	?>
 	<div id="post_overlay">
         <a id="close_post_overlay" title="Fechar"><?php mapasdevista_image("close.png", array("alt" => "Fechar")); ?></a>
         <div id="post_overlay_content" class="mapasdevista-fontcolor" >
 		</div>
     </div>
+    <?php
+	} 
+    ?>
 		<div id="map">
 	        
         </div>
