@@ -235,6 +235,7 @@ function mapasdevista_enqueue_scripts($mapinfo = array())
 	}*/
 	
 	wp_enqueue_script('leaflet', mapasdevista_get_baseurl('template_directory') . '/js/leaflet/leaflet-src.js' );
+	wp_enqueue_script('leaflet-markercluster', mapasdevista_get_baseurl('template_directory') . '/js/leaflet/markercluster/leaflet.markercluster-src.js', array('leaflet') );
 
 }
 

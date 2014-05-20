@@ -253,8 +253,11 @@ function mapasdevista_get_posts_json()
 	$metas = array();
 	$ret = array( );
 	
+	global $post;
+	
 	foreach ($posts as $post)
 	{
+		setup_postdata($post);
 		//print_r($post);
 		$querystr = "
 		SELECT $wpdb->postmeta.meta_key,$wpdb->postmeta.meta_value  FROM $wpdb->posts
@@ -267,11 +270,120 @@ function mapasdevista_get_posts_json()
 		
 		$metas[$post->ID]['_mpv_location']->meta_value = unserialize($metas[$post->ID]['_mpv_location']->meta_value);
 		
+		$uf = false;
+		$cidade = false;
+		$territorios = wp_get_post_terms(get_the_ID(), 'territorio');
+		$spanCidade = '';
+		$spanUf = '';
+		foreach ($territorios as $territorio)
+		{
+			if($territorio->parent == 0) // Estado
+			{
+				$uf = $territorio->name;
+			}
+			else
+			{
+				$cidade = $territorio->name;
+			}
+		}
+		if($cidade)
+		{
+			$spanCidade = '<span class="balloon-city">'. $cidade .'</span>';
+		}
+		if($uf)
+		{
+			$spanUf = '<span class="balloon-sep">&ndash;</span> <span class="balloon-uf">'.$uf.'</span>';
+		}
+		
+		$spanBalloon_excerpt = '';
+		
+		$balloon_excerpt = get_the_excerpt();
+		 
+		if ( ! empty( $balloon_excerpt ) ) {
+			$spanBalloon_excerpt = '<strong>Objetivos: </strong>' . $balloon_excerpt;
+		}
+		
+		/*$content = '
+			<div id="balloon_'. get_the_ID() .'" class="result clearfix">
+			    <div class="balloon clearfix">
+			        <div class="content">
+			        	<header class="entry-header">
+			            	<h1 class="bottom entry-title"><a class="pontos-js-link-to-post" id="balloon-post-link-'. get_the_ID() .'" href="'. get_permalink() .'" onClick="pontos_linkToPost(this); return false;">'. get_the_title(). '</a></h1>
+			            	<div class="entry-meta">
+			            		'. "pontosdecultura_the_terms( array( 'tipo' ) )" .'
+			            		<em>em</em>
+					            <span class="balloon-state-city entry-term">
+						            '.$spanCidade.$spanUf.'
+								</span>
+						    </div><!-- .entry-meta -->
+						</header>
+			            <div class="balloon-entry-default clearfix" >
+			            '.$spanBalloon_excerpt.'
+			            </div>
+			            '.'
+		
+			            <a href="pontos_linkToPost(this); return false;" class="read-more">Veja mais informações</a>
+			        </div>
+			    </div>
+			</div><!-- #balloon -->
+		';*/
+		ob_start();
+		?>
+		<div id="balloon_<?php the_ID(); ?>" class="result clearfix">
+		<div class="balloon clearfix">
+		<div class="content">
+		<header class="entry-header">
+		<h1 class="bottom entry-title"><a class="pontos-js-link-to-post" id="balloon-post-link-<?php the_ID(); ?>" href="<?php the_permalink(); ?>" onClick="pontos_linkToPost(this); return false;"><?php the_title(); ?></a></h1>
+			            	<div class="entry-meta">
+			            		<?php pontosdecultura_the_terms( 'tipo' ); ?>
+			            		<em>em</em>
+					            <span class="balloon-state-city entry-term">
+						            <?php
+						            $uf = false;
+						            $cidade = false;
+						            $territorios = wp_get_post_terms(get_the_ID(), 'territorio');
+						            foreach ($territorios as $territorio)
+						            {
+						            	if($territorio->parent == 0) // Estado
+						            	{
+						            		$uf = $territorio->name;
+						            	}
+						            	else
+						            	{
+						            		$cidade = $territorio->name;
+						            	}
+						            }
+						            if($cidade)
+						            {
+						            	?>
+										<span class="balloon-city"><?php echo $cidade; ?></span> 
+										<?php
+						            }
+						            if($uf)
+						            {
+						            	?>
+										<span class="balloon-sep">&ndash;</span> <span class="balloon-uf"><?php echo $uf; ?> </span>
+										<?php
+								    }
+								    ?>
+								</span>
+						    </div><!-- .entry-meta -->
+						</header>
+			            <?php mapasdevista_get_template( 'mapasdevista-bubble', get_post_format() ); ?>
+		
+			            <a id="balloon-post-read-more-<?php the_ID(); ?>" href="<?php the_permalink(); ?>" onClick="pontos_linkToPost(this); return false;" class="read-more">Veja mais informações</a>
+			        </div>
+			    </div>
+			</div><!-- #balloon -->
+		<?php 
+		
+		$content = ob_get_clean();
+		
 		$ret[] = array(
 				'type' => 'Feature',
 				'properties' => array(
                         'name' => $post->post_title,
-                        //'url' => 
+                        'content' => $content,
                         ),
                     "geometry" => array(
                         'type' => 'Point',
