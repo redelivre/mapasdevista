@@ -12,33 +12,52 @@
             $site_description = get_bloginfo( 'description', 'display' );
             ?></title>
         <link rel="profile" href="http://gmpg.org/xfn/11" />
-        <link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo( 'stylesheet_url' ); ?>" />
         
-        <?php if (preg_match('|/wp-content/plugins/|', __FILE__)) : ?>
-            <link rel="stylesheet" type="text/css" media="all" href="<?php echo WP_CONTENT_URL; ?>/plugins/mapasdevista/style.css" />
-        <?php endif; ?>
+        <?php if(apply_filters('mapasdevista_load_style', true)) // Load bubble on view
+		{
+		?>
+	        <?php if (preg_match('|/wp-content/plugins/|', __FILE__)) : ?>
+	            <link rel="stylesheet" type="text/css" media="all" href="<?php echo WP_CONTENT_URL; ?>/plugins/mapasdevista/style.css" />
+	        <?php endif;
+		}
+	    ?>
+	    
         
         <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
         
-        <style type="text/css">
-            <?php include( mapasdevista_get_template('template/style.css', null, false) ); ?>
-        </style>
+        
+        <?php if(apply_filters('mapasdevista_load_style', true)) // Load bubble on view
+		{
+		?>
+			<style type="text/css">
+	            <?php include( mapasdevista_get_template('template/style.css', null, false) ); ?>
+	        </style>
+		<?php 
+		}
+		?>
         
         <?php wp_head(); ?>
     </head>
 
     <body <?php body_class(); ?>>
+        <?php
+        if(apply_filters('mapasdevista_create_post_overlay', true)) // Create a default post overlay?
+		{
+		?>
+	        <div id="post_overlay">
+	            <a id="close_post_overlay" title="Fechar"><?php mapasdevista_image("close.png", array("alt" => "Fechar")); ?></a>
+	            <div id="post_overlay_content" class="mapasdevista-fontcolor" >
+	            </div>
+	        </div>
+        <?php
+        }
+        echo apply_filters('mapasdevista_map_div', '
+			<div id="map" class="map-fullscreen">
+	        
+			</div>
+		');
+        ?>
         
-        <div id="post_overlay">
-            <a id="close_post_overlay" title="Fechar"><?php mapasdevista_image("close.png", array("alt" => "Fechar")); ?></a>
-            <div id="post_overlay_content" class="mapasdevista-fontcolor" >
-            </div>
-        </div>
-        
-        <div id="map">
-        
-        </div>
-
         <div id="blog-title">
             <a href="<?php echo get_bloginfo('siteurl'); ?>">
                 <img src="<?php echo get_mapasdevista_theme_option('header_image'); ?>" />

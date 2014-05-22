@@ -875,7 +875,7 @@ function mapasdevista_gallery_filter($content){
 
 function mapasdevista_view()
 {
-	if(apply_filters('mapasdevista_load_style', true)) // Load bubble on view
+	if(apply_filters('mapasdevista_load_style', true)) // Load inline style
 	{
 		?>
 			<style type="text/css">
@@ -901,14 +901,13 @@ function mapasdevista_view()
 		</div>
     </div>
     <?php
-	} 
-    ?>
+	}
+
+	echo apply_filters('mapasdevista_map_div', '
 		<div id="map">
-	        
-        </div>
-	<?php
-	
-	
+
+		</div>
+	');
 	
 	//include( mapasdevista_get_template('mapasdevista-loop', 'filter', false) );
 	
