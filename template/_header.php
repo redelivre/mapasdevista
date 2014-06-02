@@ -40,9 +40,18 @@
         </div>
 
         <div id="blog-title">
-            <a href="<?php echo get_bloginfo('siteurl'); ?>">
-                <img src="<?php echo get_mapasdevista_theme_option('header_image'); ?>" />
-            </a>
+        	<?php
+        	$header_image = get_mapasdevista_theme_option('header_image');
+        	
+        	if( $header_image != false && !empty($header_image))
+        	{
+	        	?>
+	            <a href="<?php echo get_bloginfo('siteurl'); ?>">
+	                <img src="<?php echo $header_image; ?>" />
+	            </a>
+	        <?php
+        	} 
+	        ?>
         </div>
         <?php wp_nav_menu( array( 'container_class' => 'map-menu-top', 'theme_location' => 'mapasdevista_top', 'fallback_cb' => false ) ); ?>
         
