@@ -11,6 +11,19 @@ function mapasdevista_add_custom_box() {
 
 		$post_types = get_option('mapasdevista');
 		$post_types = $post_types['post_types'];
+		
+		if(!is_array($post_types))
+		{
+			if(is_string($post_types) && !empty($post_type))
+			{
+				$post_types = array($post_types);
+			}
+			else 
+			{
+				$post_types = array();
+			}
+		}
+		
 		foreach ($post_types as $post_type )
 		{
         	add_meta_box( 'mapasdevista_metabox', __( 'Place it on the map', 'mapasdevista' ), 'mapasdevista_metabox_map', $post_type );
