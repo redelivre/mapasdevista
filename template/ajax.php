@@ -12,11 +12,11 @@ function mapasdevista_get_post_ajax($p = null) {
 	
 	if (! is_numeric ( $p ))
 		die ( 'error' );
-	
+
 	global $post;
 	$post = get_post ( $p );
-	
 	if (is_object ( $post )) {
+		setup_postdata($post);
 		mapasdevista_get_template ( 'mapasdevista-loop-opened' );
 	} else {
 		die ( __ ( 'error, post not found, id: ' . $p, 'mapasdevista' ) );
