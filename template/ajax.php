@@ -249,7 +249,14 @@ function mapasdevista_get_user_ajax($p = null)
 
 	$user = get_user_by('id', $p);
 
-	
+	/*if (have_users()) {
+		while (have_users()) {
+			the_user();
+			mapasdevista_get_template('mapasdevista-user-opened');
+		}
+	} else {
+		die('error');
+	}*/
 
 	die();
 
@@ -329,6 +336,17 @@ function mapasdevista_get_users_ajax() {
 
 				$pin_id = get_user_meta($user->ID, '_mpv_pin', true);
 				$pin = wp_get_attachment_image_src($pin_id, 'full');
+				
+				$params = array('http' => array(
+						'method' => 'HEAD'
+				));
+				$ctx = stream_context_create($params);
+				$pin_f = @fopen($pin[0], 'rb', false, $ctx);
+				if ($pin_f == false)
+				{ 
+					$pin[0] = '';
+				}
+				
 				$pin['anchor'] = get_post_meta($pin_id, '_pin_anchor', true);
 				$pin['clickable'] = get_post_meta($pin_id, '_pin_clickable', true) !== 'no';
 
