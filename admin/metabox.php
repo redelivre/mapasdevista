@@ -2,31 +2,55 @@
 
 
 add_action( 'add_meta_boxes', 'mapasdevista_add_custom_box' );
-
+add_action( 'edit_user_profile', 'mapasdevista_add_user_custom_box' );
+add_action( 'show_user_profile', 'mapasdevista_add_user_custom_box' );
 
 add_action( 'save_post', 'mapasdevista_save_postdata' );
 
+add_action('personal_options_update', 'mapasdevista_save_userdata');
+add_action('edit_user_profile_update', 'mapasdevista_save_userdata');
 
-function mapasdevista_add_custom_box() {
 
-		$post_types = get_option('mapasdevista');
-		$post_types = $post_types['post_types'];
-		foreach ($post_types as $post_type )
-		{
-        	add_meta_box( 'mapasdevista_metabox', __( 'Place it on the map', 'mapasdevista' ), 'mapasdevista_metabox_map', $post_type );
-		}
+function mapasdevista_add_custom_box()
+{
+	$post_types = get_option('mapasdevista');
+	$post_types = $post_types['post_types'];
+	foreach ($post_types as $post_type )
+	{
+		add_meta_box( 'mapasdevista_metabox', __( 'Place it on the map', 'mapasdevista' ), 'mapasdevista_metabox_map', $post_type );
+	}
+}
 
+function mapasdevista_add_user_custom_box($user)
+{
+	echo '<h3>'.__( 'Place it on the map', 'mapasdevista' ).'</h3>';
+	mapasdevista_metabox_map($user);
 }
 
 /**
  * Renderiza o Google Maps na pagina de posts
  */
-function mapasdevista_metabox_map() {
-    global $post, $post_type;
-    if( !$location=get_post_meta($post->ID, '_mpv_location', true) ) {
-        $location = array('lat'=>'', 'lon'=>'');
-    }
-    $post_pin = get_post_meta($post->ID, '_mpv_pin', true);
+function mapasdevista_metabox_map($user = false)
+{
+	global $post, $post_type;
+	$location = array('lat'=>'', 'lon'=>'');
+	$post_pin = 0;
+	
+	if(is_object($user) && get_class($user) == 'WP_User')
+	{
+		if( !$location=get_user_meta($user->ID, '_mpv_location', true) )
+		{
+			$location = apply_filters('mapasdevista_default_user_location', array('lat'=>'', 'lon'=>''), $user);
+		}
+		$post_pin = get_user_meta($user->ID, '_mpv_pin', true);
+	}
+	else
+	{
+	    if( !$location=get_post_meta($post->ID, '_mpv_location', true) ) {
+	        $location = array('lat'=>'', 'lon'=>'');
+	    }
+	    $post_pin = get_post_meta($post->ID, '_mpv_pin', true);
+	}
 
     $args = array(
         'post_type' => 'attachment',
@@ -148,5 +172,69 @@ function mapasdevista_save_postdata($post_id) {
             }
         }
     } 
+}
+
+/**
+ * Save from metabox
+ */
+function mapasdevista_save_userdata($user_id) {
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
+		return;
+
+	if ( !isset($_POST['mapasdevista_noncename']) || !wp_verify_nonce( $_POST['mapasdevista_noncename'], plugin_basename( __FILE__ ) ) )
+		return;
+
+	// save
+
+	delete_user_meta($user_id, '_mpv_inmap');
+	delete_user_meta($user_id, '_mpv_in_img_map');
+	if(isset($_POST['mpv_inmap']) && is_array($_POST['mpv_inmap'])) {
+		foreach($_POST['mpv_inmap'] as $page_id ) {
+			if(is_numeric($page_id)) {
+				$page_id = intval($page_id);
+				add_user_meta($user_id, "_mpv_inmap", $page_id);
+			}
+		}
+	}
+
+	if(isset($_POST['mpv_lat']) && isset($_POST['mpv_lon'])) {
+		$location = array();
+		$location['lat'] = floatval(sprintf("%f", $_POST['mpv_lat']));
+		$location['lon'] = floatval(sprintf("%f", $_POST['mpv_lon']));
+
+		if($location['lat'] !== floatval(0) && $location['lon'] !== floatval(0)) {
+			update_user_meta($user_id, '_mpv_location', $location);
+		} else {
+			delete_user_meta($user_id, '_mpv_location');
+		}
+	}
+
+	if(isset($_POST['mpv_pin']) && is_numeric($_POST['mpv_pin'])) {
+		$pin_id = intval(sprintf("%d", $_POST['mpv_pin']));
+		if($pin_id > 0) {
+			update_user_meta($user_id, '_mpv_pin', $pin_id);
+		}
+	}
+
+	if(isset($_POST['mpv_img_pin']) && is_array($_POST['mpv_img_pin'])) {
+		foreach($_POST['mpv_img_pin'] as $page_id => $pin_id) {
+			if(is_numeric($page_id) && is_numeric($pin_id)) {
+				$page_id = intval($page_id);
+				$pin_id = intval($pin_id);
+				update_user_meta($user_id, "_mpv_img_pin_{$page_id}", $pin_id);
+			}
+		}
+	}
+
+	if(isset($_POST['mpv_img_coord']) && is_array($_POST['mpv_img_coord'])) {
+		foreach($_POST['mpv_img_coord'] as $page_id => $coord) {
+			if(is_numeric($page_id) && preg_match('/^(-?[0-9]+),(-?[0-9]+)$/', $coord, $coord)) {
+				$page_id = intval($page_id);
+				$coord = "{$coord[1]},{$coord[2]}";
+				update_user_meta($user_id, "_mpv_img_coord_{$page_id}", $coord);
+				add_user_meta($user_id, "_mpv_in_img_map", $page_id);
+			}
+		}
+	}
 }
 

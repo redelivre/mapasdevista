@@ -4,6 +4,10 @@ if ( isset( $wp_customize ) )
 {
 	wp_enqueue_script( 'mapasdevista', mapasdevista_get_baseurl() . '/js/front-end-customizer.js', array('jquery') );
 }
+elseif ( defined('DOING_USER_MAP') && DOING_USER_MAP == true )
+{
+	wp_enqueue_script( 'mapasdevista', mapasdevista_get_baseurl() . '/js/front-end-users.js', array('jquery') );
+}
 else 
 {
 	wp_enqueue_script( 'mapasdevista', mapasdevista_get_baseurl() . '/js/front-end.js', array('jquery') );

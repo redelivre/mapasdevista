@@ -506,21 +506,9 @@ function mapasdevista_admin_init() {
     
     $mapinfo = get_option('mapasdevista', true);
     
-    if( ($pagenow === "post.php" || $pagenow === "post-new.php" || (isset($_GET['page']) && $_GET['page'] === "mapasdevista_maps")) ) {
-    	if(
-    			($pagenow === "post.php" || $pagenow === "post-new.php") &&
-    			(
-    				(array_key_exists('post_type', $_REQUEST) && in_array($_REQUEST['post_type'], $mapinfo['post_types'])) ||
-    				(array_key_exists('post', $_REQUEST) && in_array(get_post_type($_REQUEST['post']), $mapinfo['post_types']))
-    			)
-    	)
-    	{
-    		mapasdevista_enqueue_scripts($mapinfo);
-    	}
-    	elseif(isset($_GET['page']) && $_GET['page'] === "mapasdevista_maps")  
-    	{
-    		mapasdevista_enqueue_scripts($mapinfo);
-    	}
+    if( ($pagenow === "post.php" || $pagenow === "post-new.php" || (isset($_GET['page']) && $_GET['page'] === "mapasdevista_maps")) || $pagenow === 'profile.php' ) {
+    	
+    	mapasdevista_enqueue_scripts($mapinfo);
     	
     }
     
@@ -532,7 +520,7 @@ function mapasdevista_admin_init() {
     
     }
 
-    if($pagenow === "post.php" || $pagenow === "post-new.php")
+    if($pagenow === "post.php" || $pagenow === "post-new.php" || $pagenow === 'profile.php')
     {
         wp_enqueue_script('metabox', mapasdevista_get_baseurl() . '/admin/metabox.js' );
         $data = array('options' => get_option('mapasdevista'));
@@ -868,6 +856,53 @@ function mapasdevista_get_posts($page_id, $mapinfo, $postsArgs = array()){
     }
 }
 
+/**
+ *
+ * @global WP_Query $MAPASDEVISTA_USERS_RCACHE
+ * @param int $page_id
+ * @param array $mapinfo
+ * @param array $usersArgs
+ * @return WP_Query
+ */
+function mapasdevista_get_users($page_id, $mapinfo, $usersArgs = array()){
+	ini_set("memory_limit", "2048M"); // TODO more clear and low memory way todo this
+	global $MAPASDEVISTA_USERS_RCACHE;
+
+	if(is_object($MAPASDEVISTA_USERS_RCACHE) && get_class($MAPASDEVISTA_USERS_RCACHE) === 'WP_User_Query'){
+
+		$MAPASDEVISTA_USERS_RCACHE->rewind_users();
+		return $MAPASDEVISTA_USERS_RCACHE;
+	}else{
+
+		if ($mapinfo['api'] == 'image') {
+
+			$usersArgs += array(
+					'orderby'         => 'nicename',
+					'order'           => 'ASC',
+					'meta_key'        => '_mpv_in_img_map',
+					'meta_value'      => $page_id,
+			);
+
+
+		} else {
+
+			$usersArgs += array(
+					'orderby'         => 'nicename',
+					'order'           => 'ASC',
+					'meta_key'        => '_mpv_inmap',
+					'meta_value'      => $page_id,
+			);
+		}
+
+		if (isset($_GET['mapasdevista_search']) && $_GET['mapasdevista_search'] != '')
+			$usersArgs['search'] = $_GET['mapasdevista_search'];
+
+		$MAPASDEVISTA_USERS_RCACHE = new WP_User_Query($usersArgs);
+
+		return $MAPASDEVISTA_USERS_RCACHE;
+	}
+}
+
 add_filter('the_content', 'mapasdevista_gallery_filter');
 function mapasdevista_gallery_filter($content){
     return str_replace('[gallery]', '[gallery link="file"]', $content);
@@ -923,6 +958,56 @@ function mapasdevista_view()
 	//include( mapasdevista_get_template('template/_filters', null, false) );
 	
 	//include( mapasdevista_get_template('template/_footer', null, false) );
+}
+
+function mapasdevista_users_view()
+{
+	if(!defined('DOING_USER_MAP')) define( 'DOING_USER_MAP', true );
+	
+	if(apply_filters('mapasdevista_load_style', true)) // Load inline style
+	{
+		?>
+			<style type="text/css">
+	            <?php include( mapasdevista_get_template('template/style.css', null, false) ); ?>
+	        </style>
+		<?php 
+	}
+
+	include( mapasdevista_get_template('template/_init-vars', null, false) );
+
+	include( mapasdevista_get_template('template/_load-js', null, false) );
+	
+	//include( mapasdevista_get_template('template/_filter-menus', null, false) );
+	
+	//include( mapasdevista_get_template('template/_header', null, false) );
+	
+	if(apply_filters('mapasdevista_create_post_overlay', true)) // Create a default post overlay?
+	{
+	?>
+	<div id="post_overlay">
+        <a id="close_post_overlay" title="Fechar"><?php mapasdevista_image("close.png", array("alt" => "Fechar")); ?></a>
+        <div id="post_overlay_content" class="mapasdevista-fontcolor" >
+		</div>
+    </div>
+    <?php
+	}
+
+	echo apply_filters('mapasdevista_map_div', '
+		<div id="map">
+
+		</div>
+	');
+	
+	//include( mapasdevista_get_template('mapasdevista-loop', 'filter', false) );
+	
+	if(apply_filters('mapasdevista_load_bubbles', true)) // Load bubble on view
+	{
+		include( mapasdevista_get_template('mapasdevista-users-loop', 'bubble', false) );
+	}
+	else
+	{
+		echo '<div id="mapasdevista_load_bubbles" class="hide"></div>'; // U may whant to load after
+	}
 }
 
 function mapasdevista_load_bubbles_callback()

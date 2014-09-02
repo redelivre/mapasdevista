@@ -6,6 +6,12 @@ add_action('wp_ajax_mapasdevista_get_posts', 'mapasdevista_get_posts_ajax');
 add_action('wp_ajax_nopriv_mapasdevista_get_post', 'mapasdevista_get_post_ajax');
 add_action('wp_ajax_mapasdevista_get_post', 'mapasdevista_get_post_ajax');
 
+add_action('wp_ajax_nopriv_mapasdevista_get_users', 'mapasdevista_get_users_ajax');
+add_action('wp_ajax_mapasdevista_get_users', 'mapasdevista_get_users_ajax');
+
+add_action('wp_ajax_nopriv_mapasdevista_get_user', 'mapasdevista_get_user_ajax');
+add_action('wp_ajax_mapasdevista_get_user', 'mapasdevista_get_user_ajax');
+
 function mapasdevista_get_post_ajax($p = null) {
 
     if (is_null($p) || !$p || strlen($p) == 0)
@@ -184,7 +190,11 @@ function mapasdevista_get_posts_ajax() {
 
 }
 
-function has_clickable_pin($post_id=null) {
+function has_clickable_pin($post_id=null, $metafunction = 'get_post_meta')
+{
+	if($metafunction != 'get_post_meta' && $metafunction != 'get_user_meta' )
+		wp_die( __( 'Cheatin&#8217; uh?' ) );
+	
     global $post;
 
     if (is_null($post_id) || !is_numeric($post_id)) {
@@ -193,12 +203,16 @@ function has_clickable_pin($post_id=null) {
         else
             return false;
     }
-    $pin_id = get_post_meta($post_id, '_mpv_pin', true);
-    return get_post_meta($pin_id, '_pin_clickable', true) !== 'no';
+    $pin_id = $metafunction($post_id, '_mpv_pin', true);
+    return $metafunction($pin_id, '_pin_clickable', true) !== 'no';
 }
 
-function the_pin($post_id = null, $page_id = null) {
+function the_pin($post_id = null, $page_id = null, $metafunction = 'get_post_meta')
+{
 
+	if($metafunction != 'get_post_meta' && $metafunction != 'get_user_meta' )
+		wp_die( __( 'Cheatin&#8217; uh?' ) );
+	
     global $post;
     
     
@@ -213,13 +227,142 @@ function the_pin($post_id = null, $page_id = null) {
     $mapinfo = get_option('mapasdevista', true);
     
     if ($mapinfo['api'] == 'image') {
-        $pin_id = get_post_meta($post_id, '_mpv_img_pin_' . $current_map_page_id, true);
+        $pin_id = $metafunction($post_id, '_mpv_img_pin_' . $current_map_page_id, true);
                 
     } else {
-        $pin_id = get_post_meta($post_id, '_mpv_pin', true);
+        $pin_id = $metafunction($post_id, '_mpv_pin', true);
         
     }
     
     echo mapasdevista_get_pin($pin_id);
     
+}
+
+function mapasdevista_get_user_ajax($p = null)
+{
+
+	if (is_null($p) || !$p || strlen($p) == 0)
+		$p = $_POST['post_id'];
+
+	if (!is_numeric($p))
+		die('error');
+
+	$user = get_user_by('id', $p);
+
+	
+
+	die();
+
+}
+
+function mapasdevista_get_users_ajax() {
+	ini_set("memory_limit", "2048M");
+	$mapinfo = get_option('mapasdevista', true);
+
+	if ($_POST['get'] == 'totalUsers') {
+
+
+		global $wpdb;
+
+		$search_query = '';
+
+		if (isset($_POST['search']) && $_POST['search'] != '') {
+			$serach_for = '%' . $_POST['search'] . '%';
+			$search_query = $wpdb->prepare( "AND (user_nicename LIKE %s OR user_login LIKE %s OR ( meta_key IN ( 'first_name', 'last_name', 'nickname' ) AND meta_value LIKE %s ) )", $serach_for, $serach_for, $serach_for  );
+		}
+
+		if ($_POST['api'] == 'image') {
+			$q = "SELECT COUNT(DISTINCT(user_id)) FROM $wpdb->usermeta JOIN $wpdb->users ON $wpdb->usermeta.user_id = $wpdb->users.ID WHERE user_status = 0 AND meta_key = '_mpv_in_img_map' AND meta_value = '1' $search_query";
+		} else {
+			$q = "SELECT COUNT(user_id) FROM $wpdb->usermeta JOIN $wpdb->users ON $wpdb->usermeta.user_id = $wpdb->users.ID WHERE user_status = 0 AND meta_key = '_mpv_inmap' AND meta_value = '1' $search_query";
+		}
+
+		$total = $wpdb->get_var($q);
+
+		echo $total;
+
+
+	}
+	elseif ($_POST['get'] == 'users')
+	{
+
+		$args = array(
+				'number'		=> $_POST['users_per_page'],
+				'offset'        => $_POST['offset'],
+		);
+
+
+		if (isset($_POST['search']) && $_POST['search'] != '')
+			$args['search'] = $_POST['search'];
+
+		$users = mapasdevista_get_users(1, $mapinfo, $args)->get_results();
+
+		$usersResponse = array();
+
+		$number = $_POST['offset'];
+
+		foreach ($users as $user)
+		{
+			if ($_POST['api'] == 'image') {
+
+				$meta = get_user_meta($user->ID, '_mpv_img_coord_' . $_POST['page_id'], true);
+				$meta = explode(',', $meta);
+
+				$location = array();
+				$location['lon'] = floatval($meta[0]);
+				$location['lat'] = floatval($meta[1]);
+
+				$pin_id = get_user_meta($user->ID, '_mpv_img_pin_' . $_POST['page_id'], true);
+				$pin = wp_get_attachment_image_src($pin_id, 'full');
+				$pin['clickable'] = get_post_meta($pin_id, '_pin_clickable', true) !== 'no';
+
+			} else {
+
+				$location = get_user_meta($user->ID, '_mpv_location', true);
+
+				// wordpress doesn't serialize data correctly and openlayers
+				// only accept float values for latitude and longitude
+				if (isset($location['lat']) && isset($location['lon'])) {
+					$location['lat'] = floatval($location['lat']);
+					$location['lon'] = floatval($location['lon']);
+				}
+
+				$pin_id = get_user_meta($user->ID, '_mpv_pin', true);
+				$pin = wp_get_attachment_image_src($pin_id, 'full');
+				$pin['anchor'] = get_post_meta($pin_id, '_pin_anchor', true);
+				$pin['clickable'] = get_post_meta($pin_id, '_pin_clickable', true) !== 'no';
+
+			}
+
+
+
+			$number ++;
+
+			$pResponse = array(
+					'ID' => $user->ID,
+					'nicename' => $user->user_nicename,
+					'location' => $location,
+					'number' => $number,
+					'pin' => $pin
+			);
+
+			$usersResponse[] = $pResponse;
+		}
+
+		$newoffset = (int) $_POST['offset'] + sizeof($users) < (int) $_POST['total'] ? (int) $_POST['offset'] + (int) $_POST['users_per_page'] : 'end';
+
+		$response = array(
+
+				'newoffset' => $newoffset,
+				'users' => $usersResponse
+
+		);
+
+		echo json_encode($response);
+
+
+	}
+
+	die();
+
 }
