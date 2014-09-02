@@ -506,7 +506,14 @@ function mapasdevista_admin_init() {
     
     $mapinfo = get_option('mapasdevista', true);
     
-    if( ($pagenow === "post.php" || $pagenow === "post-new.php" || (isset($_GET['page']) && $_GET['page'] === "mapasdevista_maps")) || $pagenow === 'profile.php' ) {
+    if(
+    	$pagenow === "post.php" ||
+    	$pagenow === "post-new.php" ||
+    	$pagenow === 'profile.php' ||
+    	$pagenow === 'user-edit.php' ||
+    	(isset($_GET['page']) && $_GET['page'] === "mapasdevista_maps")
+	)
+    {
     	
     	mapasdevista_enqueue_scripts($mapinfo);
     	
@@ -520,7 +527,7 @@ function mapasdevista_admin_init() {
     
     }
 
-    if($pagenow === "post.php" || $pagenow === "post-new.php" || $pagenow === 'profile.php')
+    if($pagenow === "post.php" || $pagenow === "post-new.php" || $pagenow === 'profile.php' || $pagenow === 'user-edit.php')
     {
         wp_enqueue_script('metabox', mapasdevista_get_baseurl() . '/admin/metabox.js' );
         $data = array('options' => get_option('mapasdevista'));
