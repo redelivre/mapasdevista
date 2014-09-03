@@ -3,7 +3,7 @@
 	$metas = get_user_meta($user_loop->ID);
 ?>
 <section id="entry-default" class="clearfix">
-	<?php if(array_key_exists('organization', $metas) && count($metas['organization']) > 0 ) : ?>
+	<?php if(array_key_exists('organization', $metas) && count($metas['organization']) > 0 && !empty($metas['organization'][0]) ) : ?>
 		<div class="mapasdevista-user-bubble-organization">
 			<div class="mapasdevista-user-bubble-title" >
 				<?php _e('Organization', 'minka'); ?>
@@ -13,7 +13,7 @@
 			</div>
 		</div>
 	<?php endif; ?>
-	<?php if(array_key_exists('city', $metas) && count($metas['city']) > 0 ) : ?>
+	<?php if(array_key_exists('city', $metas) && count($metas['city']) > 0 && !empty($metas['city'][0]) ) : ?>
 		<div class="mapasdevista-user-bubble-city">
 			<div class="mapasdevista-user-bubble-title" >
 				<?php _e('City', 'minka'); ?>
@@ -23,7 +23,7 @@
 			</div>
 		</div>
 	<?php endif; ?>
-	<?php if(array_key_exists('country', $metas) && count($metas['country']) > 0 ) : ?>
+	<?php if(array_key_exists('country', $metas) && count($metas['country']) > 0 && !empty($metas['country'][0]) ) : ?>
 		<div class="mapasdevista-user-bubble-country">
 			<div class="mapasdevista-user-bubble-title" >
 				<?php _e('Country', 'minka'); ?>
