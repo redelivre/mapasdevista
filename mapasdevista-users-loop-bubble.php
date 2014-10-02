@@ -13,7 +13,7 @@ foreach ($users as $user) :
                 <span class="date"><?php the_time( get_option('date_format') ); ?></span>
             </p>
             -->
-            <h1 class="bottom"><a class="js-link-to-user" id="balloon-post-link-<?php echo $user->ID; ?>" href="<?php echo get_author_posts_url($user->ID, $user->display_name); ?>" <?php //onClick="mapasdevista.linkToPost(this); return false;" ?> ><?php echo $user->display_name; ?></a></h1>
+            <h1 class="bottom"><a class="js-link-to-user" id="balloon-post-link-<?php echo $user->ID; ?>" href="<?php echo get_author_posts_url($user->ID, $user->user_name); ?>" <?php //onClick="mapasdevista.linkToPost(this); return false;" ?> ><?php echo $user->display_name; ?></a></h1>
             <?php mapasdevista_get_template( 'mapasdevista-user-bubble'); ?>
         </div>
     </div>
