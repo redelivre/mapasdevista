@@ -566,9 +566,11 @@ Marker: {
 		this.openInfoBubble.fire( { 'marker': this } );
 		infowindow.open(this.map, this.proprietary_marker);
 		this.proprietary_infowindow = infowindow; // Save so we can close it later
-		jQuery(".gm-style-iw").parent().children(":first-child").children(":last-child").css({"background-color" : "#faba09"}); // TODO Create a option
-		jQuery(".gm-style-iw").parent().children(":first-child").children("div:nth-child(3)").children(":first-child").children(":first-child").css({"background-color" : "#faba09"});
-		jQuery(".gm-style-iw").parent().children(":first-child").children("div:nth-child(3)").children("div:nth-child(2)").children(":first-child").css({"background-color" : "#faba09"});
+		
+		//TODO change balloon background color
+		//jQuery(".gm-style-iw").parent().children(":first-child").children(":last-child").css({"background-color" : "#faba09"}); // TODO Create a option
+		//jQuery(".gm-style-iw").parent().children(":first-child").children("div:nth-child(3)").children(":first-child").children(":first-child").css({"background-color" : "#faba09"});
+		//jQuery(".gm-style-iw").parent().children(":first-child").children("div:nth-child(3)").children("div:nth-child(2)").children(":first-child").css({"background-color" : "#faba09"});
 	},
 
 	closeBubble: function() {
