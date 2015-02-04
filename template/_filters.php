@@ -111,6 +111,10 @@ set_time_limit(0);
                 
 				               
                 <?php
+	                function quote($str)
+					{
+	                	return sprintf("'%s'", $str);
+	                }
 
                     function mapasdevista_taxonomy_checklist($taxonomy, $parent = 0) {
                         global $posts, $wpdb;
@@ -118,6 +122,11 @@ set_time_limit(0);
                         $terms = array();
                         $terms_ids = array();
                         
+                        $mapinfo = get_option('mapasdevista', true);
+                        if(!is_array($mapinfo['post_types']))
+                        {
+                        	$mapinfo['post_types'] = array($mapinfo['post_types']);
+                        }
                         
                         //$posts_ids = $wpdb->get_col("SELECT post_id FROM $wpdb->postmeta WHERE meta_key ='_mpv_inmap' ");
                         
@@ -128,7 +137,7 @@ set_time_limit(0);
 							INNER JOIN $wpdb->term_taxonomy ON($wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id)
 							INNER JOIN $wpdb->terms ON($wpdb->term_taxonomy.term_id = $wpdb->terms.term_id)
 						WHERE
-							$wpdb->posts.post_type = 'mapa'
+							$wpdb->posts.post_type in (".(implode(',', array_map('quote', $mapinfo['post_types']))).")
 							AND $wpdb->postmeta.meta_key = '_mpv_inmap'
 							AND $wpdb->term_taxonomy.taxonomy = '$taxonomy'
 							AND $wpdb->term_taxonomy.parent = $parent
