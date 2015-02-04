@@ -110,9 +110,12 @@ function mapasdevista_maps_page() {
             
 
             
-            <?php do_action('mapasdevista_maps_settings_top',$map); ?>
+            <?php do_action('mapasdevista_maps_settings_top',$map); 
             
-            <input type="hidden" name="original_page_id" value="<?php echo $_GET['page_id']; ?>" />
+            if(array_key_exists('page_id', $_GET))
+            {?>
+            	<input type="hidden" name="original_page_id" value="<?php echo $_GET['page_id']; ?>" /><?php
+            }?>
 
             
             <input type="hidden" name="map[name]" value="Mapa">

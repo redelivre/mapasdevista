@@ -65,7 +65,7 @@
         	if( $header_image != false && !empty($header_image))
         	{
 	        	?>
-	            <a href="<?php echo get_bloginfo('siteurl'); ?>">
+	            <a href="<?php echo get_bloginfo('url'); ?>">
 	                <img src="<?php echo $header_image; ?>" />
 	            </a>
 	        <?php
