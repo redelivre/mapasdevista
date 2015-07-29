@@ -468,7 +468,7 @@ msgstr "Posicione no mapa"
 
 #: ../admin/metabox.php:52
 msgid "Search address"
-msgstr "Buscar endereço"
+msgstr "Digite o endereço e aperte enter"
 
 #~ msgid "Maps"
 #~ msgstr "Mapas"
