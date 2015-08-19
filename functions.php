@@ -229,6 +229,12 @@ function mapasdevista_enqueue_scripts($mapinfo = array())
 			wp_enqueue_script('markerclustererplus', mapasdevista_get_baseurl('template_directory') . '/js/markerclustererplus/src/markerclusterer.js', array('mapstraction-googlev3'));
 			wp_enqueue_script('front-end-markerclusterer', mapasdevista_get_baseurl('template_directory') . '/js/front-end-markerclusterer.js', array('mapasdevista'));
 		}
+		
+		if((is_array($mapTheme) && !array_key_exists('markerSpiderfier_enabled', $mapTheme)) || $mapTheme['markerSpiderfier_enabled'] == 'Y')
+		{
+			wp_enqueue_script('markerSpiderfier', mapasdevista_get_baseurl('template_directory') . '/js/overlappingmarkerspiderfier/oms.min.js', array('mapstraction-googlev3'));
+			wp_enqueue_script('front-end-oms', mapasdevista_get_baseurl('template_directory') . '/js/front-end-oms.js', array('mapasdevista'));
+		}
 	
 	} elseif ($mapinfo['api'] == 'image') {
 		wp_enqueue_script('mapstraction-image', mapasdevista_get_baseurl('template_directory') . '/js/mxn/mxn.image.core.js');

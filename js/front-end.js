@@ -72,6 +72,7 @@
         mapinfo.control_map_type = mapinfo.control_map_type == "true";
 
         mxn.Mapstraction.prototype.markerclusterer = null;
+        mxn.Mapstraction.prototype.markerSpiderfier = null;
         
         mapstraction = new mxn.Mapstraction('map', mapinfo.api);
         
@@ -778,6 +779,12 @@ function loadPosts(total, offset) {
                 {
                 	mapstraction.markerclusterer.addMarker(marker.proprietary_marker);
                 }
+                
+                if(mapstraction.markerSpiderfier != null)
+                {
+                	mapstraction.markerSpiderfier.addMarker(marker.proprietary_marker);
+                }
+                
                 if (mapinfo.api == 'openlayers' && pin['clickable']) {
                     marker.proprietary_marker.icon.imageDiv.onclick = function(event) {
                         marker.click.fire();
