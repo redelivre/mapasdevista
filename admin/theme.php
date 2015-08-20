@@ -21,7 +21,8 @@ function get_mapasdevista_theme_default_options() {
                         ),
     					'show_authors' => 'Y',
     					'show_dates' => 'Y',
-    					'clusterer_enabled' => 'Y'
+    					'clusterer_enabled' => 'Y',
+    					'markerSpiderfier_enabled' => 'Y'
                     );
 
 }
@@ -139,6 +140,16 @@ function mapasdevista_theme_page() {
           <label class="clusterer-enabled-label"><span>
           	<input type="radio" id="clusterer_enabled_n" class="text" name="mapasdevista_theme_options[clusterer_enabled]" value="N" <?php echo (array_key_exists('clusterer_enabled', $options) && $options['clusterer_enabled'] == 'N') ? 'checked="checked"' : ''; ?> /><?php _e('without automatic grouping of markers', 'mapasdevista') ;?><br/>
           	<img src="<?php echo mapasdevista_get_baseurl().'/img/semgrupos.png'; ?>" />
+          </span></label>
+          
+          <label for="markerSpiderfier_enabled" class="spiderfier-enabled-label"><strong><?php _e("Spiderfier overlapped markers?", "mapasdevista"); ?></strong></label><br/>
+          <label class="spiderfier-enabled-label"><span>
+          	<input type="radio" id="markerSpiderfier_enabled_y" class="text" name="mapasdevista_theme_options[markerSpiderfier_enabled]" value="Y" <?php echo (!array_key_exists('markerSpiderfier_enabled', $options) || $options['markerSpiderfier_enabled'] == 'Y') ? 'checked="checked"' : ''; ?> /><?php _e('with spiderfier overlapped markers', 'mapasdevista') ;?><br/>
+          	<img src="<?php echo mapasdevista_get_baseurl().'/img/spiderfier.png'; ?>" />
+          </span></label><br/>
+          <label class="spiderfier-enabled-label"><span>
+          	<input type="radio" id="markerSpiderfier_enabled_n" class="text" name="mapasdevista_theme_options[markerSpiderfier_enabled]" value="N" <?php echo (array_key_exists('markerSpiderfier_enabled', $options) && $options['markerSpiderfier_enabled'] == 'N') ? 'checked="checked"' : ''; ?> /><?php _e('without spiderfier overlapped markers', 'mapasdevista') ;?><br/>
+          	<img src="<?php echo mapasdevista_get_baseurl().'/img/nospiderfier.png'; ?>" />
           </span></label>
           <br/><br/>
 
