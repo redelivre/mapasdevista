@@ -17,11 +17,13 @@ add_action('init', function() {
     
     $capabilities = Capability::getByPlanId($campaign->plan_id);
     
-    if ($current_blog->blog_id > 1 && isset($capabilities->georreferenciamento) && $capabilities->georreferenciamento->value == 1 )  { 
+    if ( $current_blog->blog_id == 1 || ($current_blog->blog_id > 1 && isset($capabilities->georreferenciamento) && $capabilities->georreferenciamento->value == 1) )  { 
         mapasdevista_regiser_post_type(); 
         add_action( 'admin_menu', 'mapasdevista_admin_menu' );
         add_action( 'admin_init', 'mapasdevista_admin_init' );
-    } else {
+    }
+    else
+    {
         return;
     }
     
