@@ -11,13 +11,15 @@ add_action('init', function() {
 
     global $current_blog, $campaign;
     
-    if (!$campaign) {
+    if (!$campaign && $current_blog->blog_id > 1)
+    {
         return;
     }
+    $capabilities = new stdClass();
+    if($current_blog->blog_id > 1)
+    	$capabilities = Capability::getByPlanId($campaign->plan_id);
     
-    $capabilities = Capability::getByPlanId($campaign->plan_id);
-    
-    if ( $current_blog->blog_id == 1 || ($current_blog->blog_id > 1 && isset($capabilities->georreferenciamento) && $capabilities->georreferenciamento->value == 1) )  { 
+    if ( get_current_blog_id() == 1 || ($current_blog->blog_id > 1 && isset($capabilities->georreferenciamento) && $capabilities->georreferenciamento->value == 1) )  { 
         mapasdevista_regiser_post_type(); 
         add_action( 'admin_menu', 'mapasdevista_admin_menu' );
         add_action( 'admin_init', 'mapasdevista_admin_init' );
