@@ -1,3 +1,31 @@
+// activate google service
+var geocoder = null;
+var googlemarker = null;
+
+function fill_fields(lat, lng) {
+    jQuery("#mpv_lat").val(lat);
+    jQuery("#mpv_lon").val(lng);
+}
+
+// callback to handle google geolocation result
+function geocode_callback(results, status) {
+    if (status == google.maps.GeocoderStatus.OK) {
+        var location = results[0].geometry.location;
+        googlemap.setCenter(location);
+        fill_fields(location.lat(), location.lng());
+
+        if(googlemarker) {
+            googlemarker.setPosition(location)
+        } else {
+            googlemarker = new google.maps.Marker({
+                map: googlemap,
+                draggable: true,
+                position: location
+            });
+        }
+    }
+}
+
 jQuery(document).ready(function() {
     var $ = jQuery;
     
@@ -19,13 +47,6 @@ jQuery(document).ready(function() {
 
     googlemap = new google.maps.Map(document.getElementById("mpv_canvas"), map_options);
         
-    var googlemarker = null;
-
-    function fill_fields(lat, lng) {
-        $("#mpv_lat").val(lat);
-        $("#mpv_lon").val(lng);
-    }
-
     // place a marker on the map
     function load_post_marker(lat, lng) {
         try{
@@ -78,26 +99,7 @@ jQuery(document).ready(function() {
     }
 
     // activate google service
-    var geocoder = new google.maps.Geocoder();
-
-    // callback to handle google geolocation result
-    function geocode_callback(results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-            var location = results[0].geometry.location;
-            googlemap.setCenter(location);
-            fill_fields(location.lat(), location.lng());
-
-            if(googlemarker) {
-                googlemarker.setPosition(location)
-            } else {
-                googlemarker = new google.maps.Marker({
-                    map: googlemap,
-                    draggable: true,
-                    position: location
-                });
-            }
-        }
-    }
+    geocoder = new google.maps.Geocoder();
 
     // the search bar, where user can type an address
     $("#mpv_search_address").keypress(function(e){
