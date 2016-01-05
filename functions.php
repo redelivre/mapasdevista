@@ -514,7 +514,7 @@ function mapasdevista_admin_init() {
     global $pagenow;
     global $post;
     
-    $mapinfo = get_option('mapasdevista', true);
+    $mapinfo = get_option('mapasdevista', array());
     
     if(
     	$pagenow === "post.php" ||
