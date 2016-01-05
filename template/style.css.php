@@ -41,7 +41,7 @@ if($onPageTemplate)
 	
 	/* Typography */
 	body, h1, h2, h3, h4, h5, h6 { color:<?php echo $fontColor; ?>; }
-	a { color:<?php echo $themeColor; ?>; }
+	a { color:<?php echo $fontColor; ?>; }
 	
 	/* Layout */
 	/*body { min-width:960px; }*/
@@ -55,7 +55,7 @@ if($onPageTemplate)
 ?>
 
 #map body, #map h1, #map h2, #map h3, #map h4, #map h5, #map h6 { color:<?php echo $fontColor; ?>; }
-#map a { color:<?php echo $themeColor; ?>; }
+#map a { color:<?php echo $fontColor; ?>; }
 
 /* Important!!! */
 #map { height:100%; overflow:hidden; position:<?php echo $position; ?>; width:100%; }
@@ -141,7 +141,7 @@ if($onPageTemplate)
 	.result h1 a { color:<?php echo $fontColor; ?>; text-decoration:none; text-transform:uppercase; }
 	.result h1 a:hover { text-decoration:underline; }
 	.result p.date { background:<?php echo $themeColor; ?>; display:inline-block; font-size:14px; margin-bottom:3px; padding:0 3px; }
-	.result p.author a { color:<?php echo $themeColor; ?>; text-decoration:none; }
+	.result p.author a { color:<?php echo $fontColor; ?>; text-decoration:none; }
 	.result p.author a:hover { text-decoration:underline; }
 <?php
 }
@@ -162,7 +162,7 @@ else
 /* Ballon */
 .balloon            { background:#fff; color:<?php echo $bgColor; ?>; padding:18px; width:270px; }
 .balloon h1         { font-size:22px; }
-.balloon h1 a       { color:<?php echo $bgColor; ?>; text-decoration:none; }
+.balloon h1 a       { color:<?php echo $fontColor; ?>; text-decoration:none; }
 .balloon h1 a:hover { color:<?php echo $themeColor; ?>; text-decoration:underline; }
 .balloon img        { display:block; padding:0; }
 .balloon .date      { background:<?php echo $themeColor; ?>; color:<?php echo $fontColor; ?>; padding:0 3px; }
