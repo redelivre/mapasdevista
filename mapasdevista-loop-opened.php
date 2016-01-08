@@ -17,7 +17,7 @@ $format = get_post_format() ? get_post_format() : 'default';
     { 
 	    ?>
 	    <p class="metadata author"><?php _e('Published by', 'mapasdevista'); ?>
-	        <a class="js-filter-by-author-link" href="<?php echo get_author_posts_url( get_the_ID() ); ?>" id="post_overlay-author-link-<?php the_author_ID(); ?>" title="<?php esc_attr(the_author()); ?>"><?php the_author(); ?></a> | <?php edit_post_link( __( 'Edit', 'mapasdevista' ), '<span class="edit-link">', '</span>' ); ?>
+	        <a class="js-filter-by-author-link" href="<?php echo get_author_posts_url( get_the_ID() ); ?>" title="<?php esc_attr(the_author()); ?>"><?php the_author(); ?></a> | <?php edit_post_link( __( 'Edit', 'mapasdevista' ), '<span class="edit-link">', '</span>' ); ?>
 	    </p>
 	    <?php
 	}

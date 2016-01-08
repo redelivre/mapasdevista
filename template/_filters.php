@@ -173,10 +173,13 @@ set_time_limit(0);
                         
                         
                 ?>
-                        <?php if($parent == 0): ?>
-                            <?php $tax = get_taxonomy($taxonomy); ?>
-                            <li class="filter-group-col"><h3><?php echo $tax->label; ?></h3>
-                        <?php endif; ?>
+                        <?php if($parent == 0):
+                        	$tax = get_taxonomy($taxonomy);
+                        	if($tax != false)
+                        	{?>
+                            	<li class="filter-group-col"><h3><?php echo $tax->label; ?></h3><?php
+                            }
+                        endif; ?>
                         <?php if ($parent > 0): ?>
                             <ul class='children'>
                         <?php endif; ?>
