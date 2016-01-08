@@ -64,7 +64,46 @@
         
         $('#font_color_box').css('background-color', 'rgb(' + $('#font_color_r').val() +','+ $('#font_color_g').val() +','+ $('#font_color_b').val() +')');
 
-
+        
+        $('#form_bg_color_box').ColorPicker({
+            onChange: function (hsb, hex, rgb) {
+                //console.log(this);
+                $('#form_bg_color_box').css('backgroundColor', '#' + hex);
+                $('#form_bg_color_r').val(rgb.r);
+                $('#form_bg_color_g').val(rgb.g);
+                $('#form_bg_color_b').val(rgb.b);
+            },
+            onBeforeShow: function () {
+                var r = $('#form_bg_color_r').val();
+                var g = $('#form_bg_color_g').val();
+                var b = $('#form_bg_color_b').val();
+                var color = {r: r, g: g, b: b};
+                $(this).ColorPickerSetColor(color);
+            },
+            
+        });
+        
+        $('#form_bg_color_box').css('background-color', 'rgb(' + $('#form_bg_color_r').val() +','+ $('#form_bg_color_g').val() +','+ $('#form_bg_color_b').val() +')');
+        
+        $('#form_font_color_box').ColorPicker({
+            onChange: function (hsb, hex, rgb) {
+                //console.log(this);
+                $('#form_font_color_box').css('backgroundColor', '#' + hex);
+                $('#form_font_color_r').val(rgb.r);
+                $('#form_font_color_g').val(rgb.g);
+                $('#form_font_color_b').val(rgb.b);
+            },
+            onBeforeShow: function () {
+                var r = $('#form_font_color_r').val();
+                var g = $('#form_font_color_g').val();
+                var b = $('#form_font_color_b').val();
+                var color = {r: r, g: g, b: b};
+                $(this).ColorPickerSetColor(color);
+            },
+            
+        });
+        
+        $('#form_font_color_box').css('background-color', 'rgb(' + $('#form_font_color_r').val() +','+ $('#form_font_color_g').val() +','+ $('#form_font_color_b').val() +')');
 
         // $('#link_color_box').ColorPicker({
         //     onChange: function (hsb, hex, rgb) {

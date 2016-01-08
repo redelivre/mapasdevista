@@ -13,15 +13,19 @@ $filtersOpacity = $filtersOpacity / 100;
 
 if(strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE 7') || strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE 8')){
     $bgColor = 'rgb(' . $theme_options['bg_color']['r'] . ',' . $theme_options['bg_color']['g'] . ', ' . $theme_options['bg_color']['b'].')';
-    $bgFiltersColor = 'rgb(' . $theme_options['bg_color']['r'] . ',' . $theme_options['bg_color']['g'] . ', ' . $theme_options['bg_color']['b'] . ')';
+    $bgFiltersColor = 'rgb(' . $theme_options['theme_color']['r'] . ',' . $theme_options['theme_color']['g'] . ', ' . $theme_options['theme_color']['b'] . ')';
     $fontColor = 'rgb(' . $theme_options['font_color']['r'] . ',' . $theme_options['font_color']['g'] . ', ' . $theme_options['font_color']['b'] . ')';
     $themeColor = 'rgb(' . $theme_options['theme_color']['r'] . ',' . $theme_options['theme_color']['g'] . ', ' . $theme_options['theme_color']['b'] . ')';
+    $formFontColor = 'rgb(' . $theme_options['form_font_color']['r'] . ',' . $theme_options['form_font_color']['g'] . ', ' . $theme_options['form_font_color']['b'] . ')';
+    $formBgColor = 'rgb(' . $theme_options['form_bg_color']['r'] . ',' . $theme_options['form_bg_color']['g'] . ', ' . $theme_options['form_bg_color']['b'].')';
 
 }else{
     $bgColor = 'rgba(' . $theme_options['bg_color']['r'] . ',' . $theme_options['bg_color']['g'] . ', ' . $theme_options['bg_color']['b'] . ', ' . $opacity . ')';
-    $bgFiltersColor = 'rgba(' . $theme_options['bg_color']['r'] . ',' . $theme_options['bg_color']['g'] . ', ' . $theme_options['bg_color']['b'] . ', ' . $filtersOpacity . ')';
+    $bgFiltersColor = 'rgba(' . $theme_options['theme_color']['r'] . ',' . $theme_options['theme_color']['g'] . ', ' . $theme_options['theme_color']['b'] . ', ' . $filtersOpacity . ')';
     $fontColor = 'rgb(' . $theme_options['font_color']['r'] . ',' . $theme_options['font_color']['g'] . ', ' . $theme_options['font_color']['b'] . ')';
-    $themeColor = 'rgb(' . $theme_options['theme_color']['r'] . ',' . $theme_options['theme_color']['g'] . ', ' . $theme_options['theme_color']['b'] . ')';    
+    $themeColor = 'rgb(' . $theme_options['theme_color']['r'] . ',' . $theme_options['theme_color']['g'] . ', ' . $theme_options['theme_color']['b'] . ')';
+    $formFontColor = 'rgb(' . $theme_options['form_font_color']['r'] . ',' . $theme_options['form_font_color']['g'] . ', ' . $theme_options['form_font_color']['b'] . ')';
+    $formBgColor = 'rgba(' . $theme_options['form_bg_color']['r'] . ',' . $theme_options['form_bg_color']['g'] . ', ' . $theme_options['form_bg_color']['b'] . ', ' . $opacity . ')';
 }
 
 $onPageTemplate = false;
@@ -64,7 +68,13 @@ if($onPageTemplate)
 .mapasdevista-background                    {background:<?php echo $bgColor; ?>;}
 .mapasdevista-background-with-hover         {background:<?php echo $bgColor; ?>;}
 .mapasdevista-background-with-hover:hover   {background:<?php echo $themeColor; ?>;}
-.mapasdevista-fontcolor             { color:<?php echo $fontColor; ?>; }
+.mapasdevista-fontcolor,
+.mapasdevista-fontcolor h1,
+.mapasdevista-fontcolor h2,
+.mapasdevista-fontcolor h3,
+.mapasdevista-fontcolor h4,
+.mapasdevista-fontcolor h5,
+.mapasdevista-fontcolor h6			{ color:<?php echo $fontColor; ?>; }
 .mapasdevista-themecolor            { color:<?php echo $themeColor; ?>; }
 
 /* Top Menu */
@@ -96,11 +106,11 @@ if($onPageTemplate)
 	/* Top and Side Menu Links */
 		
 	/* Seach Form */
-	#search { background:<?php echo $bgColor; ?>; bottom:0; height:28px; position:fixed; width:100%; }
+	#search { background:<?php echo $themeColor; ?>; bottom:0; height:28px; position:fixed; width:100%; }
 	#search-icon { background:<?php echo $themeColor; ?>; float:left; padding:3px; }
 	#searchform { height:28px; float:left; }
-	#searchform input[type="text"] { background:none; border:none; color:<?php echo $fontColor; ?>; float:left; height:28px; margin:0; padding:0 10px; width:140px; }
-	#searchform input[type="image"] { background:<?php echo $themeColor; ?>; padding:3px; }
+	#searchform input[type="text"] { background-color:<?php echo $formBgColor; ?>; border:none; color:<?php echo $formFontColor; ?>; float:left; height:28px; margin:0; padding:0 10px; width:140px; }
+	#searchform input[type="image"] { background:<?php echo $formBgColor; ?>; padding:3px; }
 
 /* Filters */
 #toggle-filters { background:<?php echo $themeColor; ?>; color:<?php echo $fontColor; ?>; cursor:pointer; float:right; font-weight:bold; padding:4px 14px 2px 10px; text-transform:uppercase; width:230px;}
@@ -121,7 +131,7 @@ if($onPageTemplate)
 ?>
 
 /* Posts Loader */
-#posts-loader { display:none; background:<?php echo $bgColor; ?>; font-size:22px; padding:4px 4px 0 4px; position:fixed; right:0; top:82px; }
+#posts-loader { display:none; background:<?php echo $themeColor; ?>; color:<?php echo $fontColor; ?>; font-size:22px; padding:4px 4px 0 4px; position:fixed; right:0; top:82px; }
 #posts-loader span { font-size:18px; }
 
 <?php
@@ -130,8 +140,8 @@ if($onPageTemplate)
 if($onPageTemplate)
 {
 ?>
-	#toggle-results { background:<?php echo $bgColor; ?>; cursor:pointer; padding:4px 4px 0 4px; position:fixed; right:0; top:120px; }
-	#results { background:<?php echo $bgColor; ?>; color:<?php echo $fontColor; ?>; display:none; max-height:75%; overflow:auto; padding:9px; position:fixed; right:35px; top:120px; width:30%; }
+	#toggle-results { background:<?php echo $themeColor; ?>; cursor:pointer; padding:4px 4px 0 4px; position:fixed; right:0; top:120px; }
+	#results { background:<?php echo $themeColor; ?>; color:<?php echo $fontColor; ?>; display:none; max-height:75%; overflow:auto; padding:9px; position:fixed; right:35px; top:120px; width:30%; }
 	#results h1 { font-size:18px; margin-bottom:27px; }
 	.result { border-bottom:2px solid rgba(0,0,0,0.5); margin-bottom:27px; }
 	.result .pin { float:left; width:60px; }
@@ -206,8 +216,8 @@ if($onPageTemplate)
 	
 	#commentform { margin-bottom:18px;  }
 	#commentform label { display:block; }
-	#commentform input[type="text"] { border:none; padding:6px; width:150px; }
-	#commentform textarea#comment { border:none; clear:both; height:80px; width:660px; }
+	#commentform input[type="text"] { background-color:<?php echo $formBgColor; ?>; border:none; color:<?php echo $formFontColor; ?>; padding:6px; width:150px; }
+	#commentform textarea#comment { background-color:<?php echo $formBgColor; ?>; border:none; color:<?php echo $formFontColor; ?>; clear:both; height:80px; width:660px; }
 	
 	a.comment-reply-link { background:<?php echo $themeColor; ?>; color:<?php echo $fontColor; ?>; padding:3px 6px; text-decoration:none; }
 	.comment { border-bottom:2px solid <?php echo $bgColor; ?>; padding-bottom:9px; margin-bottom:18px; }
@@ -240,5 +250,9 @@ if($onPageTemplate)
 }
 
 .mapasdevista-comment-meta h2, .mapasdevista-comment-meta h3 {
-	color: #FFFFFF;
+	/*color: #FFFFFF;*/	
+}
+.mapasdevista-comment-meta code {
+	background-color:<?php echo $formBgColor; ?>;
+	color:<?php echo $formFontColor; ?>;
 }

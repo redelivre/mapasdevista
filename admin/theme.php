@@ -14,11 +14,22 @@ function get_mapasdevista_theme_default_options() {
                             'r' => 34,
                             'g' => 34,
                             'b' => 34
-                        ),'font_color' => array(
+                        ),
+    					'font_color' => array(
                             'r' => 255,
                             'g' => 255,
                             'b' => 255
                         ),
+    					'form_bg_color' => array(
+                        		'r' => 255,
+                        		'g' => 255,
+                        		'b' => 255
+			    		),
+    					'form_font_color' => array(
+			    				'r' => 0,
+			    				'g' => 0,
+			    				'b' => 0
+			    		),
     					'show_authors' => 'Y',
     					'show_dates' => 'Y',
     					'clusterer_enabled' => 'Y',
@@ -111,6 +122,20 @@ function mapasdevista_theme_page() {
           <input type="hidden" id="font_color_r" class="text" name="mapasdevista_theme_options[font_color][r]" value="<?php echo htmlspecialchars($options['font_color']['r']); ?>"/>
           <input type="hidden" id="font_color_g" class="text" name="mapasdevista_theme_options[font_color][g]" value="<?php echo htmlspecialchars($options['font_color']['g']); ?>"/>
           <input type="hidden" id="font_color_b" class="text" name="mapasdevista_theme_options[font_color][b]" value="<?php echo htmlspecialchars($options['font_color']['b']); ?>"/>
+          <br/><br/>
+
+		  <label for="form_bg_color"><strong><?php _e("Form Background color", "mapasdevista"); ?></strong></label><br/>
+          <div id="form_bg_color_box" class="colorpicker_box"></div>
+          <input type="hidden" id="form_bg_color_r" class="text" name="mapasdevista_theme_options[form_bg_color][r]" value="<?php echo htmlspecialchars($options['form_bg_color']['r']); ?>"/>
+          <input type="hidden" id="form_bg_color_g" class="text" name="mapasdevista_theme_options[form_bg_color][g]" value="<?php echo htmlspecialchars($options['form_bg_color']['g']); ?>"/>
+          <input type="hidden" id="form_bg_color_b" class="text" name="mapasdevista_theme_options[form_bg_color][b]" value="<?php echo htmlspecialchars($options['form_bg_color']['b']); ?>"/>
+          <br/><br/>
+          
+          <label for="form_font_color"><strong><?php _e("Form Font color", "mapasdevista"); ?></strong></label><br/>
+          <div id="form_font_color_box" class="colorpicker_box"></div>
+          <input type="hidden" id="form_font_color_r" class="text" name="mapasdevista_theme_options[form_font_color][r]" value="<?php echo htmlspecialchars($options['form_font_color']['r']); ?>"/>
+          <input type="hidden" id="form_font_color_g" class="text" name="mapasdevista_theme_options[form_font_color][g]" value="<?php echo htmlspecialchars($options['form_font_color']['g']); ?>"/>
+          <input type="hidden" id="form_font_color_b" class="text" name="mapasdevista_theme_options[form_font_color][b]" value="<?php echo htmlspecialchars($options['form_font_color']['b']); ?>"/>
           <br/><br/>
 
           <!--
