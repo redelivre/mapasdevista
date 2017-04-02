@@ -87,6 +87,8 @@ function mapasdevista_maps_page() {
                 $map['taxonomies'] = array();
             if (!(isset($map['filters']) && is_array($map['filters'])))
                 $map['filters'] = array();
+            if (! array_key_exists('google_key', $map))
+            	$map['google_key'] = '';
 
             ?>
             
@@ -139,6 +141,10 @@ function mapasdevista_maps_page() {
             </ul>
 
             <fieldset id="mpv_map_fields">
+            	<label for="google_key"><strong><?php _e("GoogleMaps API Key", "mapasdevista"); ?></strong></label><br/>
+		          <input type="text" id="google_key" class="text" name="map[google_key]" value="<?php echo htmlspecialchars($map['google_key']); ?>"/>
+		          <small><?php _e('You will need this if you are running your site outside of your localhost. Even if you use Open Street Maps in the front end, you will use GoogleMaps API to place your posts in the map through the Edit Post interafce', 'mapasdevista'); ?></small>
+		        <br/><br/>
                 <h3><?php _e('Map initial state', 'mapasdevista'); ?></h3>
                 
                 <div id="mpv_canvas_googlev3" class="mpv_canvas" style="display:none"></div>
