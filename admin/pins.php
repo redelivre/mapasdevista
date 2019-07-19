@@ -27,8 +27,11 @@ function mapasdevista_save_pins() {
             $r = media_handle_upload('pin_file', NULL);
 
             if(is_wp_error($r)) {
-                function mapasdevista_save_pin_error_notice () {
+                function mapasdevista_save_pin_error_notice ($r) {
                     echo '<div class="error"><p>' . __('Could not create directory.') . '</p></div>';
+                    if(WP_DEBUG && is_wp_error($r)) {
+                    	echo '<pre>'.print_r($r->get_error_messages(), true).'</pre>';
+                    }
                 };
                 add_action('all_admin_notices', 'mapasdevista_save_pin_error_notice');
             } else {
