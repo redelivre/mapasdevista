@@ -20,9 +20,9 @@ function mapasdevista_save_pins() {
     if(isset($_POST['submit_pin']) && $_POST['submit_pin'] === 'new') {
 
         if(isset($_FILES['pin_file']) && $_FILES['pin_file']['size'] > 0) {
-            include(ABSPATH . 'wp-admin/includes/file.php');  // para funcionar o
-            include(ABSPATH . 'wp-admin/includes/image.php'); // media_handle_upload
-            include(ABSPATH . 'wp-admin/includes/media.php'); //
+        	include_once(ABSPATH . 'wp-admin/includes/file.php');  // para funcionar o
+        	include_once(ABSPATH . 'wp-admin/includes/image.php'); // media_handle_upload
+        	include_once(ABSPATH . 'wp-admin/includes/media.php'); //
 
             $r = media_handle_upload('pin_file', NULL);
 
